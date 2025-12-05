@@ -38,7 +38,10 @@ multi_part_maths: |
     - A **short 1–2 line real-life context** is allowed, but no storytelling.
     - Each sub-part must directly test mathematical computation, reasoning, or application.
     - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
-
+    - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
+    - The sub-parts must flow naturally, with one leading to the next.
+    - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
+    - Each subtopic must produce one complete question.
   =====================================================================================
   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
     **Use ONLY the subtopics that belong to the "Topic" string.**
@@ -314,16 +317,41 @@ multi_part_maths: |
       - Keep the scenario mathematically sound and error-free.
       - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
 
-   ## Topic Coverage Rule (For Multi-Topic Inputs)
-    - When the user provides **multiple topics**, the generated CBS question must offer **full conceptual coverage** across those topics.
-    - Each topic contains several sub-concepts or sub-skills (as defined in the New Concept).  
-      The question must incorporate **all major sub-concepts** belonging to the selected topics within the CBS item.
+   ## Topic & Subtopic Usage Rule (STRICT)
 
-    - Coverage Requirements:
-        ✔ All sub-concepts under each Topic must be used meaningfully across Parts (a), (b), and (c).  
-        ✔ If a Topic includes multiple internal components (e.g., “Algebraic Expressions” includes: like terms, unlike terms, combining terms, factorisation logic, substitution),  
-          then the question-set must include reasoning or computations that reflect **every** internal component.
-        ✔ Do NOT skip or partially cover subtopics unless they violate the grade or the scenario realism rule.
+    ### 1. Handling Topics and Subtopics
+    - The input may contain **one or multiple Topics**.
+    - Each Topic may contain **multiple Subtopics** (as listed under New Concept).
+
+    ### 2. Per-Question Rule
+    For every generated question:
+      ✔ Use **exactly one Topic**.  
+      ✔ Use **exactly one Subtopic** from that Topic.  
+      ✔ All sub-parts (a, b, c, …) must come from **that same subtopic** only.  
+      ✘ Do NOT mix multiple Topics inside a single question.  
+      ✘ Do NOT mix multiple Subtopics inside a single question.
+
+    ### 3. Rotation Rule (When Multiple Topics Are Given)
+    - When generating multiple questions, rotate through Topics **in the order they appear**, and within each Topic, rotate through its Subtopics.
+    - Example sequence:  
+      **Topic 1 → Subtopic 1**,  
+      **Topic 1 → Subtopic 2**,  
+      **Topic 2 → Subtopic 1**,  
+      **Topic 2 → Subtopic 2**, etc.
+
+    ### 4. Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+    ### 5. No Mixing Rule
+    - Absolutely NO mixing of:
+      ✘ Subtopics within a question  
+      ✘ Topics within a question  
+      ✘ Subtopics across sub-parts in a question
+
+    Each question = **one Topic + one Subtopic** only.
 
     - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
     - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
@@ -421,7 +449,10 @@ multi_part_maths_pdf: |
     - A **short 1–2 line real-life context** is allowed, but no storytelling.
     - Each sub-part must directly test mathematical computation, reasoning, or application.
     - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
-
+    - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
+    - The sub-parts must flow naturally, with one leading to the next.
+    - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
+    
   =====================================================================================
   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
     **Use ONLY the subtopics that belong to the "Topic" string.**
@@ -697,16 +728,41 @@ multi_part_maths_pdf: |
       - Keep the scenario mathematically sound and error-free.
       - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
 
-   ## Topic Coverage Rule (For Multi-Topic Inputs)
-    - When the user provides **multiple topics**, the generated CBS question must offer **full conceptual coverage** across those topics.
-    - Each topic contains several sub-concepts or sub-skills (as defined in the PDF or Old Concept).  
-      The question must incorporate **all major sub-concepts** belonging to the selected topics within the CBS item.
+   ## Topic & Subtopic Usage Rule (STRICT)
 
-    - Coverage Requirements:
-        ✔ All sub-concepts under each Topic must be used meaningfully across Parts (a), (b), and (c).  
-        ✔ If a Topic includes multiple internal components (e.g., "Algebraic Expressions" includes: like terms, unlike terms, combining terms, factorisation logic, substitution),  
-          then the question-set must include reasoning or computations that reflect **every** internal component.
-        ✔ Do NOT skip or partially cover subtopics unless they violate the grade or the scenario realism rule.
+    ### 1. Handling Topics and Subtopics
+    - The input may contain **one or multiple Topics**.
+    - Each Topic may contain **multiple Subtopics** (as listed under New Concept).
+
+    ### 2. Per-Question Rule
+    For every generated question:
+      ✔ Use **exactly one Topic**.  
+      ✔ Use **exactly one Subtopic** from that Topic.  
+      ✔ All sub-parts (a, b, c, …) must come from **that same subtopic** only.  
+      ✘ Do NOT mix multiple Topics inside a single question.  
+      ✘ Do NOT mix multiple Subtopics inside a single question.
+
+    ### 3. Rotation Rule (When Multiple Topics Are Given)
+    - When generating multiple questions, rotate through Topics **in the order they appear**, and within each Topic, rotate through its Subtopics.
+    - Example sequence:  
+      **Topic 1 → Subtopic 1**,  
+      **Topic 1 → Subtopic 2**,  
+      **Topic 2 → Subtopic 1**,  
+      **Topic 2 → Subtopic 2**, etc.
+
+    ### 4. Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+    ### 5. No Mixing Rule
+    - Absolutely NO mixing of:
+      ✘ Subtopics within a question  
+      ✘ Topics within a question  
+      ✘ Subtopics across sub-parts in a question
+
+    Each question = **one Topic + one Subtopic** only.
 
     - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned in the PDF for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
     - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
