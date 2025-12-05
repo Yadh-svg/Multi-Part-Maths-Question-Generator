@@ -370,7 +370,7 @@ multi_part_maths: |
 
   =====================================================================================
   ## FINAL INSTRUCTION:
-    Generate exactly ONE multi-part question that follows:
+    Generate exactly {{Number_of_questions}} multi-part question(s) that follows:
       ✔ all DOK levels  
       ✔ all taxonomy labels  
       ✔ all variation rules  
@@ -752,7 +752,7 @@ multi_part_maths_pdf: |
 
   =====================================================================================
   ## FINAL INSTRUCTION:
-    Generate exactly ONE multi-part question that follows:
+    Generate exactly {{Number_of_questions}} multi-part question(s) that follows:
       ✔ all DOK levels  
       ✔ all taxonomy labels  
       ✔ all variation rules  
