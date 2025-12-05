@@ -229,6 +229,10 @@ st.text_input("Chapter/Unit", value=st.session_state.Chapter, key="Chapter")
 st.text_input("Topic", value=st.session_state.Topic, key="Topic")
 
 # ---- Conditional rendering based on Input Mode ----
+# Ensure New_Concept exists in session_state (it might be removed if widget was hidden)
+if "New_Concept" not in st.session_state:
+    st.session_state.New_Concept = "Fraction addition, Fraction subtraction, Fraction multiplication, Fraction division"
+
 if st.session_state.Input_Mode == "Manual":
     # Manual mode: show both New Concept and Old Concept
     st.text_area("New Concept (everything in this chapter)", value=st.session_state.New_Concept, key="New_Concept", 
