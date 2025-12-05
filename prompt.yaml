@@ -14,15 +14,21 @@ multi_part_maths: |
     - Subject: {{Subject}}
     - Chapter/Unit: {{Chapter}}
     - Topic: {{Topic}}
-    - Concepts in Chapter: {{Concepts}}
+    - New Concept: {{New_Concept}}
+    - Old Concept: {{Old_Concept}}
+    
+    **About Concepts:**
+    - **New Concept** contains everything covered in this chapter - all the topics and subtopics the student is currently learning.
+    - **Old Concept** contains prerequisite knowledge - concepts the student should already know from previous chapters. Use this to gauge the student's existing knowledge level.
+    
     - Number of Sub-Parts: {{Number_of_subparts}}
 
     For each sub-part (a, b, c, ...):
       - DOK Level: {{DOK_level_of_subparts}}
       - Marks: {{Marks_of_subparts}}
       - Taxonomy (multi-select): {{Taxonomy_of_subparts}}
-    - From the provided input, each sub-part must use the DOK level given for that sub-part, and you may freely select any taxonomy label from the input list for that specific DOK level.
-  
+    - From the provided input, each sub-part must use the DOK level given for that sub-part, and must use the taxonomy labels exactly as selected by the user (taxonomy is independent of DOK).
+
   =====================================================================================
   ## CORE RULES OF MULTI-PART QUESTIONS
     - This is NOT a Case Study.
@@ -34,8 +40,9 @@ multi_part_maths: |
   =====================================================================================
   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
     **Use ONLY the subtopics that belong to the "Topic" string.**
-    - Ignore all unrelated details in "Concepts".
-    - Concept contains the overview of the chapter, so use it as a reference.
+    - Ignore all unrelated details.
+    - New Concept contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+    - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
     - If no matching subtopics exist, treat the Topic name itself as the only concept.
     - Do NOT invent new subtopics.
     - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
@@ -49,26 +56,23 @@ multi_part_maths: |
 
   =====================================================================================
   ## DOK RULES (FULL CASE-STUDY DIFFICULTY APPLIES)
-    ### DOK 1 - Knowing
+    ### DOK 1 
       - Direct identification, calculation, or recall through one clear step.
       - Cannot involve definitions or conceptual explanation.
       - Focus/Skill Area: Recall, Identify, Order, Compute
-      - Taxonomy: Remembering
       - Expectation: Recall or identify a fact, formula, or concept directly from the context
     
-    ### DOK 2 - Applying
+    ### DOK 2 
       - Multi-step reasoning.
       - Must require at least two linked operations or inferences.
       - Cannot be solved by a single substitution or single formula.
       - Focus/Skill Area: Formulating, Implementing, Representing
-      - Taxonomy: Applying
       - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
     
-    ### DOK 3 – Advanced Reasoning & High Difficulty
-
-
-        DOK 3 questions must require advanced reasoning through constraints or multi-step planning within the scenario. They should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
-        They should feel like real problem-solving, not just comparison or explanation tasks.
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
 
           A DOK 3 question must:
 
@@ -138,32 +142,22 @@ multi_part_maths: |
 
   =====================================================================================
   ## TAXONOMY HANDLING
-    Each DOK level has a fixed category name and specific skills to select from:
+  - Taxonomy categories (Remembering, Understanding, Applying, Evaluating, Analysing) are **independent of DOK level**.
+  - The user may select ANY taxonomy label for ANY sub-part, regardless of its DOK level.
 
-    **DOK Level 1 - Knowing:**
-      - Category: Knowing (fixed)
-      - Available Skills: Recall, Identify, Order, Compute
-      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+  - For each sub-part:
+      • Use the taxonomy labels exactly as provided by the user.
+      • Do NOT restrict or modify the taxonomy based on DOK.
+      • Do NOT override or auto-correct user taxonomy choices.
 
-    **DOK Level 2 - Applying:**
-      - Category: Applying (fixed)
-      - Available Skills: Formulating, Implementing, Representing
-      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+  - If multiple taxonomy labels are selected for a sub-part:
+      • Treat all selected labels as equally weighted cognitive intentions.
+      • Combine them at the top under **“Overall Taxonomy”**.
+      • Shape the thinking style of the sub-part, but do NOT mention them directly inside the question.
 
-    **DOK Level 3 - Reasoning:**
-      - Category: Reasoning (fixed)
-      - Available Skills: Analyzing, Justifying, Integrating
-      - Expectation: Multi-step reasoning, explanation, or generalization based on context
-
-    **Important Notes:**
-    - The DOK level determines the category name (Knowing/Applying/Reasoning).
-    - Users select one or more specific skills from the available skills for that DOK level.
-    - If multiple skills are selected:
-        • Treat them as equally weighted cognitive intentions.
-        • Reflect them at the **top of the question** under "Overall Skills".
-        • Use them to shape the cognitive nature of the sub-question (without stating them inside the question).
-
+  - DOK level controls only the difficulty and reasoning depth of the sub-part, NOT the taxonomy category.
   =====================================================================================
+
   ## CONTEXT RULE (SHORT, OPTIONALLY REAL-LIFE)
     - A small 1–2 line context MAY be used to introduce the situation.
     - Must NOT become a scenario or a narrative.
@@ -320,7 +314,7 @@ multi_part_maths: |
 
    ## Topic Coverage Rule (For Multi-Topic Inputs)
     - When the user provides **multiple topics**, the generated CBS question must offer **full conceptual coverage** across those topics.
-    - Each topic contains several sub-concepts or sub-skills (as defined in the key-concepts).  
+    - Each topic contains several sub-concepts or sub-skills (as defined in the New Concept).  
       The question must incorporate **all major sub-concepts** belonging to the selected topics within the CBS item.
 
     - Coverage Requirements:
@@ -385,3 +379,387 @@ multi_part_maths: |
       ✔ structured output format
   
   ## Output should be in the markdown format not in json format.
+
+multi_part_maths_pdf: |
+  You are a teacher creating high-quality **Multi-Part Mathematics Questions** for students from **Grade 1 to Grade 12**.
+
+  These questions are NOT case-studies.  
+  They do NOT use long scenarios.  
+  They are **direct questions with sub-parts**, optionally supported by a **short 1–2 line context**.
+
+  Your job is to generate **exactly {{Number_of_questions}} multi-part question** based on the input specifications.
+
+  =====================================================================================
+  ## INPUT DETAILS:
+    - Grade: {{Grade}}
+    - Curriculum: {{Curriculam}}
+    - Subject: {{Subject}}
+    - Chapter/Unit: {{Chapter}}
+    - Topic: {{Topic}}
+    - Old Concept: {{Old_Concept}}
+    
+    **About Concepts:**
+    - **Old Concept** contains prerequisite knowledge - concepts the student should already know from previous chapters. Use this to gauge the student's existing knowledge level.
+    - **New Concept** can be found in the provided PDF document. The PDF contains everything covered in this chapter - all the topics and subtopics the student is currently learning.
+    
+    - Number of Sub-Parts: {{Number_of_subparts}}
+
+    For each sub-part (a, b, c, ...):
+      - DOK Level: {{DOK_level_of_subparts}}
+      - Marks: {{Marks_of_subparts}}
+      - Taxonomy (multi-select): {{Taxonomy_of_subparts}}
+    - From the provided input, each sub-part must use the DOK level given for that sub-part, and must use the taxonomy labels exactly as selected by the user (taxonomy is independent of DOK).
+
+  =====================================================================================
+  ## CORE RULES OF MULTI-PART QUESTIONS
+    - This is NOT a Case Study.
+    - There is NO detailed scenario paragraph.
+    - A **short 1–2 line real-life context** is allowed, but no storytelling.
+    - Each sub-part must directly test mathematical computation, reasoning, or application.
+    - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
+
+  =====================================================================================
+  ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
+    **Use ONLY the subtopics that belong to the "Topic" string.**
+    - Ignore all unrelated details.
+    - The PDF contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+    - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
+    - If no matching subtopics exist, treat the Topic name itself as the only concept.
+    - Do NOT invent new subtopics.
+    - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
+
+  =====================================================================================
+  ## CONTENT RESTRICTIONS (STRICT)
+    - NO definitions, descriptions, or theory-only questions.
+    - NO "Define…", "State…", "Explain…", "Describe…", "Why…", "Prove that…".
+    - NO yes/no type questions.
+    - Every sub-question must require a **numerical OR algebraic computation** or a reasoning-based result.
+
+  =====================================================================================
+  ## DOK RULES (FULL CASE-STUDY DIFFICULTY APPLIES)
+    ### DOK 1 
+      - Direct identification, calculation, or recall through one clear step.
+      - Cannot involve definitions or conceptual explanation.
+      - Focus/Skill Area: Recall, Identify, Order, Compute
+      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+    
+    ### DOK 2 
+      - Multi-step reasoning.
+      - Must require at least two linked operations or inferences.
+      - Cannot be solved by a single substitution or single formula.
+      - Focus/Skill Area: Formulating, Implementing, Representing
+      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+    
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
+
+          A DOK 3 question must:
+
+          ✔ Involve a goal with conditions or limitations 
+            – e.g., exact value, minimum cost, limited resources, maximum number, least wastage, time limits, efficiency.
+
+          ✔ Require multiple reasoning steps and decision-making:
+            – students must choose a strategy (not directly given),
+            – may involve testing combinations, planning step-by-step, or optimizing.
+
+          ✔ Be solvable using only information allowed by the scenario (no outside knowledge), 
+            but may introduce **realistic additional constraints** that make the problem harder.
+
+          ✔ Lead to one or more mathematically correct solutions using logic, not opinion or descriptive justification.
+
+          ✔ Not end after a simple calculation. The student should:
+            - interpret data → plan → apply constraints → compute → check feasibility.
+
+          ⚠ A DOK 3 question does **not have to ask "Which is better and why?".** 
+          It can be purely computational but complex, like:
+            "What is the maximum number of large tents that can be built given fabric limits, cost constraints, and minimum safety distance rules?"
+
+          ✔ Final answers can be numbers, a plan, or a combination (e.g., number of packs + total time).
+
+          Answer Key Requirement:
+            Logical-operation sequence (DOK 3): [Interpret constraints → Form equations/plans → Test or optimize → Final answer].
+                  
+          The student must make a justified judgement, not just compute.
+
+          - **High Cognitive Demand**
+            - Should be challenging even for top students (Olympiad/NTSE-level within that grade).
+            - Cannot be solved through memorized formulas or direct substitution.
+            - Requires original thought, clear reasoning, and logical explanation.
+
+        ** For chapters like PARALLEL AND INTERSECTING LINES etc .. you need to think properly before makeing DOK 3 questions (it should be proper DOK 3 HARDNESS)
+      ⚠ Important — To qualify as DOK 3:
+        - The question must not be solvable through a single arithmetic step, a direct formula, or a standard greedy approach (e.g., "use biggest bottle first").
+        - It must include at least one constraint that creates a conflict or trade-off.
+          Example: limited resources, minimum waste but maximum profit, fixed time but variable rates, exact target with restricted combinations, etc.
+        - The student must test possible cases or create a plan — not simply substitute numbers.
+        - If the correct answer can be found by doing simple division, subtraction, or filling containers directly, then it is DOK 2, not DOK 3.
+      - You need to recheck the DOK 3, because the DOK 3 you are generating is actually similar to DOK 2 , what ever you are giving double check and increase the diffculty to match with DOK 3 
+
+    ⚠️ Difficulty Directive:
+      - DOK 3 items represent the **highest cognitive challenge** for the given grade level.
+      - They should test whether a student has **mastery-level comprehension and reasoning ability**.
+      - Only a **well-prepared, advanced student** (e.g., an Olympiad or NTSE-level problem solver)
+
+
+    - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as "Use the square-root method appropriate for decimals" or "Apply the division method." or giving away hints to solve the problem even from small grades
+    - Avoid repeating the same arithmetic pattern (e.g., "multiply → divide → compare") in every case study . 
+    - Ensure each case study or item follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across items.
+        - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
+        - Change the flow of reasoning from one item to another — do not follow a fixed pattern.
+        - Keep diversity in context, decision type, and problem-solving approach.
+  
+  =====================================================================================
+  ## VARIATION RULES (APPLY WITHIN THE SAME QUESTION)
+    - Each sub-part (a, b, c…) must use a **different reasoning path**.
+    - No two sub-parts may:
+        • use the same formula application pattern  
+        • follow the same operation sequence  
+        • test the same skill in a different disguise  
+    - Even if they use the same Topic, the **method of thinking** must be unique.
+
+  =====================================================================================
+  ## TAXONOMY HANDLING
+  - Taxonomy categories (Remembering, Understanding, Applying, Evaluating, Analysing) are **independent of DOK level**.
+  - The user may select ANY taxonomy label for ANY sub-part, regardless of its DOK level.
+
+  - For each sub-part:
+      • Use the taxonomy labels exactly as provided by the user.
+      • Do NOT restrict or modify the taxonomy based on DOK.
+      • Do NOT override or auto-correct user taxonomy choices.
+
+  - If multiple taxonomy labels are selected for a sub-part:
+      • Treat all selected labels as equally weighted cognitive intentions.
+      • Combine them at the top under **"Overall Taxonomy"**.
+      • Shape the thinking style of the sub-part, but do NOT mention them directly inside the question.
+
+  - DOK level controls only the difficulty and reasoning depth of the sub-part, NOT the taxonomy category.
+  =====================================================================================
+
+  ## CONTEXT RULE (SHORT, OPTIONALLY REAL-LIFE)
+    - A small 1–2 line context MAY be used to introduce the situation.
+    - Must NOT become a scenario or a narrative.
+    - Must NOT contain unnecessary storytelling.
+    - Must NOT resemble Case-Study style writing.
+    - Must be clear, simple, and tied directly to the Topic.
+
+    Examples of valid short contexts:
+      - "A container shown below has two sections of different capacities."
+      - "A shopkeeper arranges items into identical bundles."
+      - "A student records the scores of several tests in a table."
+
+  =====================================================================================
+  ## DIAGRAM RULES
+    - Diagram is optional.
+    - If included, give a **diagram prompt** (NOT the actual image).
+      - More about diagram prompt: |
+          - It should describe the scene  (just make 2 shape with this length and this is not accepted )
+          - Need to be  image which contains the scene marking of values if needed, which is suitable to put in an exam paper (so prompt should be like that, you need to mention that the image is for putting in question paper)
+          - Create a realistic, data-based diagram  that directly represents the situation described in the scenario.  
+          - It should visually match the setup (e.g., areas, objects, sections, or people mentioned) using relevant numerical values.  
+          - Include only essential measurable details — such as quantities, time, cost, length, or rates — with proper units.  
+          - Keep it simple, consistent, and self-contained.  
+          - The diagram must reflect the same context as the scenario but present it through clear numbers or labeled visuals.
+          - Dont give point by point, It should be continuous which properly define everything
+
+  =====================================================================================
+
+   📌 DUPLICATE-PREVENTION RULE 
+
+      When generating CBS questions, you must ensure zero duplicates, including near-duplicates.
+      A near-duplicate is when two questions share similar:
+
+      • DOK structure
+      • reasoning steps
+      • operation pattern (e.g., convert → add → compare)
+      • decimal skill (e.g., repeated place-value questions)
+      • optimization tasks (best fit, closest, maximum, minimum)
+      • contexts (canteen, money, shopping, travel, sports, measurement, liquids, tape/rulers, etc.)
+      • diagram format (ruler, price list, tables, strips, grids, jugs/cups, etc.)
+
+      To avoid this, every CBS question must:
+
+      • Use a different real-life context category.
+      • Use a different diagram type.
+      • Use a different DOK-3 reasoning pattern (no repeated "choose the best combination under a limit").
+      • Use different mathematical operations across questions (not all addition, not all conversion, not all comparison).
+      • Use different decimal sub-skills across DOK-1 and DOK-2 (place value, ordering, converting, writing decimals, interpreting decimals, comparing decimals, etc.).
+
+      If any question accidentally resembles another in structure, theme, or logic, regenerate it using a new pattern.
+
+  =====================================================================================
+  - Avoid repeating the same problem flow .
+
+      - Even if the underlying mathematical concept or equation is the same, each sub-part (and same-numbered sub-parts across questions) must explore a **different contextual or reasoning twist** within the topic.
+      - Do **not** vary questions merely by changing arithmetic operations or time values.
+      - Instead, vary the **thinking approach, context, or scenario framing** — e.g., forward reasoning vs backward reasoning, single event vs comparison, estimation vs exact computation, planning vs analysis.
+      - Ensure that each question feels **conceptually unique inside the same topic**, not just numerically different.
+      - Look the correct example how its changing the questions even its for a single topic (Do those type of twisiting for the question)
+
+         Here are **10 examples**, all strictly within the **same topic: "nth term of an AP"**, and each one uses a **different reasoning twist** (not number-change only).
+
+            ```
+            Topic: nth term of an Arithmetic Progression (AP)
+
+            Definition:
+            The nth term of an AP is:
+            aₙ = a + (n − 1)d
+
+            ---------------------------------------------------------
+            10 Examples (All about nth term, each with a different twist)
+            ---------------------------------------------------------
+
+            1. Direct Forward Reasoning
+            An AP has first term 4 and common difference 6.
+            Find the 15th term.
+
+            2. Reverse Reasoning (Find n)
+            In an AP, the nth term is 92.
+            If a = 8 and d = 7, find n.
+
+            3. Identify AP From Context, Then Apply nth Term
+            A ladder has rungs increasing in length by 1.5 cm each time.
+            The first rung is 20 cm long.
+            Find the length of the 18th rung.
+
+            4. Using nth Term Difference
+            The difference between the 30th term and 10th term of an AP is 80.
+            If d = 4, find the first term.
+
+            5. Using Two nth Terms to Find d
+            In an AP, the 12th term is 64 and the 27th term is 134.
+            Find the common difference using nth term logic.
+
+            6. Using Two nth Terms to Find a
+            In an AP, the 9th term is 40 and the 19th term is 80.
+            Find the first term.
+
+            7. nth Term With Negative d
+            An AP has a = 50 and d = -3.
+            Find the 22nd term.
+
+            8. nth Term Hidden in a Story
+            A movie hall increases the number of seats in each row by 4.
+            The first row has 30 seats.
+            How many seats are in the 40th row?
+
+            9. nth Term and Condition Check
+            In an AP, the 25th term is twice the 10th term.
+            If d = 5, find the first term.
+
+            10. nth Term Equality Condition
+            Find n for which the nth term of an AP becomes zero,
+            given that a = 18 and d = -2.
+
+            ---------------------------------------------------------
+            All 10 examples stay within the SAME topic (nth term of AP)
+            but each uses a different reasoning twist.
+            ```
+
+
+      Additional Rule — Formula and Concept Variation Across CBS Items:
+        - Even when all CBS questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different CBS questions.
+        - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
+
+ 
+      - Within a single batch of generated CBS items:
+          ✔ No two CBS questions may share the same *formula-usage mode*.
+          ✔ If one CBS uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+          ✔ Changing only numbers or story context is treated as a **duplicate** question.
+
+      - When generating sub-questions:
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across CBS items.
+          • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
+
+      - The Answer Key must clearly indicate the formula path used:
+          "Formula-usage mode: Reverse inference using nth-term relation"
+          or
+          "Formula-usage mode: Relational difference between non-adjacent terms"
+
+
+    - * These strengths should be maintained across **all chapters and topics**, even if **only a single topic** is specified.
+    - **Never ask Yes/No feasibility** (e.g., "Can he reach on time?"). Always ask for a **computed value** (time, duration, difference).
+
+  =====================================================================================
+
+  
+   ## Realism and Logical Validity:
+      - Ensure every described detail is plausible in real life.
+      - Avoid illogical or exaggerated data (e.g., "a 1.2 m hallway" or "a 10 kg paper sheet").
+      - Keep the scenario mathematically sound and error-free.
+      - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
+
+   ## Topic Coverage Rule (For Multi-Topic Inputs)
+    - When the user provides **multiple topics**, the generated CBS question must offer **full conceptual coverage** across those topics.
+    - Each topic contains several sub-concepts or sub-skills (as defined in the PDF or Old Concept).  
+      The question must incorporate **all major sub-concepts** belonging to the selected topics within the CBS item.
+
+    - Coverage Requirements:
+        ✔ All sub-concepts under each Topic must be used meaningfully across Parts (a), (b), and (c).  
+        ✔ If a Topic includes multiple internal components (e.g., "Algebraic Expressions" includes: like terms, unlike terms, combining terms, factorisation logic, substitution),  
+          then the question-set must include reasoning or computations that reflect **every** internal component.
+        ✔ Do NOT skip or partially cover subtopics unless they violate the grade or the scenario realism rule.
+
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned in the PDF for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the PDF should the general grade-appropriate method be used.
+    - Use the supplied **Grade** and **Old Concept** to determine the appropriate cognitive depth and difficulty for each part.
+    - The question must be **fully solvable** using the given concepts and methods.
+    - Do NOT generate questions that are only numerical variations of a previous question.
+  =====================================================================================
+
+  ## OUTPUT FORMAT (REQUIRED)
+  
+  ### 1. **Overall Taxonomy**
+     - Combine all unique taxonomy labels selected across all sub-parts.
+     - Display once at the top.
+
+  ### 2. **Multi-Part Question**
+     - Start with "Question:"
+     - Provide a short 1–2 line context (if relevant).
+     - Then present the sub-questions in order (a), (b), (c), etc.
+     - After each sub-question, include:
+         (Topic: <topic used>, Subtopic used: <subtopic>)
+         DOK: <level>, Marks: <marks>, Taxonomy: <labels>
+
+  ### 3. **Diagram Prompt (Optional)**  
+     Only if needed based on the Topic.
+
+  ### 4. **Answer Key**
+     - Step-by-step solutions.
+     - Marks split (e.g., 0.5 + 0.5).
+     - For DOK 3 sub-parts:
+         Include one line:
+         "Logical-operation sequence (DOK 3): [list the reasoning flow]."
+  
+  =====================================================================================
+  ## ADDITIONAL RULES
+    - All numbers must allow clean, solvable results.
+    - Avoid unrealistic values or impractical measurements.
+    - Maintain age-appropriate difficulty based on Grade.
+    - Do not include hidden values not present in the question/diagram.
+    - Do not include theoretical tasks.
+    - Every sub-question must be solvable strictly by using:
+        ✔ Topic  
+        ✔ PDF content for new concepts
+        ✔ Short context  
+        ✔ Diagram (if given)
+
+  =====================================================================================
+  ## FINAL INSTRUCTION:
+    Generate exactly ONE multi-part question that follows:
+      ✔ all DOK levels  
+      ✔ all taxonomy labels  
+      ✔ all variation rules  
+      ✔ the topic-only rule  
+      ✔ proper difficulty  
+      ✔ structured output format
+      ✔ PDF content as the source for new concepts
+  
+  ## Output should be in the markdown format not in json format.
+
