@@ -66,6 +66,7 @@ if "initialized" not in st.session_state:
     st.session_state.Topic = "Fractions"
     st.session_state.New_Concept = "Fraction addition, Fraction subtraction, Fraction multiplication, Fraction division"
     st.session_state.Old_Concept = "Basic understanding of fractions, Number operations"
+    st.session_state.Additional_Notes = ""  # Additional configuration for question/solution generation
     st.session_state.Input_Mode = "Manual"  # Default to Manual mode
 
     st.session_state.subparts = [default_subpart(i) for i in range(st.session_state.Number_of_subparts)]
@@ -144,6 +145,7 @@ def assemble_prompt(state):
     prompt_text = prompt_text.replace('{{Topic}}', yq(state["Topic"]))
     prompt_text = prompt_text.replace('{{New_Concept}}', yq(state["New_Concept"]))
     prompt_text = prompt_text.replace('{{Old_Concept}}', yq(state["Old_Concept"]))
+    prompt_text = prompt_text.replace('{{Additional_Notes}}', yq(state.get("Additional_Notes", "")))
     prompt_text = prompt_text.replace('{{Number_of_subparts}}', yq(str(num_sub)))
     prompt_text = prompt_text.replace('{{Number_of_questions}}', yq(str(state["Number_of_questions"])))
 
@@ -239,12 +241,16 @@ if st.session_state.Input_Mode == "Manual":
                  help="Enter all the concepts and topics covered in this chapter")
     st.text_area("Old Concept (prerequisite knowledge to check)", value=st.session_state.Old_Concept, key="Old_Concept",
                  help="Enter the concepts the student should already know from previous chapters")
+    st.text_area("Additional Notes (optional configuration)", value=st.session_state.Additional_Notes, key="Additional_Notes",
+                 help="Add any extra instructions to configure how the question or solution should be generated")
 else:
     # PDF mode: show PDF uploader and only Old Concept
     st.file_uploader("Upload PDF (New Concept)", type=["pdf"], key="pdf_file",
                     help="Upload a PDF file containing the new concepts for this chapter")
     st.text_area("Old Concept (prerequisite knowledge to check)", value=st.session_state.Old_Concept, key="Old_Concept",
                  help="Enter the concepts the student should already know from previous chapters")
+    st.text_area("Additional Notes (optional configuration)", value=st.session_state.Additional_Notes, key="Additional_Notes",
+                 help="Add any extra instructions to configure how the question or solution should be generated")
 
 # Number of Questions: editable, stored immediately (but prompt only built on Generate)
 st.number_input("Number of Questions", min_value=1, max_value=10,
@@ -350,6 +356,7 @@ if st.button("🚀 Generate questions", use_container_width=True):
         "Topic": st.session_state.Topic,
         "New_Concept": st.session_state.New_Concept if st.session_state.Input_Mode == "Manual" else "",
         "Old_Concept": st.session_state.Old_Concept,
+        "Additional_Notes": st.session_state.get("Additional_Notes", ""),
         "Number_of_questions": int(st.session_state.Number_of_questions),
         "Number_of_subparts": int(st.session_state.Number_of_subparts),
         "subparts": st.session_state.subparts.copy(),

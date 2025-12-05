@@ -16,10 +16,12 @@ multi_part_maths: |
     - Topic: {{Topic}}
     - New Concept: {{New_Concept}}
     - Old Concept: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
     
     **About Concepts:**
     - **New Concept** contains everything covered in this chapter - all the topics and subtopics the student is currently learning.
     - **Old Concept** contains prerequisite knowledge - concepts the student should already know from previous chapters. Use this to gauge the student's existing knowledge level.
+    - **Additional Notes** contains extra instructions or configuration for how questions or solutions should be generated. Consider these notes when creating questions and formatting solutions.
     
     - Number of Sub-Parts: {{Number_of_subparts}}
 
@@ -397,10 +399,12 @@ multi_part_maths_pdf: |
     - Chapter/Unit: {{Chapter}}
     - Topic: {{Topic}}
     - Old Concept: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
     
     **About Concepts:**
     - **Old Concept** contains prerequisite knowledge - concepts the student should already know from previous chapters. Use this to gauge the student's existing knowledge level.
     - **New Concept** can be found in the provided PDF document. The PDF contains everything covered in this chapter - all the topics and subtopics the student is currently learning.
+    - **Additional Notes** contains extra instructions or configuration for how questions or solutions should be generated. Consider these notes when creating questions and formatting solutions.
     
     - Number of Sub-Parts: {{Number_of_subparts}}
 
