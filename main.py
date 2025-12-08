@@ -173,7 +173,7 @@ def generate_questions_with_gemini(prompt, api_key):
             model="gemini-2.5-pro",
             contents=prompt,
             config=types.GenerateContentConfig(
-                thinking_config=types.ThinkingConfig(thinking_budget=5000)
+                thinking_config=types.ThinkingConfig(thinking_budget=6500)
             )
         )
         # prefer .text if available
@@ -198,7 +198,7 @@ def generate_questions_with_pdf(prompt, pdf_bytes, api_key):
             model="gemini-2.5-pro",
             contents=[pdf_part, prompt],
             config=types.GenerateContentConfig(
-                thinking_config=types.ThinkingConfig(thinking_budget=5000)
+                thinking_config=types.ThinkingConfig(thinking_budget=6500)
             )
         )
         return getattr(response, "text", str(response))

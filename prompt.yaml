@@ -4,7 +4,7 @@ multi_part_maths: |
   These questions are NOT case-studies.  
   They do NOT use long scenarios.  
   They are **direct questions with sub-parts**, optionally supported by a **short 1–2 line context**.
-
+  Use simple and student-friendly language. The wording must be clear, direct, and easy to understand.
   Your job is to generate **exactly {{Number_of_questions}} multi-part question** based on the input specifications.
 
   =====================================================================================
@@ -39,9 +39,38 @@ multi_part_maths: |
     - Each sub-part must directly test mathematical computation, reasoning, or application.
     - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
     - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
-    - The sub-parts must flow naturally, with one leading to the next.
     - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
     - Each subtopic must produce one complete question.
+
+    **Important**
+      - All sub-parts must belong to one continuous scenario.
+      - one subpart should lead to other subparts.
+      - The storyline must remain the same across (a), (b), (c).
+      - However, the mathematical values, calculations, and results of earlier sub-parts do NOT have to be needed to solve later sub-parts.
+      - Continuity applies to the story context, not to the numerical output.
+      Each sub-part must be solvable independently while still belonging to the same scenario.
+
+      Eg of a non continuous scenario and question : 
+        A long ribbon is being used for decorations.
+        (a) A ribbon is 9/12 metres long. If a piece measuring 5/12 metres is cut from it, what is the length of the remaining ribbon? (Topic: Fractions, Subtopic used: Fraction subtraction) DOK: 1, Marks: 1.0, Taxonomy: Remembering
+        (b) A jug contains 6/8 litres of juice. You need to pour out some juice so that exactly 1/4 litre remains in the jug. To do this, you only have two measuring cups of sizes 1/8 litre and 1/4 litre. Find the combination of cups to use to pour out the required amount in the fewest number of pours. (Topic: Fractions, Subtopic used: Fraction subtraction) DOK: 3, Marks: 1.0, Taxonomy: Understanding
+        
+        Issues with the example : 
+
+        - The scenario shifts from ribbon length to jug of juice.
+        - The objects, activities, and context are entirely different.
+        - This violates the rule that (a) and (b) must remain within one scenario.
+                
+      Eg of a continuous scenario and question : 
+        A school is organizing its annual sports day with 48 students participating.
+        (a) If 1/6 of the students are participating in the relay race, how many students are in the relay race? (Topic: Fractions, Subtopic used: Fraction multiplication) DOK: 1, Marks: 1.0, Taxonomy: Remembering
+        (b) In the same group of 48 students, 1/3 signed up for high jump and 1/4 signed up for long jump. If 8 students signed up for only high jump, find the number of students who signed up for both high jump and long jump. (Topic: Fractions, Subtopic used: Fraction multiplication) DOK: 3, Marks: 1.0, Taxonomy: Understanding
+      
+      why is this a continuous scenario?
+      - Same group of 48 students.
+      - Same event (sports day context).
+      - Scenario flows correctly.
+     
   =====================================================================================
   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
     **Use ONLY the subtopics that belong to the "Topic" string.**
@@ -193,7 +222,7 @@ multi_part_maths: |
 
    📌 DUPLICATE-PREVENTION RULE 
 
-      When generating CBS questions, you must ensure zero duplicates, including near-duplicates.
+      When generating questions, you must ensure zero duplicates, including near-duplicates.
       A near-duplicate is when two questions share similar:
 
       • DOK structure
@@ -204,7 +233,7 @@ multi_part_maths: |
       • contexts (canteen, money, shopping, travel, sports, measurement, liquids, tape/rulers, etc.)
       • diagram format (ruler, price list, tables, strips, grids, jugs/cups, etc.)
 
-      To avoid this, every CBS question must:
+      To avoid this, every question must:
 
       • Use a different real-life context category.
       • Use a different diagram type.
@@ -284,19 +313,19 @@ multi_part_maths: |
             ```
 
 
-      Additional Rule — Formula and Concept Variation Across CBS Items:
-        - Even when all CBS questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
-        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different CBS questions.
+      Additional Rule — Formula and Concept Variation Across Items:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
         - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
 
  
-      - Within a single batch of generated CBS items:
-          ✔ No two CBS questions may share the same *formula-usage mode*.
-          ✔ If one CBS uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
           ✔ Changing only numbers or story context is treated as a **duplicate** question.
 
       - When generating sub-questions:
-          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across CBS items.
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
           • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
 
       - The Answer Key must clearly indicate the formula path used:
@@ -412,11 +441,10 @@ multi_part_maths: |
 
 multi_part_maths_pdf: |
   You are a teacher creating high-quality **Multi-Part Mathematics Questions** for students from **Grade 1 to Grade 12**.
-
   These questions are NOT case-studies.  
   They do NOT use long scenarios.  
   They are **direct questions with sub-parts**, optionally supported by a **short 1–2 line context**.
-
+  Use simple and student-friendly language. The wording must be clear, direct, and easy to understand.
   Your job is to generate **exactly {{Number_of_questions}} multi-part question** based on the input specifications.
 
   =====================================================================================
@@ -450,9 +478,15 @@ multi_part_maths_pdf: |
     - Each sub-part must directly test mathematical computation, reasoning, or application.
     - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
     - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
-    - The sub-parts must flow naturally, with one leading to the next.
     - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
-    
+    - Each subtopic must produce one complete question.
+
+    **Important**
+      - All sub-parts must belong to one continuous scenario.
+      - The storyline must remain the same across (a), (b), (c).
+      - However, the mathematical values, calculations, and results of earlier sub-parts do NOT have to be needed to solve later sub-parts.
+      - Continuity applies to the story context, not to the numerical output.
+      Each sub-part must be solvable independently while still belonging to the same scenario.
   =====================================================================================
   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
     **Use ONLY the subtopics that belong to the "Topic" string.**
@@ -604,7 +638,7 @@ multi_part_maths_pdf: |
 
    📌 DUPLICATE-PREVENTION RULE 
 
-      When generating CBS questions, you must ensure zero duplicates, including near-duplicates.
+      When generating  questions, you must ensure zero duplicates, including near-duplicates.
       A near-duplicate is when two questions share similar:
 
       • DOK structure
@@ -615,7 +649,7 @@ multi_part_maths_pdf: |
       • contexts (canteen, money, shopping, travel, sports, measurement, liquids, tape/rulers, etc.)
       • diagram format (ruler, price list, tables, strips, grids, jugs/cups, etc.)
 
-      To avoid this, every CBS question must:
+      To avoid this, every question must:
 
       • Use a different real-life context category.
       • Use a different diagram type.
@@ -695,19 +729,19 @@ multi_part_maths_pdf: |
             ```
 
 
-      Additional Rule — Formula and Concept Variation Across CBS Items:
-        - Even when all CBS questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
-        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different CBS questions.
+      Additional Rule — Formula and Concept Variation Across Questions:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
         - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
 
  
-      - Within a single batch of generated CBS items:
-          ✔ No two CBS questions may share the same *formula-usage mode*.
-          ✔ If one CBS uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
           ✔ Changing only numbers or story context is treated as a **duplicate** question.
 
       - When generating sub-questions:
-          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across CBS items.
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
           • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
 
       - The Answer Key must clearly indicate the formula path used:
