@@ -52,6 +52,15 @@ def default_subpart(index):
             "taxonomy": ["Remembering"]
         }
 
+# ------------------ DEFAULT MCQ QUESTION ------------------
+def default_mcq_question(index):
+    """Returns default configuration for an MCQ question based on index."""
+    return {
+        "DOK": 1,
+        "marks": 1,
+        "taxonomy": ["Remembering"]
+    }
+
 # ------------------ INITIALIZE session_state ONCE ------------------
 if "initialized" not in st.session_state:
     st.session_state.initialized = True
@@ -67,9 +76,14 @@ if "initialized" not in st.session_state:
     st.session_state.New_Concept = "Fraction addition, Fraction subtraction, Fraction multiplication, Fraction division"
     st.session_state.Old_Concept = "Basic understanding of fractions, Number operations"
     st.session_state.Additional_Notes = ""  # Additional configuration for question/solution generation
+    st.session_state.Question_Type = "Multi-Part"  # Question type: Multi-Part or MCQ
     st.session_state.Input_Mode = "Manual"  # Default to Manual mode
 
+    # For Multi-Part questions
     st.session_state.subparts = [default_subpart(i) for i in range(st.session_state.Number_of_subparts)]
+    
+    # For MCQ questions
+    st.session_state.mcq_questions = [default_mcq_question(i) for i in range(st.session_state.Number_of_questions)]
 
 # ------------------ SUBPARTS UPDATE CALLBACK ------------------
 def update_subparts():
@@ -100,12 +114,44 @@ def update_subparts():
             st.session_state.pop(f"sub_{i}_marks", None)
             st.session_state.pop(f"sub_{i}_tax", None)
 
+# ------------------ MCQ QUESTIONS UPDATE CALLBACK ------------------
+def update_mcq_questions():
+    """
+    Callback that runs when st.session_state.Number_of_questions changes in MCQ mode.
+    Resizes st.session_state.mcq_questions and clears stale widget keys.
+    """
+    try:
+        new_n = int(st.session_state.Number_of_questions)
+    except Exception:
+        return
+
+    if "mcq_questions" not in st.session_state:
+        st.session_state.mcq_questions = [default_mcq_question(i) for i in range(new_n)]
+        return
+
+    old_n = len(st.session_state.mcq_questions)
+
+    if new_n > old_n:
+        # extend
+        st.session_state.mcq_questions += [default_mcq_question(i) for i in range(old_n, new_n)]
+    elif new_n < old_n:
+        # truncate
+        st.session_state.mcq_questions = st.session_state.mcq_questions[:new_n]
+
+    # Clear dynamic widget keys for indices >= new_n
+    max_check = max(old_n, new_n) + 3
+    for i in range(max_check):
+        if i >= new_n:
+            st.session_state.pop(f"mcq_{i}_dok", None)
+            st.session_state.pop(f"mcq_{i}_marks", None)
+            st.session_state.pop(f"mcq_{i}_tax", None)
+
 # ------------------ ASSEMBLE PROMPT ------------------
 def assemble_prompt(state):
     """
     Load prompt.yaml and replace placeholders with YAML-safe quotes.
-    Uses your existing regex logic to inject subpart specs.
-    For PDF mode, uses a modified prompt that references the PDF.
+    Selects the appropriate prompt template based on Question_Type and Input_Mode.
+    Maps Streamlit field names to prompt placeholders.
     """
     try:
         with open("prompt.yaml", "r", encoding="utf-8") as f:
@@ -113,31 +159,53 @@ def assemble_prompt(state):
     except FileNotFoundError:
         return "Error: prompt.yaml file not found!"
 
-    # Select the appropriate prompt template based on input mode
-    if state.get("Input_Mode") == "PDF Upload":
-        # Extract the PDF-specific prompt template
-        if "multi_part_maths_pdf:" in content:
-            prompt_template = content.split("multi_part_maths_pdf:")[1].strip()
-            # Remove the leading '|' if present
-            if prompt_template.startswith("|"):
-                prompt_template = prompt_template[1:].strip()
+    question_type = state.get("Question_Type", "Multi-Part")
+    input_mode = state.get("Input_Mode", "Manual")
+
+    # Select the appropriate prompt template based on Question_Type and Input_Mode
+    if question_type == "Multi-Part":
+        if input_mode == "PDF Upload":
+            # Multi-Part + PDF
+            if "multi_part_maths_pdf:" in content:
+                prompt_template = content.split("multi_part_maths_pdf:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+                # Split at next template key if exists
+                if "mcq_questions:" in prompt_template:
+                    prompt_template = prompt_template.split("mcq_questions:")[0].strip()
+            else:
+                return "Error: multi_part_maths_pdf template not found in prompt.yaml"
         else:
-            # Fallback to regular template if PDF template doesn't exist yet
+            # Multi-Part + Manual
             prompt_template = content.split("multi_part_maths:")[1].strip()
             if prompt_template.startswith("|"):
                 prompt_template = prompt_template[1:].strip()
+            # Split at next template key
+            if "multi_part_maths_pdf:" in prompt_template:
+                prompt_template = prompt_template.split("multi_part_maths_pdf:")[0].strip()
     else:
-        # Extract the regular prompt template
-        prompt_template = content.split("multi_part_maths:")[1].strip()
-        if prompt_template.startswith("|"):
-            prompt_template = prompt_template[1:].strip()
-        # If there's a PDF template, remove it
-        if "multi_part_maths_pdf:" in prompt_template:
-            prompt_template = prompt_template.split("multi_part_maths_pdf:")[0].strip()
+        # MCQ
+        if input_mode == "PDF Upload":
+            # MCQ + PDF
+            if "mcq_questions_pdf:" in content:
+                prompt_template = content.split("mcq_questions_pdf:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+            else:
+                return "Error: mcq_questions_pdf template not found in prompt.yaml"
+        else:
+            # MCQ + Manual
+            if "mcq_questions:" in content:
+                prompt_template = content.split("mcq_questions:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+                # Split at next template key
+                if "mcq_questions_pdf:" in prompt_template:
+                    prompt_template = prompt_template.split("mcq_questions_pdf:")[0].strip()
+            else:
+                return "Error: mcq_questions template not found in prompt.yaml"
 
-    num_sub = state["Number_of_subparts"]
-
-    # Replace placeholders (YAML-safe quoting)
+    # Replace common placeholders (work for both Multi-Part and MCQ)
     prompt_text = prompt_template.replace('{{Grade}}', yq(state["Grade"]))
     prompt_text = prompt_text.replace('{{Curriculam}}', yq(state["Curriculum"]))
     prompt_text = prompt_text.replace('{{Subject}}', yq(state["Subject"]))
@@ -146,22 +214,59 @@ def assemble_prompt(state):
     prompt_text = prompt_text.replace('{{New_Concept}}', yq(state["New_Concept"]))
     prompt_text = prompt_text.replace('{{Old_Concept}}', yq(state["Old_Concept"]))
     prompt_text = prompt_text.replace('{{Additional_Notes}}', yq(state.get("Additional_Notes", "")))
-    prompt_text = prompt_text.replace('{{Number_of_subparts}}', yq(str(num_sub)))
     prompt_text = prompt_text.replace('{{Number_of_questions}}', yq(str(state["Number_of_questions"])))
 
-    # Build subpart specs (no subtopic)
-    subpart_specs = ""
-    for s in state["subparts"]:
-        taxonomy_list = ", ".join(s["taxonomy"]) if s["taxonomy"] else ""
-        subpart_specs += (
-            f"      {s['label']} → DOK {s['DOK']}, "
-            f"Marks: {s['marks']}, Taxonomy: {taxonomy_list}\n"
-        )
+    # MCQ prompts use different placeholder names, map them
+    prompt_text = prompt_text.replace('{subject}', yq(state["Subject"]))
+    prompt_text = prompt_text.replace('{grade}', yq(state["Grade"]))
+    prompt_text = prompt_text.replace('{chapter}', yq(state["Chapter"]))
+    prompt_text = prompt_text.replace('{topics}', yq(state["Topic"]))
+    prompt_text = prompt_text.replace('{new_concept}', yq(state["New_Concept"]))
+    prompt_text = prompt_text.replace('{old_concept}', yq(state["Old_Concept"]))
+    prompt_text = prompt_text.replace('{additional_notes}', yq(state.get("Additional_Notes", "")))
+    prompt_text = prompt_text.replace('{num_questions}', yq(str(state["Number_of_questions"])))
 
-    # Inject using the existing regex (unchanged per your request)
-    pattern = r'(- Number of Sub-Parts:.*?)(For each sub-part.*?)(- From the provided input.*?\n)'
-    replacement = f"- Number of Sub-Parts: {num_sub}\n\n{subpart_specs}"
-    prompt_text = re.sub(pattern, replacement, prompt_text, flags=re.DOTALL)
+    if question_type == "Multi-Part":
+        # Multi-Part specific: inject subpart specifications
+        num_sub = state["Number_of_subparts"]
+        prompt_text = prompt_text.replace('{{Number_of_subparts}}', yq(str(num_sub)))
+
+        # Build subpart specs
+        subpart_specs = ""
+        for s in state["subparts"]:
+            taxonomy_list = ", ".join(s["taxonomy"]) if s["taxonomy"] else ""
+            subpart_specs += (
+                f"      {s['label']} → DOK {s['DOK']}, "
+                f"Marks: {s['marks']}, Taxonomy: {taxonomy_list}\n"
+            )
+
+        # Inject using the existing regex
+        pattern = r'(- Number of Sub-Parts:.*?)(For each sub-part.*?)(- From the provided input.*?\n)'
+        replacement = f"- Number of Sub-Parts: {num_sub}\n\n{subpart_specs}"
+        prompt_text = re.sub(pattern, replacement, prompt_text, flags=re.DOTALL)
+    else:
+        # MCQ specific: inject question-level DOK, Marks, and Taxonomy
+        # For MCQ, we build a specification for each question
+        mcq_specs = ""
+        for idx, q in enumerate(state["mcq_questions"], 1):
+            taxonomy_list = ", ".join(q["taxonomy"]) if q["taxonomy"] else ""
+            mcq_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_list}\n"
+        
+        # Replace placeholders with the first question's config (for backward compatibility)
+        # and add the full specification list
+        first_q = state["mcq_questions"][0] if state["mcq_questions"] else default_mcq_question(0)
+        taxonomy_list = ", ".join(first_q["taxonomy"]) if first_q["taxonomy"] else ""
+        
+        prompt_text = prompt_text.replace('{dok_level}', yq(str(first_q["DOK"])))
+        prompt_text = prompt_text.replace('{marks}', yq(str(first_q["marks"])))
+        prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_list))
+        
+        # Add detailed specifications if multiple questions
+        if len(state["mcq_questions"]) > 1:
+            prompt_text = prompt_text.replace(
+                '### Question Requirements',
+                f'### Question Requirements\n\n**Specific requirements for each question:**\n{mcq_specs}\n'
+            )
 
     return prompt_text
 
@@ -208,7 +313,11 @@ def generate_questions_with_pdf(prompt, pdf_bytes, api_key):
 # ------------------ UI ------------------
 st.title("Multi-Part Maths Question Generator")
 
-# ---- Input Mode Selection ----
+# ---- Question Type Selection (FIRST) ----
+st.radio("Question Type", options=["Multi-Part", "MCQ"], key="Question_Type", horizontal=True,
+         help="Multi-Part: Questions with sub-parts (a, b, c). MCQ: Multiple Choice Questions with 4 options.")
+
+# ---- Input Mode Selection (SECOND) ----
 st.radio("Input Mode", options=["Manual", "PDF Upload"], key="Input_Mode", horizontal=True,
          help="Manual: Enter concepts as text. PDF: Upload a PDF file containing the new concepts.")
 
@@ -253,82 +362,166 @@ else:
                  help="Add any extra instructions to configure how the question or solution should be generated")
 
 # Number of Questions: editable, stored immediately (but prompt only built on Generate)
-st.number_input("Number of Questions", min_value=1, max_value=10,
-                value=st.session_state.Number_of_questions, step=1, key="Number_of_questions")
+# Add callback for MCQ mode to update question configurations
+if st.session_state.Question_Type == "MCQ":
+    st.number_input("Number of Questions", min_value=1, max_value=10,
+                    value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
+                    on_change=update_mcq_questions)
+else:
+    st.number_input("Number of Questions", min_value=1, max_value=10,
+                    value=st.session_state.Number_of_questions, step=1, key="Number_of_questions")
 
-# Number of Subparts: triggers live update via on_change callback
-st.number_input("Number of Sub-Parts per Question",
-                min_value=1, max_value=26,
-                value=st.session_state.Number_of_subparts,
-                step=1,
-                key="Number_of_subparts",
-                on_change=update_subparts)
+# Conditional rendering based on Question Type
+if st.session_state.Question_Type == "Multi-Part":
+    # Multi-Part mode: show Number of Sub-Parts
+    # Defensive initialization in case user switches from MCQ to Multi-Part
+    if "Number_of_subparts" not in st.session_state:
+        st.session_state.Number_of_subparts = 3
+    if "subparts" not in st.session_state:
+        st.session_state.subparts = [default_subpart(i) for i in range(st.session_state.Number_of_subparts)]
+    
+    st.number_input("Number of Sub-Parts per Question",
+                    min_value=1, max_value=26,
+                    value=st.session_state.Number_of_subparts,
+                    step=1,
+                    key="Number_of_subparts",
+                    on_change=update_subparts)
 
 st.markdown("---")
 
-# ---- Subparts editor (widgets are created per index and stored in subpart keys) ----
-st.subheader("Subparts Configuration")
-cols = st.columns((1, 1, 2, 3))
-cols[0].markdown("**Part**")
-cols[1].markdown("**DOK**")
-cols[2].markdown("**Marks**")
-cols[3].markdown("**Taxonomy**")
-
-# Defensive: ensure subparts length matches requested value
-if len(st.session_state.subparts) < st.session_state.Number_of_subparts:
-    old_n = len(st.session_state.subparts)
-    st.session_state.subparts += [default_subpart(i) for i in range(old_n, st.session_state.Number_of_subparts)]
-elif len(st.session_state.subparts) > st.session_state.Number_of_subparts:
-    st.session_state.subparts = st.session_state.subparts[:st.session_state.Number_of_subparts]
-
-for i in range(st.session_state.Number_of_subparts):
-    s = st.session_state.subparts[i]
-
-    c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
-    c0.markdown(f"**({s['label']})**")
-
-    dok_key = f"sub_{i}_dok"
-    marks_key = f"sub_{i}_marks"
-    tax_key = f"sub_{i}_tax"
-
-    # initialize widget keys if absent so widget uses them as defaults
-    if dok_key not in st.session_state:
-        st.session_state[dok_key] = s["DOK"]
-    if marks_key not in st.session_state:
-        st.session_state[marks_key] = float(s["marks"])
-    if tax_key not in st.session_state:
-        st.session_state[tax_key] = s["taxonomy"]
-
-    s_dok = c1.selectbox(f"DOK_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key)
-    s_marks = c2.number_input(f"marks_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key)
-    # All taxonomies are available for all DOK levels
-    all_taxonomies = get_taxonomies_for_dok(s_dok)
+# ---- Subparts/MCQ Configuration ----
+if st.session_state.Question_Type == "Multi-Part":
+    st.subheader("Subparts Configuration")
+    cols = st.columns((1, 1, 2, 3))
+    cols[0].markdown("**Part**")
+    cols[1].markdown("**DOK**")
+    cols[2].markdown("**Marks**")
+    cols[3].markdown("**Taxonomy**")
     
-    # Get current taxonomy selection, ensure it's valid
-    old_tax = st.session_state.get(tax_key, [])
-    cleaned_tax = [t for t in old_tax if t in all_taxonomies]
+    # Defensive: ensure subparts length matches requested value
+    if len(st.session_state.subparts) < st.session_state.Number_of_subparts:
+        old_n = len(st.session_state.subparts)
+        st.session_state.subparts += [default_subpart(i) for i in range(old_n, st.session_state.Number_of_subparts)]
+    elif len(st.session_state.subparts) > st.session_state.Number_of_subparts:
+        st.session_state.subparts = st.session_state.subparts[:st.session_state.Number_of_subparts]
 
-    if not cleaned_tax:
-        cleaned_tax = [all_taxonomies[0]]  # Default to "Remembering"
+    # Multi-Part mode: show all subparts with labels
+    for i in range(st.session_state.Number_of_subparts):
+        s = st.session_state.subparts[i]
 
-    # Update session_state BEFORE rendering widget
-    st.session_state[tax_key] = cleaned_tax
+        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+        c0.markdown(f"**({s['label']})**")
 
-    s_tax = c3.multiselect(
-        f"tax_{i}",
-        options=all_taxonomies,
-        default=cleaned_tax,
-        key=tax_key,
-        help="Select one or more taxonomy levels (independent of DOK level)"
-    )
+        dok_key = f"sub_{i}_dok"
+        marks_key = f"sub_{i}_marks"
+        tax_key = f"sub_{i}_tax"
 
-    # write back to session_state.subparts
-    st.session_state.subparts[i] = {
-        "label": chr(ord("a") + i),
-        "DOK": int(s_dok),
-        "marks": float(s_marks),
-        "taxonomy": s_tax
-    }
+        # initialize widget keys if absent so widget uses them as defaults
+        if dok_key not in st.session_state:
+            st.session_state[dok_key] = s["DOK"]
+        if marks_key not in st.session_state:
+            st.session_state[marks_key] = float(s["marks"])
+        if tax_key not in st.session_state:
+            st.session_state[tax_key] = s["taxonomy"]
+
+        s_dok = c1.selectbox(f"DOK_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key)
+        s_marks = c2.number_input(f"marks_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key)
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(s_dok)
+        
+        # Get current taxonomy selection, ensure it's valid
+        old_tax = st.session_state.get(tax_key, [])
+        cleaned_tax = [t for t in old_tax if t in all_taxonomies]
+
+        if not cleaned_tax:
+            cleaned_tax = [all_taxonomies[0]]  # Default to "Remembering"
+
+        # Update session_state BEFORE rendering widget
+        st.session_state[tax_key] = cleaned_tax
+
+        s_tax = c3.multiselect(
+            f"tax_{i}",
+            options=all_taxonomies,
+            default=cleaned_tax,
+            key=tax_key,
+            help="Select one or more taxonomy levels (independent of DOK level)"
+        )
+
+        # write back to session_state.subparts
+        st.session_state.subparts[i] = {
+            "label": chr(ord("a") + i),
+            "DOK": int(s_dok),
+            "marks": float(s_marks),
+            "taxonomy": s_tax
+        }
+else:
+    # MCQ mode: show configuration for each question
+    st.subheader("MCQ Questions Configuration")
+    
+    # Ensure mcq_questions exists and has correct length
+    if "mcq_questions" not in st.session_state:
+        st.session_state.mcq_questions = [default_mcq_question(i) for i in range(st.session_state.Number_of_questions)]
+    
+    if len(st.session_state.mcq_questions) < st.session_state.Number_of_questions:
+        old_n = len(st.session_state.mcq_questions)
+        st.session_state.mcq_questions += [default_mcq_question(i) for i in range(old_n, st.session_state.Number_of_questions)]
+    elif len(st.session_state.mcq_questions) > st.session_state.Number_of_questions:
+        st.session_state.mcq_questions = st.session_state.mcq_questions[:st.session_state.Number_of_questions]
+    
+    # Header row
+    cols = st.columns((1, 1, 2, 3))
+    cols[0].markdown("**Question**")
+    cols[1].markdown("**DOK**")
+    cols[2].markdown("**Marks**")
+    cols[3].markdown("**Taxonomy**")
+    
+    # Configuration row for each MCQ question
+    for i in range(st.session_state.Number_of_questions):
+        q = st.session_state.mcq_questions[i]
+
+        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+        c0.markdown(f"**Q{i+1}**")
+
+        dok_key = f"mcq_{i}_dok"
+        marks_key = f"mcq_{i}_marks"
+        tax_key = f"mcq_{i}_tax"
+
+        # initialize widget keys if absent
+        if dok_key not in st.session_state:
+            st.session_state[dok_key] = q["DOK"]
+        if marks_key not in st.session_state:
+            st.session_state[marks_key] = float(q["marks"])
+        if tax_key not in st.session_state:
+            st.session_state[tax_key] = q["taxonomy"]
+
+        q_dok = c1.selectbox(f"DOK_mcq_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+        q_marks = c2.number_input(f"marks_mcq_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+        
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(q_dok)
+        old_tax = st.session_state.get(tax_key, [])
+        cleaned_tax = [t for t in old_tax if t in all_taxonomies]
+
+        if not cleaned_tax:
+            cleaned_tax = [all_taxonomies[0]]  # Default to "Remembering"
+
+        st.session_state[tax_key] = cleaned_tax
+
+        q_tax = c3.multiselect(
+            f"tax_mcq_{i}",
+            options=all_taxonomies,
+            default=cleaned_tax,
+            key=tax_key,
+            help="Select one or more taxonomy levels (independent of DOK level)",
+            label_visibility="collapsed"
+        )
+
+        # write back to session_state.mcq_questions
+        st.session_state.mcq_questions[i] = {
+            "DOK": int(q_dok),
+            "marks": float(q_marks),
+            "taxonomy": q_tax
+        }
 
 st.markdown("---")
 
@@ -358,10 +551,16 @@ if st.button("🚀 Generate questions", use_container_width=True):
         "Old_Concept": st.session_state.Old_Concept,
         "Additional_Notes": st.session_state.get("Additional_Notes", ""),
         "Number_of_questions": int(st.session_state.Number_of_questions),
-        "Number_of_subparts": int(st.session_state.Number_of_subparts),
-        "subparts": st.session_state.subparts.copy(),
+        "Question_Type": st.session_state.Question_Type,
         "Input_Mode": st.session_state.Input_Mode
     }
+    
+    # Add type-specific configuration
+    if st.session_state.Question_Type == "Multi-Part":
+        state["Number_of_subparts"] = int(st.session_state.Number_of_subparts)
+        state["subparts"] = st.session_state.subparts.copy()
+    else:  # MCQ
+        state["mcq_questions"] = st.session_state.mcq_questions.copy()
 
     if st.session_state.Input_Mode == "Manual":
         # Manual mode: use text-based prompt

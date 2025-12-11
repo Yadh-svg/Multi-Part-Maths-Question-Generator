@@ -857,3 +857,600 @@ multi_part_maths_pdf: |
   
   ## Output should be in the markdown format not in json format.
 
+mcq_questions: |
+
+  PROMPT: MCQ Question Generator
+
+  You are an expert in developing high-quality Multiple Choice Questions (MCQs) for Mathematics.  
+  Follow all the rules and structure precisely.
+
+  ---
+
+  ### Inputs (Provided by User)
+    - Subject / Course / Grade: {subject}
+    - Grade Level: {grade}
+    - Chapter Number & Name: {chapter}
+    - Number of Questions (N): {num_questions}
+    - Topics: {topics}
+    - New Concepts: {new_concept}  # Overview of the chapter - what the student is currently studying (current chapter content)
+    - Old Concepts: {old_concept}  # Prerequisite knowledge - what the student has already studied before this chapter
+    - **Additional Notes**: {additional_notes}  # Extra instructions or configuration for how questions or solutions should be generated. Consider these notes when creating questions and formatting solutions.
+
+  - **Note**: Concepts consist of New Concepts (current chapter content) and Old Concepts (prerequisite knowledge). Prioritize new concepts for questions.
+  - The purpose of analyzing concepts is solely to ensure the questions remain:
+    - grade-appropriate,
+    - aligned with what the student has already learned,
+    - and correctly situated within the chapter's conceptual progression.
+
+  - Do NOT create questions mixing prerequisite topics not listed in {topics}.  
+    Key concepts guide background understanding, but topics generate the actual content.
+
+  ---
+
+  ### Question Requirements
+
+  For each question, you must specify:
+    - **Mark of question**: {marks}
+    - **DOK level of question**: {dok_level}
+    - **Taxonomy of question**: {taxonomy}
+
+  ### What are DOK Levels?
+
+    **DOK 1 (Recall and Reproduction)**: 
+    - Direct recall of facts, formulas, or procedures
+    - Single-step calculations or identifications
+    - Basic recognition or retrieval
+    - Focus/Skill Area: Recall, Identify, Compute, Recognize
+
+    **DOK 2 (Skills and Concepts)**: 
+    - Multi-step problem solving
+    - Application of concepts to new situations
+    - Requires at least two linked operations or inferences
+    - Focus/Skill Area: Apply, Classify, Organize, Estimate, Compare
+
+    **DOK 3 (Strategic Thinking and Reasoning)**: 
+    - Complex reasoning with multiple steps
+    - Analyzing relationships and drawing conclusions
+    - Strategic thinking and justification
+    - Problem-solving with constraints or optimization
+    - Focus/Skill Area: Analyze, Investigate, Justify, Construct, Prove
+
+    **IMPORTANT: Adjust the complexity of DOK 3 questions to be appropriate for {grade} level.**
+    - For lower grades, focus on simpler reasoning and direct application.
+    - For higher grades, require more abstract reasoning and multi-step proofs.
+
+  ---
+
+  ### Your Task
+  Generate {{num_questions}} Multiple Choice Questions (MCQs) based on the inputs above.
+
+  Each question must:
+     
+    - Be original, not copied or rephrased from textbooks.  
+    - Include mathematically valid reasoning and correct solutions.
+    - Be unique and not a repetition or rewording of another question.
+    - Match the specified DOK level and taxonomy
+    - Be appropriate for the specified grade level
+    - Come from topics mentioned in {topics}
+    - Test conceptual understanding, not just procedural skills
+
+  ### Question Uniqueness — Topic-Locked, Expression-Creative
+
+    - All questions must be built strictly from the concepts inside {topics}. 
+      No new ideas, no new theorems, no external logic, and nothing outside the student's syllabus.
+
+    - Uniqueness must NOT come from adding new concepts.  
+      Instead, uniqueness must come from:
+          • using fresh, uncommon numerical setups or expressions
+          • structuring the problem in a non-standard way  
+          • combining allowed subtopics in a less typical sequence  
+          • presenting relationships in an unconventional (but valid) configuration  
+
+    - Avoid expressions that are commonly used in textbooks or exam guides.
+      Use mathematically correct expressions that are still unusual or rarely seen.
+
+    - Despite using unique expressions, the language and notation must remain
+      academically correct and aligned with standard mathematics.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+
+  ### Topic Coverage
+
+  If multiple topics are in {topics}:
+    - Distribute questions across all topics
+    - Ensure balanced coverage
+    
+  If only one topic is in {topics}:
+    - All questions must be from that topic
+    - Use different subtopics or aspects to ensure variety
+
+  ---
+
+  ### MCQ Structure Requirements
+
+  Each MCQ must have:
+
+  1. **Question**: A clear, well-formulated question that tests the specified concept
+     - Use student-friendly language appropriate for {grade}
+     - Avoid ambiguous wording
+     - Include all necessary information
+     - Use correct mathematical notation
+
+  2. **Four Answer Choices**: Exactly 4 options labeled A, B, C, D
+     - **1 Correct Answer**: The only mathematically correct solution
+     - **3 Distractors**: Plausible but incorrect options
+
+  3. **Solution**: Step-by-step solution showing how to arrive at the correct answer
+     - Clearly explain the reasoning
+     - Show all mathematical steps
+     - Justify why the correct answer is right
+
+  4. **Distractor Analysis**: For each of the 3 distractors, explain:
+     - Why a student might choose this incorrect option
+     - What misconception or error leads to this answer
+     - How to correct the misunderstanding
+
+  ---
+
+  ### Distractor Design Principles
+
+  Good distractors should:
+
+  1. **Be Plausible**: Look reasonable to students who have partial understanding
+  2. **Reflect Common Errors**: Arise from typical student mistakes such as:
+     - Computational errors (wrong operation, sign errors)
+     - Conceptual misunderstandings (applying wrong formula or principle)
+     - Procedural mistakes (skipping steps, incorrect order of operations)
+     - Misreading the question (answering a different question)
+
+  3. **Be Mathematically Distinct**: Each option should be a different value/answer
+  4. **Not be Obvious**: Avoid options that are clearly wrong (e.g., negative length)
+  5. **Test Understanding**: Help identify specific gaps in student knowledge
+
+  ### Examples of Distractor Types:
+  - Result from applying the wrong formula
+  - Answer to a related but different question
+  - Result from a common calculation error
+  - Result from misunderstanding the concept
+  - Off-by-one errors or unit conversion mistakes
+
+  ---
+
+  ### DISTRACTOR ANALYSIS FORMAT (Mandatory for Every Question)
+
+  For each incorrect option (3 distractors), follow this exact explanation structure:
+
+  **Option [X]: [The incorrect answer]**
+
+  **Why students might select this:**
+  - Begin by identifying the likely mistake: "You selected this option because you likely…"
+  - Explain the specific error or misconception that leads to this answer
+  - Be specific about what went wrong (e.g., "used addition instead of multiplication", "confused the formula", "forgot to convert units")
+
+  **What's wrong with this approach:**
+  - Explain clearly why this reasoning is incorrect
+  - Show the correct concept or procedure that should have been used
+  - Use mathematical reasoning to demonstrate the error
+
+  **Correct approach:**
+  - Briefly state what the student should have done instead
+  - Connect back to the correct answer
+
+  **Important Rules for Distractor Analysis:**
+  - Do NOT say: "You correctly identified that…" for an incorrect option
+  - Be student-friendly and educational, not condescending
+  - Use clear, simple language appropriate for {grade}
+  - Include mathematical notation when needed
+  - Make sure each distractor analysis is unique and addresses a different type of error
+
+  ---
+
+  ### Content & Quality Requirements
+
+  1. **Conceptual Depth**
+     - Each question must test understanding, not just memorization
+     - Avoid purely procedural or definitional questions
+     - Include variety across the provided subtopics
+     - Prefer testing misconceptions, boundary cases, or exceptions
+
+  2. **Mathematical Rigor**
+     - All calculations must be correct
+     - Use proper mathematical notation and terminology
+     - Ensure the correct answer is unambiguously correct
+     - Ensure all distractors are unambiguously incorrect
+
+  3. **Grade Appropriateness**
+     - Use vocabulary and concepts suitable for {grade}
+     - Match computational complexity to grade level
+     - Use age-appropriate contexts and scenarios
+
+  4. **No Repetition**
+     - Each question must be conceptually distinct
+     - Do not repeat logic, reasoning pattern, or formula use
+     - Avoid variations that only change numbers or phrasing
+     - Use different subtopics and question types
+
+  ---
+
+  ### Output Format
+
+  For each question, provide the following in this exact order:
+
+  ---
+
+  **Question [#]**
+
+  **Topic:** [Topic name from {topics}]  
+  **Marks:** [marks]  
+  **DOK Level:** [1/2/3]  
+  **Taxonomy:** [Remembering/Understanding/Applying/Evaluating/Analysing]
+
+  **Question:**
+  [The complete question text]
+
+  **Options:**
+  A) [Option A]  
+  B) [Option B]  
+  C) [Option C]  
+  D) [Option D]
+
+  **Correct Answer:** [A/B/C/D]
+
+  ---
+
+  **Solution:**
+
+  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations.]
+
+  ---
+
+  **Distractor Analysis:**
+
+  **Option [X]: [Incorrect answer 1]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  **Option [Y]: [Incorrect answer 2]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  **Option [Z]: [Incorrect answer 3]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  ### Final Output Expectations
+  - Generate {{num_questions}} MCQs following this format exactly
+  - Each question should be complete with all sections (Question, Options, Solution, Distractor Analysis)
+  - Ensure variety in topics, DOK levels, and taxonomies as specified
+  - All questions must be unique and test different concepts or skills
+  - Use proper markdown formatting for clarity
+  
+  OUTPUT SHOULD BE IN MARKDOWN FORMAT
+
+mcq_questions_pdf: |
+
+  PROMPT: MCQ Question Generator (PDF Mode)
+
+  You are an expert in developing high-quality Multiple Choice Questions (MCQs) for Mathematics.  
+  Follow all the rules and structure precisely.
+
+  ---
+
+  ### Inputs (Provided by User)
+    - Subject / Course / Grade: {subject}
+    - Grade Level: {grade}
+    - Chapter Number & Name: {chapter}
+    - Number of Questions (N): {num_questions}
+    - Topics: {topics}
+    - Old Concepts: {old_concept}  # Prerequisite knowledge - what the student has already studied before this chapter
+    - **Additional Notes**: {additional_notes}  # Extra instructions or configuration for how questions or solutions should be generated. Consider these notes when creating questions and formatting solutions.
+
+    **About Concepts:**
+    - **Old Concept** contains prerequisite knowledge - concepts the student should already know from previous chapters. Use this to gauge the student's existing knowledge level.
+    - **New Concept** can be found in the provided PDF document. The PDF contains everything covered in this chapter - all the topics and subtopics the student is currently learning.
+    - **Additional Notes** contains extra instructions or configuration for how questions or solutions should be generated. Consider these notes when creating questions and formatting solutions.
+
+  - **Note**: Concepts consist of New Concepts (from PDF) and Old Concepts (prerequisite knowledge). Prioritize new concepts for questions.
+  - The purpose of analyzing concepts is solely to ensure the questions remain:
+    - grade-appropriate,
+    - aligned with what the student has already learned,
+    - and correctly situated within the chapter's conceptual progression.
+
+  - Do NOT create questions mixing prerequisite topics not listed in {topics}.  
+    Key concepts guide background understanding, but topics generate the actual content.
+
+  ---
+
+  ### Question Requirements
+
+  For each question, you must specify:
+    - **Mark of question**: {marks}
+    - **DOK level of question**: {dok_level}
+    - **Taxonomy of question**: {taxonomy}
+
+  ### What are DOK Levels?
+
+    **DOK 1 (Recall and Reproduction)**: 
+    - Direct recall of facts, formulas, or procedures
+    - Single-step calculations or identifications
+    - Basic recognition or retrieval
+    - Focus/Skill Area: Recall, Identify, Compute, Recognize
+
+    **DOK 2 (Skills and Concepts)**: 
+    - Multi-step problem solving
+    - Application of concepts to new situations
+    - Requires at least two linked operations or inferences
+    - Focus/Skill Area: Apply, Classify, Organize, Estimate, Compare
+
+    **DOK 3 (Strategic Thinking and Reasoning)**: 
+    - Complex reasoning with multiple steps
+    - Analyzing relationships and drawing conclusions
+    - Strategic thinking and justification
+    - Problem-solving with constraints or optimization
+    - Focus/Skill Area: Analyze, Investigate, Justify, Construct, Prove
+
+    **IMPORTANT: Adjust the complexity of DOK 3 questions to be appropriate for {grade} level.**
+    - For lower grades, focus on simpler reasoning and direct application.
+    - For higher grades, require more abstract reasoning and multi-step proofs.
+
+  ---
+
+  ### Your Task
+  Generate {{num_questions}} Multiple Choice Questions (MCQs) based on the inputs above and the PDF content.
+
+  Each question must:
+     
+    - Be original, not copied or rephrased from textbooks.  
+    - Include mathematically valid reasoning and correct solutions.
+    - Be unique and not a repetition or rewording of another question.
+    - Match the specified DOK level and taxonomy
+    - Be appropriate for the specified grade level
+    - Come from topics mentioned in {topics}
+    - Use content from the provided PDF as the source for new concepts
+    - Test conceptual understanding, not just procedural skills
+
+  ### Question Uniqueness — Topic-Locked, Expression-Creative
+
+    - All questions must be built strictly from the concepts inside {topics}. 
+      No new ideas, no new theorems, no external logic, and nothing outside the student's syllabus.
+
+    - Uniqueness must NOT come from adding new concepts.  
+      Instead, uniqueness must come from:
+          • using fresh, uncommon numerical setups or expressions
+          • structuring the problem in a non-standard way  
+          • combining allowed subtopics in a less typical sequence  
+          • presenting relationships in an unconventional (but valid) configuration  
+
+    - Avoid expressions that are commonly used in textbooks or exam guides.
+      Use mathematically correct expressions that are still unusual or rarely seen.
+
+    - Despite using unique expressions, the language and notation must remain
+      academically correct and aligned with standard mathematics.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+
+  ### Topic Coverage
+
+  If multiple topics are in {topics}:
+    - Distribute questions across all topics
+    - Ensure balanced coverage
+    
+  If only one topic is in {topics}:
+    - All questions must be from that topic
+    - Use different subtopics or aspects to ensure variety
+
+  ---
+
+  ### MCQ Structure Requirements
+
+  Each MCQ must have:
+
+  1. **Question**: A clear, well-formulated question that tests the specified concept
+     - Use student-friendly language appropriate for {grade}
+     - Avoid ambiguous wording
+     - Include all necessary information
+     - Use correct mathematical notation
+
+  2. **Four Answer Choices**: Exactly 4 options labeled A, B, C, D
+     - **1 Correct Answer**: The only mathematically correct solution
+     - **3 Distractors**: Plausible but incorrect options
+
+  3. **Solution**: Step-by-step solution showing how to arrive at the correct answer
+     - Clearly explain the reasoning
+     - Show all mathematical steps
+     - Justify why the correct answer is right
+
+  4. **Distractor Analysis**: For each of the 3 distractors, explain:
+     - Why a student might choose this incorrect option
+     - What misconception or error leads to this answer
+     - How to correct the misunderstanding
+
+  ---
+
+  ### Distractor Design Principles
+
+  Good distractors should:
+
+  1. **Be Plausible**: Look reasonable to students who have partial understanding
+  2. **Reflect Common Errors**: Arise from typical student mistakes such as:
+     - Computational errors (wrong operation, sign errors)
+     - Conceptual misunderstandings (applying wrong formula or principle)
+     - Procedural mistakes (skipping steps, incorrect order of operations)
+     - Misreading the question (answering a different question)
+
+  3. **Be Mathematically Distinct**: Each option should be a different value/answer
+  4. **Not be Obvious**: Avoid options that are clearly wrong (e.g., negative length)
+  5. **Test Understanding**: Help identify specific gaps in student knowledge
+
+  ### Examples of Distractor Types:
+  - Result from applying the wrong formula
+  - Answer to a related but different question
+  - Result from a common calculation error
+  - Result from misunderstanding the concept
+  - Off-by-one errors or unit conversion mistakes
+
+  ---
+
+  ### DISTRACTOR ANALYSIS FORMAT (Mandatory for Every Question)
+
+  For each incorrect option (3 distractors), follow this exact explanation structure:
+
+  **Option [X]: [The incorrect answer]**
+
+  **Why students might select this:**
+  - Begin by identifying the likely mistake: "You selected this option because you likely…"
+  - Explain the specific error or misconception that leads to this answer
+  - Be specific about what went wrong (e.g., "used addition instead of multiplication", "confused the formula", "forgot to convert units")
+
+  **What's wrong with this approach:**
+  - Explain clearly why this reasoning is incorrect
+  - Show the correct concept or procedure that should have been used
+  - Use mathematical reasoning to demonstrate the error
+
+  **Correct approach:**
+  - Briefly state what the student should have done instead
+  - Connect back to the correct answer
+
+  **Important Rules for Distractor Analysis:**
+  - Do NOT say: "You correctly identified that…" for an incorrect option
+  - Be student-friendly and educational, not condescending
+  - Use clear, simple language appropriate for {grade}
+  - Include mathematical notation when needed
+  - Make sure each distractor analysis is unique and addresses a different type of error
+
+  ---
+
+  ### Content & Quality Requirements
+
+  1. **Conceptual Depth**
+     - Each question must test understanding, not just memorization
+     - Avoid purely procedural or definitional questions
+     - Include variety across the provided subtopics
+     - Prefer testing misconceptions, boundary cases, or exceptions
+
+  2. **Mathematical Rigor**
+     - All calculations must be correct
+     - Use proper mathematical notation and terminology
+     - Ensure the correct answer is unambiguously correct
+     - Ensure all distractors are unambiguously incorrect
+
+  3. **Grade Appropriateness**
+     - Use vocabulary and concepts suitable for {grade}
+     - Match computational complexity to grade level
+     - Use age-appropriate contexts and scenarios
+
+  4. **No Repetition**
+     - Each question must be conceptually distinct
+     - Do not repeat logic, reasoning pattern, or formula use
+     - Avoid variations that only change numbers or phrasing
+     - Use different subtopics and question types
+
+  ---
+
+  ### Output Format
+
+  For each question, provide the following in this exact order:
+
+  ---
+
+  **Question [#]**
+
+  **Topic:** [Topic name from {topics}]  
+  **Marks:** [marks]  
+  **DOK Level:** [1/2/3]  
+  **Taxonomy:** [Remembering/Understanding/Applying/Evaluating/Analysing]
+
+  **Question:**
+  [The complete question text]
+
+  **Options:**
+  A) [Option A]  
+  B) [Option B]  
+  C) [Option C]  
+  D) [Option D]
+
+  **Correct Answer:** [A/B/C/D]
+
+  ---
+
+  **Solution:**
+
+  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations.]
+
+  ---
+
+  **Distractor Analysis:**
+
+  **Option [X]: [Incorrect answer 1]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  **Option [Y]: [Incorrect answer 2]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  **Option [Z]: [Incorrect answer 3]**
+
+  Why students might select this:
+  [Explanation of the likely error or misconception]
+
+  What's wrong with this approach:
+  [Explanation of why this is incorrect]
+
+  Correct approach:
+  [Brief statement of what should have been done]
+
+  ---
+
+  ### Final Output Expectations
+  - Generate {{num_questions}} MCQs following this format exactly
+  - Each question should be complete with all sections (Question, Options, Solution, Distractor Analysis)
+  - Ensure variety in topics, DOK levels, and taxonomies as specified
+  - All questions must be unique and test different concepts or skills
+  - Use proper markdown formatting for clarity
+  - Use PDF content as the source for new concepts
+  
+  OUTPUT SHOULD BE IN MARKDOWN FORMAT
