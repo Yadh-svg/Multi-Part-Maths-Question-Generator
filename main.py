@@ -58,7 +58,7 @@ def default_mcq_question(index):
     return {
         "DOK": 1,
         "marks": 1,
-        "taxonomy": ["Remembering"]
+        "taxonomy": "Remembering"  # Single taxonomy for MCQ
     }
 
 # ------------------ INITIALIZE session_state ONCE ------------------
@@ -249,17 +249,18 @@ def assemble_prompt(state):
         # For MCQ, we build a specification for each question
         mcq_specs = ""
         for idx, q in enumerate(state["mcq_questions"], 1):
-            taxonomy_list = ", ".join(q["taxonomy"]) if q["taxonomy"] else ""
-            mcq_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_list}\n"
+            # Taxonomy is now a single string for MCQ
+            taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
+            mcq_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
         
         # Replace placeholders with the first question's config (for backward compatibility)
         # and add the full specification list
         first_q = state["mcq_questions"][0] if state["mcq_questions"] else default_mcq_question(0)
-        taxonomy_list = ", ".join(first_q["taxonomy"]) if first_q["taxonomy"] else ""
+        taxonomy_value = first_q["taxonomy"] if isinstance(first_q["taxonomy"], str) else ", ".join(first_q["taxonomy"])
         
         prompt_text = prompt_text.replace('{dok_level}', yq(str(first_q["DOK"])))
         prompt_text = prompt_text.replace('{marks}', yq(str(first_q["marks"])))
-        prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_list))
+        prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_value))
         
         # Add detailed specifications if multiple questions
         if len(state["mcq_questions"]) > 1:
@@ -499,20 +500,23 @@ else:
         
         # All taxonomies are available for all DOK levels
         all_taxonomies = get_taxonomies_for_dok(q_dok)
-        old_tax = st.session_state.get(tax_key, [])
-        cleaned_tax = [t for t in old_tax if t in all_taxonomies]
+        old_tax = st.session_state.get(tax_key, "Remembering")
+        
+        # Ensure old_tax is a valid single taxonomy
+        if isinstance(old_tax, list):
+            # Convert from old multiselect format
+            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
+        elif old_tax not in all_taxonomies:
+            old_tax = "Remembering"
 
-        if not cleaned_tax:
-            cleaned_tax = [all_taxonomies[0]]  # Default to "Remembering"
+        st.session_state[tax_key] = old_tax
 
-        st.session_state[tax_key] = cleaned_tax
-
-        q_tax = c3.multiselect(
+        q_tax = c3.selectbox(
             f"tax_mcq_{i}",
             options=all_taxonomies,
-            default=cleaned_tax,
+            index=all_taxonomies.index(old_tax),
             key=tax_key,
-            help="Select one or more taxonomy levels (independent of DOK level)",
+            help="Select one taxonomy level (independent of DOK level)",
             label_visibility="collapsed"
         )
 
