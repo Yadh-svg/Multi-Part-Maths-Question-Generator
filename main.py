@@ -61,6 +61,15 @@ def default_mcq_question(index):
         "taxonomy": "Remembering"  # Single taxonomy for MCQ
     }
 
+# ------------------ DEFAULT FIB QUESTION ------------------
+def default_fib_question(index):
+    """Returns default configuration for a FIB question based on index."""
+    return {
+        "DOK": 1,
+        "marks": 1,
+        "taxonomy": "Remembering"  # Single taxonomy for FIB
+    }
+
 # ------------------ INITIALIZE session_state ONCE ------------------
 if "initialized" not in st.session_state:
     st.session_state.initialized = True
@@ -76,7 +85,7 @@ if "initialized" not in st.session_state:
     st.session_state.New_Concept = "Fraction addition, Fraction subtraction, Fraction multiplication, Fraction division"
     st.session_state.Old_Concept = "Basic understanding of fractions, Number operations"
     st.session_state.Additional_Notes = ""  # Additional configuration for question/solution generation
-    st.session_state.Question_Type = "Multi-Part"  # Question type: Multi-Part or MCQ
+    st.session_state.Question_Type = "Multi-Part"  # Question type: Multi-Part, MCQ, or Fill in the Blanks
     st.session_state.Input_Mode = "Manual"  # Default to Manual mode
 
     # For Multi-Part questions
@@ -84,6 +93,9 @@ if "initialized" not in st.session_state:
     
     # For MCQ questions
     st.session_state.mcq_questions = [default_mcq_question(i) for i in range(st.session_state.Number_of_questions)]
+    
+    # For FIB questions
+    st.session_state.fib_questions = [default_fib_question(i) for i in range(st.session_state.Number_of_questions)]
 
 # ------------------ SUBPARTS UPDATE CALLBACK ------------------
 def update_subparts():
@@ -146,6 +158,38 @@ def update_mcq_questions():
             st.session_state.pop(f"mcq_{i}_marks", None)
             st.session_state.pop(f"mcq_{i}_tax", None)
 
+# ------------------ FIB QUESTIONS UPDATE CALLBACK ------------------
+def update_fib_questions():
+    """
+    Callback that runs when st.session_state.Number_of_questions changes in FIB mode.
+    Resizes st.session_state.fib_questions and clears stale widget keys.
+    """
+    try:
+        new_n = int(st.session_state.Number_of_questions)
+    except Exception:
+        return
+
+    if "fib_questions" not in st.session_state:
+        st.session_state.fib_questions = [default_fib_question(i) for i in range(new_n)]
+        return
+
+    old_n = len(st.session_state.fib_questions)
+
+    if new_n > old_n:
+        # extend
+        st.session_state.fib_questions += [default_fib_question(i) for i in range(old_n, new_n)]
+    elif new_n < old_n:
+        # truncate
+        st.session_state.fib_questions = st.session_state.fib_questions[:new_n]
+
+    # Clear dynamic widget keys for indices >= new_n
+    max_check = max(old_n, new_n) + 3
+    for i in range(max_check):
+        if i >= new_n:
+            st.session_state.pop(f"fib_{i}_dok", None)
+            st.session_state.pop(f"fib_{i}_marks", None)
+            st.session_state.pop(f"fib_{i}_tax", None)
+
 # ------------------ ASSEMBLE PROMPT ------------------
 def assemble_prompt(state):
     """
@@ -183,8 +227,7 @@ def assemble_prompt(state):
             # Split at next template key
             if "multi_part_maths_pdf:" in prompt_template:
                 prompt_template = prompt_template.split("multi_part_maths_pdf:")[0].strip()
-    else:
-        # MCQ
+    elif question_type == "MCQ":
         if input_mode == "PDF Upload":
             # MCQ + PDF
             if "mcq_questions_pdf:" in content:
@@ -204,6 +247,27 @@ def assemble_prompt(state):
                     prompt_template = prompt_template.split("mcq_questions_pdf:")[0].strip()
             else:
                 return "Error: mcq_questions template not found in prompt.yaml"
+    else:
+        # Fill in the Blanks
+        if input_mode == "PDF Upload":
+            # FIB + PDF
+            if "FIB_pdf:" in content:
+                prompt_template = content.split("FIB_pdf:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+            else:
+                return "Error: FIB_pdf template not found in prompt.yaml"
+        else:
+            # FIB + Manual
+            if "FIB:" in content:
+                prompt_template = content.split("FIB:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+                # Split at next template key
+                if "FIB_pdf:" in prompt_template:
+                    prompt_template = prompt_template.split("FIB_pdf:")[0].strip()
+            else:
+                return "Error: FIB template not found in prompt.yaml"
 
     # Replace common placeholders (work for both Multi-Part and MCQ)
     prompt_text = prompt_template.replace('{{Grade}}', yq(state["Grade"]))
@@ -244,7 +308,7 @@ def assemble_prompt(state):
         pattern = r'(- Number of Sub-Parts:.*?)(For each sub-part.*?)(- From the provided input.*?\n)'
         replacement = f"- Number of Sub-Parts: {num_sub}\n\n{subpart_specs}"
         prompt_text = re.sub(pattern, replacement, prompt_text, flags=re.DOTALL)
-    else:
+    elif question_type == "MCQ":
         # MCQ specific: inject question-level DOK, Marks, and Taxonomy
         # For MCQ, we build a specification for each question
         mcq_specs = ""
@@ -267,6 +331,30 @@ def assemble_prompt(state):
             prompt_text = prompt_text.replace(
                 '### Question Requirements',
                 f'### Question Requirements\n\n**Specific requirements for each question:**\n{mcq_specs}\n'
+            )
+    else:
+        # Fill in the Blanks specific: inject question-level DOK, Marks, and Taxonomy
+        # For FIB, we build a specification for each question (similar to MCQ)
+        fib_specs = ""
+        for idx, q in enumerate(state["fib_questions"], 1):
+            # Taxonomy is a single string for FIB
+            taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
+            fib_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
+        
+        # Replace placeholders with the first question's config (for backward compatibility)
+        # and add the full specification list
+        first_q = state["fib_questions"][0] if state["fib_questions"] else default_fib_question(0)
+        taxonomy_value = first_q["taxonomy"] if isinstance(first_q["taxonomy"], str) else ", ".join(first_q["taxonomy"])
+        
+        prompt_text = prompt_text.replace('{dok_level}', yq(str(first_q["DOK"])))
+        prompt_text = prompt_text.replace('{marks}', yq(str(first_q["marks"])))
+        prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_value))
+        
+        # Add detailed specifications if multiple questions
+        if len(state["fib_questions"]) > 1:
+            prompt_text = prompt_text.replace(
+                '### Question Requirements',
+                f'### Question Requirements\n\n**Specific requirements for each question:**\n{fib_specs}\n'
             )
 
     return prompt_text
@@ -315,8 +403,8 @@ def generate_questions_with_pdf(prompt, pdf_bytes, api_key):
 st.title("Multi-Part Maths Question Generator")
 
 # ---- Question Type Selection (FIRST) ----
-st.radio("Question Type", options=["Multi-Part", "MCQ"], key="Question_Type", horizontal=True,
-         help="Multi-Part: Questions with sub-parts (a, b, c). MCQ: Multiple Choice Questions with 4 options.")
+st.radio("Question Type", options=["Multi-Part", "MCQ", "Fill in the Blanks"], key="Question_Type", horizontal=True,
+         help="Multi-Part: Questions with sub-parts (a, b, c). MCQ: Multiple Choice Questions with 4 options. Fill in the Blanks: Questions with blanks to fill in.")
 
 # ---- Input Mode Selection (SECOND) ----
 st.radio("Input Mode", options=["Manual", "PDF Upload"], key="Input_Mode", horizontal=True,
@@ -363,11 +451,15 @@ else:
                  help="Add any extra instructions to configure how the question or solution should be generated")
 
 # Number of Questions: editable, stored immediately (but prompt only built on Generate)
-# Add callback for MCQ mode to update question configurations
+# Add callback for MCQ and FIB mode to update question configurations
 if st.session_state.Question_Type == "MCQ":
     st.number_input("Number of Questions", min_value=1, max_value=10,
                     value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
                     on_change=update_mcq_questions)
+elif st.session_state.Question_Type == "Fill in the Blanks":
+    st.number_input("Number of Questions", min_value=1, max_value=10,
+                    value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
+                    on_change=update_fib_questions)
 else:
     st.number_input("Number of Questions", min_value=1, max_value=10,
                     value=st.session_state.Number_of_questions, step=1, key="Number_of_questions")
@@ -455,7 +547,7 @@ if st.session_state.Question_Type == "Multi-Part":
             "marks": float(s_marks),
             "taxonomy": s_tax
         }
-else:
+elif st.session_state.Question_Type == "MCQ":
     # MCQ mode: show configuration for each question
     st.subheader("MCQ Questions Configuration")
     
@@ -526,6 +618,77 @@ else:
             "marks": float(q_marks),
             "taxonomy": q_tax
         }
+else:  # Fill in the Blanks
+    # FIB mode: show configuration for each question
+    st.subheader("Fill in the Blanks Questions Configuration")
+    
+    # Ensure fib_questions exists and has correct length
+    if "fib_questions" not in st.session_state:
+        st.session_state.fib_questions = [default_fib_question(i) for i in range(st.session_state.Number_of_questions)]
+    
+    if len(st.session_state.fib_questions) < st.session_state.Number_of_questions:
+        old_n = len(st.session_state.fib_questions)
+        st.session_state.fib_questions += [default_fib_question(i) for i in range(old_n, st.session_state.Number_of_questions)]
+    elif len(st.session_state.fib_questions) > st.session_state.Number_of_questions:
+        st.session_state.fib_questions = st.session_state.fib_questions[:st.session_state.Number_of_questions]
+    
+    # Header row
+    cols = st.columns((1, 1, 2, 3))
+    cols[0].markdown("**Question**")
+    cols[1].markdown("**DOK**")
+    cols[2].markdown("**Marks**")
+    cols[3].markdown("**Taxonomy**")
+    
+    # Configuration row for each FIB question
+    for i in range(st.session_state.Number_of_questions):
+        q = st.session_state.fib_questions[i]
+
+        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+        c0.markdown(f"**Q{i+1}**")
+
+        dok_key = f"fib_{i}_dok"
+        marks_key = f"fib_{i}_marks"
+        tax_key = f"fib_{i}_tax"
+
+        # initialize widget keys if absent
+        if dok_key not in st.session_state:
+            st.session_state[dok_key] = q["DOK"]
+        if marks_key not in st.session_state:
+            st.session_state[marks_key] = float(q["marks"])
+        if tax_key not in st.session_state:
+            st.session_state[tax_key] = q["taxonomy"]
+
+        q_dok = c1.selectbox(f"DOK_fib_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+        q_marks = c2.number_input(f"marks_fib_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+        
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(q_dok)
+        old_tax = st.session_state.get(tax_key, "Remembering")
+        
+        # Ensure old_tax is a valid single taxonomy
+        if isinstance(old_tax, list):
+            # Convert from old multiselect format
+            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
+        elif old_tax not in all_taxonomies:
+            old_tax = "Remembering"
+
+        st.session_state[tax_key] = old_tax
+
+        q_tax = c3.selectbox(
+            f"tax_fib_{i}",
+            options=all_taxonomies,
+            index=all_taxonomies.index(old_tax),
+            key=tax_key,
+            help="Select one taxonomy level (independent of DOK level)",
+            label_visibility="collapsed"
+        )
+
+        # write back to session_state.fib_questions
+        st.session_state.fib_questions[i] = {
+            "DOK": int(q_dok),
+            "marks": float(q_marks),
+            "taxonomy": q_tax
+        }
 
 st.markdown("---")
 
@@ -563,8 +726,10 @@ if st.button("🚀 Generate questions", use_container_width=True):
     if st.session_state.Question_Type == "Multi-Part":
         state["Number_of_subparts"] = int(st.session_state.Number_of_subparts)
         state["subparts"] = st.session_state.subparts.copy()
-    else:  # MCQ
+    elif st.session_state.Question_Type == "MCQ":
         state["mcq_questions"] = st.session_state.mcq_questions.copy()
+    else:  # Fill in the Blanks
+        state["fib_questions"] = st.session_state.fib_questions.copy()
 
     if st.session_state.Input_Mode == "Manual":
         # Manual mode: use text-based prompt
