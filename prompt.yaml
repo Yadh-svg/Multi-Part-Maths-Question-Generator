@@ -454,6 +454,41 @@ multi_part_maths: |
     - Do NOT generate questions that are only numerical variations of a previous question.
   =====================================================================================
 
+  ## FINAL ANSWER VARIATIONS 
+
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers 
+    for the final answer.
+
+    Condition for supporting single and multiple forms :
+
+      - If the question is **numerical or computational**, allow **only one correct answer**.
+      - If the question is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+
+      For eg : 
+      This example is not a multi part question : 
+
+        Observe the pattern in the successive differences over levels for perfect cubes 
+          i) The parity of numbers in level 1 is |TEXT1| and that of the level 2 is |TEXT2|.
+          ii) The numbers in Level |TEXT 3| are constant and equal to |TEXT 4|.
+          Answers:
+          TEXT1: odd
+          TEXT2: even
+          TEXT3: 3; three
+          TEXT4: 6
+      Explanation Prompt:
+
+
+        - TEXT1 and TEXT2 represent properties (parity) of specific levels.  
+        Parity is a fixed descriptive attribute, so each has **only one correct answer**.
+
+        - TEXT3 refers to a **level number**.  
+        Level numbers can be written in different but equivalent forms (e.g., numeral and word), so **multiple answers are allowed** (such as "3" and "three").
+
+        - TEXT4 represents a **specific constant numerical value**.  
+        Since it is a fixed number, **only one correct answer** is valid.
+
+    -- In multi-part after the exaplantaion of solution the type of final answer should be decided based on the above rule.
+
   ## OUTPUT FORMAT (REQUIRED)
   
   ### 1. **Overall Taxonomy**
@@ -1000,6 +1035,41 @@ multi_part_maths_pdf: |
       - The question must be **fully solvable** using the given concepts and methods.
       - Do NOT generate questions that are only numerical variations of a previous question.
     =====================================================================================
+    
+  ## FINAL ANSWER VARIATIONS 
+
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers 
+    for the final answer.
+
+    Condition for supporting single and multiple forms :
+
+      - If the question is **numerical or computational**, allow **only one correct answer**.
+      - If the question is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+
+      For eg : 
+      This example is not a multi part question : 
+
+        Observe the pattern in the successive differences over levels for perfect cubes 
+          i) The parity of numbers in level 1 is |TEXT1| and that of the level 2 is |TEXT2|.
+          ii) The numbers in Level |TEXT 3| are constant and equal to |TEXT 4|.
+          Answers:
+          TEXT1: odd
+          TEXT2: even
+          TEXT3: 3; three
+          TEXT4: 6
+      Explanation Prompt:
+
+
+        - TEXT1 and TEXT2 represent properties (parity) of specific levels.  
+        Parity is a fixed descriptive attribute, so each has **only one correct answer**.
+
+        - TEXT3 refers to a **level number**.  
+        Level numbers can be written in different but equivalent forms (e.g., numeral and word), so **multiple answers are allowed** (such as "3" and "three").
+
+        - TEXT4 represents a **specific constant numerical value**.  
+        Since it is a fixed number, **only one correct answer** is valid.
+
+    -- In multi-part after the exaplantaion of solution the type of final answer should be decided based on the above rule.
 
     ## OUTPUT FORMAT (REQUIRED)
     
@@ -1539,7 +1609,7 @@ mcq_questions: |
 
   **Solution:**
 
-  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations.]
+  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations and the mark split.]
 
   ---
 
@@ -2055,7 +2125,7 @@ mcq_questions_pdf: |
 
   **Solution:**
 
-  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations.]
+  [Provide step-by-step solution showing how to arrive at the correct answer. Include all reasoning and calculations and the mark split.]
 
   ---
 
@@ -2235,106 +2305,106 @@ FIB: |
         - Perform **at least two distinct logical or computational steps**.
         Problems should **not be solvable by a single formula**; they should require reasoning or linking information.
 
-     DOK 3 – FILL IN THE BLANKS (Advanced Reasoning & High Difficulty)
+      DOK 3 – FILL IN THE BLANKS (Advanced Reasoning & High Difficulty)
 
-        DOK 3 Fill in the Blanks questions must require advanced reasoning through
-        constraints, indirect inference, or multi-step planning.
-        They must NOT be solvable by direct substitution, a single formula,
-        or a routine arithmetic operation.
+          DOK 3 Fill in the Blanks questions must require advanced reasoning through
+          constraints, indirect inference, or multi-step planning.
+          They must NOT be solvable by direct substitution, a single formula,
+          or a routine arithmetic operation.
 
-        The blanks must represent key decision points or inferred values,
-        not merely final numerical answers.
+          The blanks must represent key decision points or inferred values,
+          not merely final numerical answers.
 
-        A DOK 3 Fill in the Blanks item must satisfy ALL of the following:
+          A DOK 3 Fill in the Blanks item must satisfy ALL of the following:
 
-        1. Goal with Constraints
-          - The blanks must be tied to a goal involving at least one constraint:
-              • exact target value
-              • minimum or maximum condition
-              • limited resources
-              • least wastage / highest efficiency
-              • fixed total with restricted combinations
-          - At least one blank must depend on satisfying ALL constraints together,
-            not independently.
+          1. Goal with Constraints
+            - The blanks must be tied to a goal involving at least one constraint:
+                • exact target value
+                • minimum or maximum condition
+                • limited resources
+                • least wastage / highest efficiency
+                • fixed total with restricted combinations
+            - At least one blank must depend on satisfying ALL constraints together,
+              not independently.
 
-        2. Multi-Step Reasoning Embedded in Blanks
-          - Students must internally perform:
-              Interpret → Plan → Apply constraints → Compute → Verify
-          - The blanks should capture:
-              • intermediate inferred quantities, OR
-              • decisions that arise after testing feasibility, OR
-              • optimized values after rejecting non-valid cases
-          - Filling the blanks should be impossible without testing or planning.
+          2. Multi-Step Reasoning Embedded in Blanks
+            - Students must internally perform:
+                Interpret → Plan → Apply constraints → Compute → Verify
+            - The blanks should capture:
+                • intermediate inferred quantities, OR
+                • decisions that arise after testing feasibility, OR
+                • optimized values after rejecting non-valid cases
+            - Filling the blanks should be impossible without testing or planning.
 
-        3. No Direct Formula Completion
-          - NOT allowed:
-              “The value of x is ______.”
-              “The required time is ______ minutes.”
-          - Allowed:
-              • “The smallest possible value of ______ that satisfies all conditions is ______.”
-              • “After excluding invalid cases, the remaining feasible value is ______.”
+          3. No Direct Formula Completion
+            - NOT allowed:
+                “The value of x is ______.”
+                “The required time is ______ minutes.”
+            - Allowed:
+                • “The smallest possible value of ______ that satisfies all conditions is ______.”
+                • “After excluding invalid cases, the remaining feasible value is ______.”
 
-        4. Conflict or Trade-off Requirement
-          - The information provided must include at least one conflict:
-              • more of one quantity worsens another,
-              • exact target but limited choices,
-              • efficiency vs availability,
-              • fixed total but variable components.
-          - If no trade-off exists, the question is NOT DOK 3.
+          4. Conflict or Trade-off Requirement
+            - The information provided must include at least one conflict:
+                • more of one quantity worsens another,
+                • exact target but limited choices,
+                • efficiency vs availability,
+                • fixed total but variable components.
+            - If no trade-off exists, the question is NOT DOK 3.
 
-        5. Case Testing or Strategy Selection (Implicit)
-          - The student must mentally test possibilities or strategies.
-          - Even though the response is a blank, the thinking must involve:
-              • eliminating cases,
-              • checking feasibility,
-              • or optimizing among valid options.
-          - If simple division or subtraction gives the answer → downgrade to DOK 2.
+          5. Case Testing or Strategy Selection (Implicit)
+            - The student must mentally test possibilities or strategies.
+            - Even though the response is a blank, the thinking must involve:
+                • eliminating cases,
+                • checking feasibility,
+                • or optimizing among valid options.
+            - If simple division or subtraction gives the answer → downgrade to DOK 2.
 
-        6. Nature of Blanks
-          - Blanks may represent:
-              • a constrained value,
-              • an optimized quantity,
-              • a rejected/accepted case count,
-              • a pair of values forming a valid plan.
-          - Final answers may be:
-              • a number,
-              • a combination (x and y),
-              • or a minimal/maximal value under conditions.
+          6. Nature of Blanks
+            - Blanks may represent:
+                • a constrained value,
+                • an optimized quantity,
+                • a rejected/accepted case count,
+                • a pair of values forming a valid plan.
+            - Final answers may be:
+                • a number,
+                • a combination (x and y),
+                • or a minimal/maximal value under conditions.
 
-        7. High Cognitive Demand Enforcement
-          - A well-prepared student should take noticeable time to reason internally.
-          - The question must NOT be solvable mechanically.
-          - Memorized procedures alone must be insufficient.
+          7. High Cognitive Demand Enforcement
+            - A well-prepared student should take noticeable time to reason internally.
+            - The question must NOT be solvable mechanically.
+            - Memorized procedures alone must be insufficient.
 
-        8. DOK 3 Validation Check (Mandatory)
-          A Fill in the Blanks question qualifies as DOK 3 ONLY IF:
-            ✔ The blanks cannot be filled in one step.
-            ✔ At least one blank depends on rejecting invalid cases.
-            ✔ Constraints actively restrict possible answers.
-            ✔ Multiple reasoning steps are required before writing anything.
+          8. DOK 3 Validation Check (Mandatory)
+            A Fill in the Blanks question qualifies as DOK 3 ONLY IF:
+              ✔ The blanks cannot be filled in one step.
+              ✔ At least one blank depends on rejecting invalid cases.
+              ✔ Constraints actively restrict possible answers.
+              ✔ Multiple reasoning steps are required before writing anything.
 
-          If the blanks can be filled by:
-            • one arithmetic operation, or
-            • one formula substitution
-          → The question is NOT DOK 3.
+            If the blanks can be filled by:
+              • one arithmetic operation, or
+              • one formula substitution
+            → The question is NOT DOK 3.
 
-        9. Answer Key Requirement (For DOK 3 Only)
-          - The solution must explicitly list:
-              Logical-operation sequence (DOK 3):
-              [Interpret constraints → Plan cases → Test feasibility → Optimize → Final values]
-          - This sequence must be different across different DOK 3 questions.
+          9. Answer Key Requirement (For DOK 3 Only)
+            - The solution must explicitly list:
+                Logical-operation sequence (DOK 3):
+                [Interpret constraints → Plan cases → Test feasibility → Optimize → Final values]
+            - This sequence must be different across different DOK 3 questions.
 
-        10. Difficulty Directive
-          - These are the highest-difficulty Fill in the Blanks questions for the grade.
-          - Suitable for:
-              • top-performing students,
-              • Olympiad/NTSE-level reasoning within the syllabus.
-          - If an average student can answer by routine calculation,
-            the difficulty is insufficient.
+          10. Difficulty Directive
+            - These are the highest-difficulty Fill in the Blanks questions for the grade.
+            - Suitable for:
+                • top-performing students,
+                • Olympiad/NTSE-level reasoning within the syllabus.
+            - If an average student can answer by routine calculation,
+              the difficulty is insufficient.
 
-        IMPORTANT:
-        Fill in the Blanks at DOK 3 are NOT about missing numbers —
-        they are about missing decisions, inferred results, or optimized outcomes.
+          IMPORTANT:
+          Fill in the Blanks at DOK 3 are NOT about missing numbers —
+          they are about missing decisions, inferred results, or optimized outcomes.
     
     3. FILL IN THE BLANKS (FIB) — QUESTION DESIGN RULES
 
@@ -2342,42 +2412,16 @@ FIB: |
         students must supply missing information directly, without being guided step-by-step.
         FIB questions may include THREE distinct answer-handling types:
 
-        ────────────────────────────────────────
-        1. PROBABLE-ANSWER FIB (TEXT ENTRY)
-        ────────────────────────────────────────
-
-        • Use when:
-          - The correct answer can be written in multiple valid ways.
-          - Variations may exist in:
-              ▸ number form (1, one, single),
-              ▸ word form (three, 3),
-              ▸ equivalent mathematical expressions,
-              ▸ accepted terminology.
-
-        • Format:
-          - Use placeholders: |TEXT 1|, |TEXT 2|, etc.
-          - Do NOT provide options inside the question.
-          - Student response is free text.
-
-        • Answer Key Rules:
-          - All acceptable answers must be listed.
-          - Separate probable answers using a semicolon (;).
-          - Do NOT include unnecessary variations.
-          - Only mathematically and linguistically valid equivalents are allowed.
-
-        • Example (validated):
-          |TEXT 1| → single; one; 1
-
-        • Important:
-          - The blank must NOT reduce to a single forced representation.
-          - If only one exact response is possible, this is NOT a probable-answer FIB.
+        
 
         ────────────────────────────────────────
-        2. UNIQUE-ANSWER FIB (TEXT ENTRY)
+        1. UNIQUE-ANSWER FIB (TEXT ENTRY)
         ────────────────────────────────────────
 
         • Use when:
           - Only ONE mathematically correct answer exists.
+          - Use for ALL numerical or computational questions.
+          - Allow ONLY ONE correct answer.
           - No alternative wording or representation is acceptable.
 
         • Format:
@@ -2399,13 +2443,39 @@ FIB: |
           TEXT3: 14
 
         ────────────────────────────────────────
+        2. PROBABLE-ANSWER FIB (TEXT ENTRY)
+        ────────────────────────────────────────
+
+        • Use when:
+          - The correct answer can be written in multiple valid ways.
+          - Use when the SAME correct answer can be written in MULTIPLE valid ways
+            (word form, number form, equivalent expressions, accepted terminology).
+
+        • Format:
+          - Use placeholders: |TEXT 1|, |TEXT 2|, etc.
+          - Do NOT provide options inside the question.
+          - Student response is free text.
+
+        • Answer Key Rules:
+          - All acceptable answers must be listed.
+          - Separate probable answers using a semicolon (;).
+          - Do NOT include unnecessary variations.
+          - Only mathematically and linguistically valid equivalents are allowed.
+
+        • Example (validated):
+          |TEXT 1| → single; one; 1
+
+        • Important:
+          - The blank must NOT reduce to a single forced representation.
+          - If only one exact response is possible, this is NOT a probable-answer FIB.
+        ────────────────────────────────────────
         3. DROP-DOWN FIB (CONTROLLED SELECTION)
         ────────────────────────────────────────
 
         • Use when:
-          - The answer must be selected from a fixed, known set.
-          - Distractors are conceptually meaningful.
-          - Precision or classification is being tested.
+          - Use when there are TOO MANY probable answers to manage fairly in free-text entry.
+          - Provide a fixed option set with EXACTLY ONE correct answer.
+          
 
         • Format:
           - Use placeholder: [DROP]
@@ -2413,6 +2483,7 @@ FIB: |
           - Each [DROP] has its own option set.
 
         • Rules:
+          - Other options must be close and plausible so the student must think carefully.
           - Options must be mutually exclusive.
           - Exactly one option must be correct.
           - Avoid trivial elimination.
@@ -2421,7 +2492,76 @@ FIB: |
           [DROP] → (Red, Green, Black, Blue)
   ** Based on the topic, grade level, and concepts being assessed, you may choose the most appropriate Fill in the Blanks type (unique-answer, probable-answer, or drop-down); a single topic may include a mix of all three types, and where visual understanding is required, you may include a diagram prompt describing the image to be shown (for visualization purposes only), ensuring the diagram contains only essential visual information and does not include labels, values, or clues that directly reveal the answer.
 
-  4. Diagram Prompt (for visualization purposes only) 
+
+    EXAMPLE 1: UNIQUE ANSWER (Numerical – only one correct answer)
+
+      Question:
+      Find the value of x if:
+      5x − 15 = 0  
+      x = |TEXT1|
+
+      Answer:
+      TEXT1: 3
+
+      Solution Explanation:
+      5x − 15 = 0  
+      ⇒ 5x = 15  
+      ⇒ x = 3  
+      Since this is a numerical equation, there is only one correct value of x.
+
+
+      ------------------------------------------------------------
+
+      EXAMPLE 2: PROBABLE / MULTIPLE ANSWERS (Descriptive – more than one valid form)
+
+        Question:
+        Write the number name of 12.
+        |TEXT1|
+
+        Answers:
+        TEXT1: twelve; Twelve
+
+        Solution Explanation:
+        The question checks the understanding of number names.
+        Both "twelve" and "Twelve" represent the same correct answer.
+        Hence, multiple acceptable answers are allowed.
+
+
+      ------------------------------------------------------------
+
+      EXAMPLE 3: DROPDOWN QUESTION (Selection from given options)
+
+        Question:
+        A right angle measures [DROP] degrees.
+
+        Drop-down Options:
+        [DROP] → (45, 90, 180, 360)
+
+        Answer:
+        [DROP]: 90
+
+        Solution Explanation:
+        By definition, a right angle measures exactly 90 degrees.
+        The correct option must be selected from the given choices.
+  4.  Marks and Blanks Rules:
+
+    - Each blank or dropdown must carry either **0.5 mark or 1 mark only**.
+    - No blank or dropdown can have marks **less than 0.5 or more than 1**, and no other intermediate values are allowed.
+
+    - For a **1-mark question**:
+      - Use **one blank of 1 mark**, OR
+      - Use **two blanks of 0.5 mark each**.
+
+    - For a **2-mark question**:
+      - Use **at least two blanks** (any valid combination of 0.5 or 1 mark each).
+
+    - For a **3-mark question**:
+      - Use **at least three blanks** (any valid combination of 0.5 or 1 mark each).
+
+    - It is allowed to include **multiple blanks and/or dropdowns** as appropriate to the question type, provided the above marking rules are satisfied.
+
+
+  5. Diagram Prompt (for visualization purposes only) 
     ## DIAGRAM RULES
         - Diagram is optional (unless the topic inherently requires visual representation).
         - If included, give a **diagram prompt** (NOT the actual image).
@@ -2455,7 +2595,7 @@ FIB: |
           - Each section must serve a distinct purpose:
               • Short Context = Real-life setup and qualitative description
               • Diagram = Visual/numerical representation of the setup
-  5. ## INSTRUCTION OVERVIEW:
+  6. ## INSTRUCTION OVERVIEW:
     - IMPORTANT → Number of Questions to Generate: {{Number_of_questions}} (Don't generate more than or less than this number of questions)
     - You can add multiple blanks in a question 
     - A single Fill in the Blanks question may contain one or more blanks (|TEXT| and/or [DROP]), where each blank independently tests a specific part of the concept or reasoning step.
@@ -2474,7 +2614,7 @@ FIB: |
       - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
   
   
-  6. ## TEXTBOOK CONTENT HANDLING (CRITICAL)
+  7. ## TEXTBOOK CONTENT HANDLING (CRITICAL)
       - **Do NOT treat the textbook/concept excerpts as reading passages in questions**
       - **Do NOT reference the textbook/concept material as a passage**
       - Questions must be self-contained and NEVER reference the source material directly
@@ -2541,6 +2681,7 @@ FIB: |
           TEXT n: list all acceptable answers separated by semicolons (;)
       - For DROP-DOWN blanks:
           [DROP]: correct option only
+      
 
     4. Drop-down Options (Only if DROP is used):
       - Explicitly list all options for each [DROP].
@@ -2565,13 +2706,13 @@ FIB: |
     Drop-down Options (if applicable):
     [DROP] → (option 1, option 2, option 3, option 4)
 
-    Answer Key:
-    TEXT 1: …
-    TEXT 2: …
-    [DROP]: …
+    Answer Key (with mark distribution):
+    TEXT 1: mark distribution
+    TEXT 2: mark distribution
+    [DROP]: mark distribution
 
     Solution Explanation:
-    <step-by-step reasoning>
+    <step-by-step reasoning> 
 
     - Do not mix answer types within a single blank.
     - Do not include unnecessary variations in probable answers.
@@ -2602,7 +2743,7 @@ FIB_pdf: |
       - **DOK level of question**: {dok_level}
       - **Taxonomy of question**: {taxonomy}
     Instructions for generating questions:
-
+  - THE QUESTION SHOULD BE STRICTLY FRON THE TOPIC AND SHOULD USE ALL ITS CORRECT SUB TOPIC FOR EACH QUESTIONS 
     1. UNIQUE FIB QUESTION DESIGN — CORE UNIQUENESS RULES
 
       1. One Concept, Many Reasoning Paths
@@ -2798,42 +2939,16 @@ FIB_pdf: |
         students must supply missing information directly, without being guided step-by-step.
         FIB questions may include THREE distinct answer-handling types:
 
-        ────────────────────────────────────────
-        1. PROBABLE-ANSWER FIB (TEXT ENTRY)
-        ────────────────────────────────────────
-
-        • Use when:
-          - The correct answer can be written in multiple valid ways.
-          - Variations may exist in:
-              ▸ number form (1, one, single),
-              ▸ word form (three, 3),
-              ▸ equivalent mathematical expressions,
-              ▸ accepted terminology.
-
-        • Format:
-          - Use placeholders: |TEXT 1|, |TEXT 2|, etc.
-          - Do NOT provide options inside the question.
-          - Student response is free text.
-
-        • Answer Key Rules:
-          - All acceptable answers must be listed.
-          - Separate probable answers using a semicolon (;).
-          - Do NOT include unnecessary variations.
-          - Only mathematically and linguistically valid equivalents are allowed.
-
-        • Example (validated):
-          |TEXT 1| → single; one; 1
-
-        • Important:
-          - The blank must NOT reduce to a single forced representation.
-          - If only one exact response is possible, this is NOT a probable-answer FIB.
+        
 
         ────────────────────────────────────────
-        2. UNIQUE-ANSWER FIB (TEXT ENTRY)
+        1. UNIQUE-ANSWER FIB (TEXT ENTRY)
         ────────────────────────────────────────
 
         • Use when:
           - Only ONE mathematically correct answer exists.
+          - Use for ALL numerical or computational questions.
+          - Allow ONLY ONE correct answer.
           - No alternative wording or representation is acceptable.
 
         • Format:
@@ -2855,13 +2970,39 @@ FIB_pdf: |
           TEXT3: 14
 
         ────────────────────────────────────────
+        2. PROBABLE-ANSWER FIB (TEXT ENTRY)
+        ────────────────────────────────────────
+
+        • Use when:
+          - The correct answer can be written in multiple valid ways.
+          - Use when the SAME correct answer can be written in MULTIPLE valid ways
+            (word form, number form, equivalent expressions, accepted terminology).
+
+        • Format:
+          - Use placeholders: |TEXT 1|, |TEXT 2|, etc.
+          - Do NOT provide options inside the question.
+          - Student response is free text.
+
+        • Answer Key Rules:
+          - All acceptable answers must be listed.
+          - Separate probable answers using a semicolon (;).
+          - Do NOT include unnecessary variations.
+          - Only mathematically and linguistically valid equivalents are allowed.
+
+        • Example (validated):
+          |TEXT 1| → single; one; 1
+
+        • Important:
+          - The blank must NOT reduce to a single forced representation.
+          - If only one exact response is possible, this is NOT a probable-answer FIB.
+        ────────────────────────────────────────
         3. DROP-DOWN FIB (CONTROLLED SELECTION)
         ────────────────────────────────────────
 
         • Use when:
-          - The answer must be selected from a fixed, known set.
-          - Distractors are conceptually meaningful.
-          - Precision or classification is being tested.
+          - Use when there are TOO MANY probable answers to manage fairly in free-text entry.
+          - Provide a fixed option set with EXACTLY ONE correct answer.
+          
 
         • Format:
           - Use placeholder: [DROP]
@@ -2869,6 +3010,7 @@ FIB_pdf: |
           - Each [DROP] has its own option set.
 
         • Rules:
+          - Other options must be close and plausible so the student must think carefully.
           - Options must be mutually exclusive.
           - Exactly one option must be correct.
           - Avoid trivial elimination.
@@ -2877,7 +3019,76 @@ FIB_pdf: |
           [DROP] → (Red, Green, Black, Blue)
   ** Based on the topic, grade level, and concepts being assessed, you may choose the most appropriate Fill in the Blanks type (unique-answer, probable-answer, or drop-down); a single topic may include a mix of all three types, and where visual understanding is required, you may include a diagram prompt describing the image to be shown (for visualization purposes only), ensuring the diagram contains only essential visual information and does not include labels, values, or clues that directly reveal the answer.
 
-  4. Diagram Prompt (for visualization purposes only) 
+
+    EXAMPLE 1: UNIQUE ANSWER (Numerical – only one correct answer)
+
+      Question:
+      Find the value of x if:
+      5x − 15 = 0  
+      x = |TEXT1|
+
+      Answer:
+      TEXT1: 3
+
+      Solution Explanation:
+      5x − 15 = 0  
+      ⇒ 5x = 15  
+      ⇒ x = 3  
+      Since this is a numerical equation, there is only one correct value of x.
+
+
+      ------------------------------------------------------------
+
+      EXAMPLE 2: PROBABLE / MULTIPLE ANSWERS (Descriptive – more than one valid form)
+
+        Question:
+        Write the number name of 12.
+        |TEXT1|
+
+        Answers:
+        TEXT1: twelve; Twelve
+
+        Solution Explanation:
+        The question checks the understanding of number names.
+        Both "twelve" and "Twelve" represent the same correct answer.
+        Hence, multiple acceptable answers are allowed.
+
+
+      ------------------------------------------------------------
+
+      EXAMPLE 3: DROPDOWN QUESTION (Selection from given options)
+
+        Question:
+        A right angle measures [DROP] degrees.
+
+        Drop-down Options:
+        [DROP] → (45, 90, 180, 360)
+
+        Answer:
+        [DROP]: 90
+
+        Solution Explanation:
+        By definition, a right angle measures exactly 90 degrees.
+        The correct option must be selected from the given choices.
+  4.  Marks and Blanks Rules:
+
+    - Each blank or dropdown must carry either **0.5 mark or 1 mark only**.
+    - No blank or dropdown can have marks **less than 0.5 or more than 1**, and no other intermediate values are allowed.
+
+    - For a **1-mark question**:
+      - Use **one blank of 1 mark**, OR
+      - Use **two blanks of 0.5 mark each**.
+
+    - For a **2-mark question**:
+      - Use **at least two blanks** (any valid combination of 0.5 or 1 mark each).
+
+    - For a **3-mark question**:
+      - Use **at least three blanks** (any valid combination of 0.5 or 1 mark each).
+
+    - It is allowed to include **multiple blanks and/or dropdowns** as appropriate to the question type, provided the above marking rules are satisfied.
+
+
+  5. Diagram Prompt (for visualization purposes only) 
     ## DIAGRAM RULES
         - Diagram is optional (unless the topic inherently requires visual representation).
         - If included, give a **diagram prompt** (NOT the actual image).
@@ -3020,10 +3231,10 @@ FIB_pdf: |
     Drop-down Options (if applicable):
     [DROP] → (option 1, option 2, option 3, option 4)
 
-    Answer Key:
-    TEXT 1: …
-    TEXT 2: …
-    [DROP]: …
+    Answer Key (with mark distribution):
+      TEXT 1: mark distribution
+      TEXT 2: mark distribution
+      [DROP]: mark distribution
 
     Solution Explanation:
     <step-by-step reasoning>
