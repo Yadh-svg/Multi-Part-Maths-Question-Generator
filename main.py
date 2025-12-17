@@ -28,28 +28,28 @@ def default_subpart(index):
             "label": "a",
             "DOK": 1,
             "marks": 1,
-            "taxonomy": ["Remembering"]
+            "taxonomy": "Remembering"  # Single taxonomy for subpart
         }
     elif index == 1:  # Part b
         return {
             "label": "b",
             "DOK": 2,
             "marks": 1,
-            "taxonomy": ["Understanding"]
+            "taxonomy": "Understanding"  # Single taxonomy for subpart
         }
     elif index == 2:  # Part c
         return {
             "label": "c",
             "DOK": 3,
             "marks": 2,
-            "taxonomy": ["Analysing", "Evaluating"]
+            "taxonomy": "Analysing"  # Single taxonomy for subpart
         }
     else:  # Additional parts default to DOK 1
         return {
             "label": chr(ord("a") + index),
             "DOK": 1,
             "marks": 1,
-            "taxonomy": ["Remembering"]
+            "taxonomy": "Remembering"  # Single taxonomy for subpart
         }
 
 # ------------------ DEFAULT MCQ QUESTION ------------------
@@ -298,10 +298,11 @@ def assemble_prompt(state):
         # Build subpart specs
         subpart_specs = ""
         for s in state["subparts"]:
-            taxonomy_list = ", ".join(s["taxonomy"]) if s["taxonomy"] else ""
+            # Taxonomy is now a single string for multi-part
+            taxonomy_value = s["taxonomy"] if isinstance(s["taxonomy"], str) else ", ".join(s["taxonomy"])
             subpart_specs += (
                 f"      {s['label']} → DOK {s['DOK']}, "
-                f"Marks: {s['marks']}, Taxonomy: {taxonomy_list}\n"
+                f"Marks: {s['marks']}, Taxonomy: {taxonomy_value}\n"
             )
 
         # Inject using the existing regex
@@ -517,27 +518,31 @@ if st.session_state.Question_Type == "Multi-Part":
         if tax_key not in st.session_state:
             st.session_state[tax_key] = s["taxonomy"]
 
-        s_dok = c1.selectbox(f"DOK_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key)
-        s_marks = c2.number_input(f"marks_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key)
+        s_dok = c1.selectbox(f"DOK_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+        s_marks = c2.number_input(f"marks_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
         # All taxonomies are available for all DOK levels
         all_taxonomies = get_taxonomies_for_dok(s_dok)
         
-        # Get current taxonomy selection, ensure it's valid
-        old_tax = st.session_state.get(tax_key, [])
-        cleaned_tax = [t for t in old_tax if t in all_taxonomies]
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(s_dok)
+        old_tax = st.session_state.get(tax_key, "Remembering")
+        
+        # Ensure old_tax is a valid single taxonomy
+        if isinstance(old_tax, list):
+            # Convert from old multiselect format
+            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
+        elif old_tax not in all_taxonomies:
+            old_tax = "Remembering"
 
-        if not cleaned_tax:
-            cleaned_tax = [all_taxonomies[0]]  # Default to "Remembering"
+        st.session_state[tax_key] = old_tax
 
-        # Update session_state BEFORE rendering widget
-        st.session_state[tax_key] = cleaned_tax
-
-        s_tax = c3.multiselect(
+        s_tax = c3.selectbox(
             f"tax_{i}",
             options=all_taxonomies,
-            default=cleaned_tax,
+            index=all_taxonomies.index(old_tax),
             key=tax_key,
-            help="Select one or more taxonomy levels (independent of DOK level)"
+            help="Select one taxonomy level (independent of DOK level)",
+            label_visibility="collapsed"
         )
 
         # write back to session_state.subparts
