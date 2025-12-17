@@ -35,11 +35,12 @@ multi_part_maths: |
   ## CORE RULES OF MULTI-PART QUESTIONS
     - This is NOT a Case Study.
     - There is NO detailed scenario paragraph.
-    - A **short 1–2 line real-life context** is allowed, but no storytelling.
+    - A **short 1–2 line direct context** is allowed (see Context Rule), but NO storytelling.
+    - **IMPORTANT**: The context must be completely free of "classroom" or "learning" framing (e.g., no "students learning", "teacher asking").
     - Each sub-part must directly test mathematical computation, reasoning, or application.
     - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
     - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
-    - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
+    - **Final Answer Rule**: The expected answer for each sub-part must be a **single word, phrase, or number**. Do NOT use full sentences for the final answer (eg:  dont use definition of a theorem or a formula).
     - Each subtopic must produce one complete question.
     - Its an NCERT syllabus based question and solution.
 
@@ -232,17 +233,23 @@ multi_part_maths: |
   - DOK level controls only the difficulty and reasoning depth of the sub-part, NOT the taxonomy category.
   =====================================================================================
 
-  ## CONTEXT RULE (SHORT, OPTIONALLY REAL-LIFE)
-    - A small 1–2 line context MAY be used to introduce the situation.
+  ## CONTEXT RULE (DIRECT & CONCISE)
+    - A small 1–2 line direct context MAY be used to introduce the object or situation.
+    - **STRICTLY FORBIDDEN**: Classroom scenarios, student/teacher interactions, or "observer" narratives.
+      - ❌ "A student is learning about triangles..."
+      - ❌ "The teacher drew a shape..."
+      - Avoid classroom scenario or student/teacher interactions
+    - **REQUIRED**: Start directly with the object, shape, or data.
+      - ✅ "A triangle has sides..."
+      - ✅ "A rectangular park has dimensions..."
     - Must NOT become a scenario or a narrative.
     - Must NOT contain unnecessary storytelling.
-    - Must NOT resemble Case-Study style writing.
     - Must be clear, simple, and tied directly to the Topic.
 
-    Examples of valid short contexts:
+    Examples of valid direct contexts:
       - "A container shown below has two sections of different capacities."
       - "A shopkeeper arranges items into identical bundles."
-      - "A student records the scores of several tests in a table."
+      - "Scores of several tests are recorded in a table."
 
   =====================================================================================
   ## DIAGRAM RULES
@@ -488,6 +495,7 @@ multi_part_maths: |
         Since it is a fixed number, **only one correct answer** is valid.
 
     -- In multi-part after the exaplantaion of solution the type of final answer should be decided based on the above rule.
+    -- **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences like "The shape is called a square." -> Write "Square".
 
   ## OUTPUT FORMAT (REQUIRED)
   
@@ -497,17 +505,19 @@ multi_part_maths: |
 
   ### 2. **Multi-Part Question**
      - Start with "Question:"
-     - Provide a short 1–2 line context (if relevant).
+     - Provide a short 1–2 line direct context (if relevant).
      - Then present the sub-questions in order (a), (b), (c), etc.
      - After each sub-question, include:
          (Topic: <topic used>, Subtopic used: <subtopic>)
          DOK: <level>, Marks: <marks>, Taxonomy: <labels>
+         Probable Answer: <List the acceptable short answers here, e.g., "3; Three">.
 
   ### 3. **Diagram Prompt (Optional)**  
      Only if needed based on the Topic.
 
   ### 4. **Answer Key**
-     - Step-by-step solutions.
+     - Step-by-step solutions for each sub-part.
+     - **Probable Answer**: <List the acceptable short answers here, e.g., "3; Three">.
      - Marks split (e.g., 0.5 + 0.5).
      - For DOK 3 sub-parts:
          Include one line:
@@ -616,11 +626,12 @@ multi_part_maths_pdf: |
     ## CORE RULES OF MULTI-PART QUESTIONS
       - This is NOT a Case Study.
       - There is NO detailed scenario paragraph.
-      - A **short 1–2 line real-life context** is allowed, but no storytelling.
+      - A **short 1–2 line direct context** is allowed (see Context Rule), but NO storytelling.
+      - **IMPORTANT**: The context must be completely free of "classroom" or "learning" framing (e.g., no "students learning", "teacher asking").
       - Each sub-part must directly test mathematical computation, reasoning, or application.
       - The question must NOT require outside information; everything must be solvable using the given prompt and diagram.
       - Every question should contain {{Number_of_subparts}} connected sub-parts, all from the same subtopic.
-      - Answers must be strictly numerical or a single fixed word or phrase, with only one unambiguous correct format.
+      - **Final Answer Rule**: The expected answer for each sub-part must be a **single word, phrase, or number**. Do NOT use full sentences for the final answer.
       - Each subtopic must produce one complete question.
       - Its an NCERT syllabus based question and solution.
 
@@ -814,17 +825,24 @@ multi_part_maths_pdf: |
     - DOK level controls only the difficulty and reasoning depth of the sub-part, NOT the taxonomy category.
     =====================================================================================
 
-    ## CONTEXT RULE (SHORT, OPTIONALLY REAL-LIFE)
-      - A small 1–2 line context MAY be used to introduce the situation.
+    ## CONTEXT RULE (DIRECT & CONCISE)
+      - A small 1–2 line direct context MAY be used to introduce the object or situation.
+      - **STRICTLY FORBIDDEN**: Classroom scenarios, student/teacher interactions, or "observer" narratives.
+        - ❌ "A student is learning about triangles..."
+        - ❌ "The teacher drew a shape..."
+        - Avoid classroom scenario or student/teacher interactions
+      - **REQUIRED**: Start directly with the object, shape, or data.
+        - ✅ "A triangle has sides..."
+        - ✅ "A rectangular park has dimensions..."
       - Must NOT become a scenario or a narrative.
       - Must NOT contain unnecessary storytelling.
       - Must NOT resemble Case-Study style writing.
       - Must be clear, simple, and tied directly to the Topic.
 
-      Examples of valid short contexts:
+      Examples of valid direct contexts:
         - "A container shown below has two sections of different capacities."
         - "A shopkeeper arranges items into identical bundles."
-        - "A student records the scores of several tests in a table."
+        - "Scores of several tests are recorded in a table."
 
     =====================================================================================
     ## DIAGRAM RULES
@@ -1070,6 +1088,7 @@ multi_part_maths_pdf: |
         Since it is a fixed number, **only one correct answer** is valid.
 
     -- In multi-part after the exaplantaion of solution the type of final answer should be decided based on the above rule.
+    -- **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences like "The shape is called a square." -> Write "Square".
 
     ## OUTPUT FORMAT (REQUIRED)
     
@@ -1079,7 +1098,7 @@ multi_part_maths_pdf: |
 
     ### 2. **Multi-Part Question**
       - Start with "Question:"
-      - Provide a short 1–2 line context (if relevant).
+      - Provide a short 1–2 line direct context (if relevant).
       - Then present the sub-questions in order (a), (b), (c), etc.
       - After each sub-question, include:
           (Topic: <topic used>, Subtopic used: <subtopic>)
@@ -1089,7 +1108,8 @@ multi_part_maths_pdf: |
       Only if needed based on the Topic.
 
     ### 4. **Answer Key**
-      - Step-by-step solutions.
+      - Step-by-step solutions for each sub-part.
+      - **Probable Answer**: <List the acceptable short answers here, e.g., "3; Three">.
       - Marks split (e.g., 0.5 + 0.5).
       - For DOK 3 sub-parts:
           Include one line:
