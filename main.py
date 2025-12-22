@@ -70,6 +70,24 @@ def default_fib_question(index):
         "taxonomy": "Remembering"  # Single taxonomy for FIB
     }
 
+# ------------------ DEFAULT DESCRIPTIVE QUESTION ------------------
+def default_descriptive_question(index):
+    """Returns default configuration for a Descriptive question based on index."""
+    return {
+        "DOK": 1,
+        "marks": 1,
+        "taxonomy": "Understanding"  # Single taxonomy for Descriptive
+    }
+
+# ------------------ DEFAULT DESCRIPTIVE WITH SUBQUESTIONS ------------------
+def default_descriptive_subq_question(index):
+    """Returns default configuration for a Descriptive with Subquestions question based on index."""
+    return {
+        "DOK": 1,
+        "marks": 1,
+        "taxonomy": "Understanding"  # Single taxonomy for Descriptive with Subquestions
+    }
+
 # ------------------ INITIALIZE session_state ONCE ------------------
 if "initialized" not in st.session_state:
     st.session_state.initialized = True
@@ -96,6 +114,12 @@ if "initialized" not in st.session_state:
     
     # For FIB questions
     st.session_state.fib_questions = [default_fib_question(i) for i in range(st.session_state.Number_of_questions)]
+
+    # For Descriptive questions
+    st.session_state.descriptive_questions = [default_descriptive_question(i) for i in range(st.session_state.Number_of_questions)]
+
+    # For Descriptive with Subquestions
+    st.session_state.descriptive_subq_questions = [default_descriptive_subq_question(i) for i in range(st.session_state.Number_of_questions)]
 
 # ------------------ SUBPARTS UPDATE CALLBACK ------------------
 def update_subparts():
@@ -190,6 +214,70 @@ def update_fib_questions():
             st.session_state.pop(f"fib_{i}_marks", None)
             st.session_state.pop(f"fib_{i}_tax", None)
 
+# ------------------ DESCRIPTIVE QUESTIONS UPDATE CALLBACK ------------------
+def update_descriptive_questions():
+    """
+    Callback that runs when st.session_state.Number_of_questions changes in Descriptive mode.
+    Resizes st.session_state.descriptive_questions and clears stale widget keys.
+    """
+    try:
+        new_n = int(st.session_state.Number_of_questions)
+    except Exception:
+        return
+
+    if "descriptive_questions" not in st.session_state:
+        st.session_state.descriptive_questions = [default_descriptive_question(i) for i in range(new_n)]
+        return
+
+    old_n = len(st.session_state.descriptive_questions)
+
+    if new_n > old_n:
+        # extend
+        st.session_state.descriptive_questions += [default_descriptive_question(i) for i in range(old_n, new_n)]
+    elif new_n < old_n:
+        # truncate
+        st.session_state.descriptive_questions = st.session_state.descriptive_questions[:new_n]
+
+    # Clear dynamic widget keys for indices >= new_n
+    max_check = max(old_n, new_n) + 3
+    for i in range(max_check):
+        if i >= new_n:
+            st.session_state.pop(f"desc_{i}_dok", None)
+            st.session_state.pop(f"desc_{i}_marks", None)
+            st.session_state.pop(f"desc_{i}_tax", None)
+
+# ------------------ DESCRIPTIVE WITH SUBQUESTIONS UPDATE CALLBACK ------------------
+def update_descriptive_subq_questions():
+    """
+    Callback that runs when st.session_state.Number_of_questions changes in Descriptive w/ Subquestions mode.
+    Resizes st.session_state.descriptive_subq_questions and clears stale widget keys.
+    """
+    try:
+        new_n = int(st.session_state.Number_of_questions)
+    except Exception:
+        return
+
+    if "descriptive_subq_questions" not in st.session_state:
+        st.session_state.descriptive_subq_questions = [default_descriptive_subq_question(i) for i in range(new_n)]
+        return
+
+    old_n = len(st.session_state.descriptive_subq_questions)
+
+    if new_n > old_n:
+        # extend
+        st.session_state.descriptive_subq_questions += [default_descriptive_subq_question(i) for i in range(old_n, new_n)]
+    elif new_n < old_n:
+        # truncate
+        st.session_state.descriptive_subq_questions = st.session_state.descriptive_subq_questions[:new_n]
+
+    # Clear dynamic widget keys for indices >= new_n
+    max_check = max(old_n, new_n) + 3
+    for i in range(max_check):
+        if i >= new_n:
+            st.session_state.pop(f"desc_subq_{i}_dok", None)
+            st.session_state.pop(f"desc_subq_{i}_marks", None)
+            st.session_state.pop(f"desc_subq_{i}_tax", None)
+
 # ------------------ ASSEMBLE PROMPT ------------------
 def assemble_prompt(state):
     """
@@ -247,7 +335,7 @@ def assemble_prompt(state):
                     prompt_template = prompt_template.split("mcq_questions_pdf:")[0].strip()
             else:
                 return "Error: mcq_questions template not found in prompt.yaml"
-    else:
+    elif question_type == "Fill in the Blanks":
         # Fill in the Blanks
         if input_mode == "PDF Upload":
             # FIB + PDF
@@ -268,6 +356,50 @@ def assemble_prompt(state):
                     prompt_template = prompt_template.split("FIB_pdf:")[0].strip()
             else:
                 return "Error: FIB template not found in prompt.yaml"
+    elif question_type == "Descriptive":
+        # Descriptive
+        if input_mode == "PDF Upload":
+            # Descriptive + PDF
+            if "descriptive_pdf:" in content:
+                prompt_template = content.split("descriptive_pdf:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+            else:
+                return "Error: descriptive_pdf template not found in prompt.yaml"
+        else:
+            # Descriptive + Manual
+            if "descriptive:" in content:
+                prompt_template = content.split("descriptive:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+                # Split at next template key if exists
+                if "descriptive_pdf:" in prompt_template:
+                    prompt_template = prompt_template.split("descriptive_pdf:")[0].strip()
+            else:
+                return "Error: descriptive template not found in prompt.yaml"
+    elif question_type == "Descriptive w/ Subquestions":
+        # Descriptive with Subquestions
+        if input_mode == "PDF Upload":
+            # Descriptive w/ Subquestions + PDF
+            if "descriptive_subq_pdf:" in content:
+                prompt_template = content.split("descriptive_subq_pdf:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+            else:
+                return "Error: descriptive_subq_pdf template not found in prompt.yaml"
+        else:
+            # Descriptive w/ Subquestions + Manual
+            if "descriptive_subq:" in content:
+                prompt_template = content.split("descriptive_subq:")[1].strip()
+                if prompt_template.startswith("|"):
+                    prompt_template = prompt_template[1:].strip()
+                # Split at next template key if exists
+                if "descriptive_subq_pdf:" in prompt_template:
+                    prompt_template = prompt_template.split("descriptive_subq_pdf:")[0].strip()
+            else:
+                return "Error: descriptive_subq template not found in prompt.yaml"
+    else:
+        return "Error: Unknown Question_Type"
 
     # Replace common placeholders (work for both Multi-Part and MCQ)
     prompt_text = prompt_template.replace('{{Grade}}', yq(state["Grade"]))
@@ -333,7 +465,7 @@ def assemble_prompt(state):
                 '### Question Requirements',
                 f'### Question Requirements\n\n**Specific requirements for each question:**\n{mcq_specs}\n'
             )
-    else:
+    elif question_type == "Fill in the Blanks":
         # Fill in the Blanks specific: inject question-level DOK, Marks, and Taxonomy
         # For FIB, we build a specification for each question (similar to MCQ)
         fib_specs = ""
@@ -356,6 +488,35 @@ def assemble_prompt(state):
             prompt_text = prompt_text.replace(
                 '### Question Requirements',
                 f'### Question Requirements\n\n**Specific requirements for each question:**\n{fib_specs}\n'
+            )
+
+    elif question_type == "Descriptive":
+        # Descriptive specific: inject question-level DOK, Marks, and Taxonomy
+        desc_specs = ""
+        for idx, q in enumerate(state["descriptive_questions"], 1):
+            taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
+            desc_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
+        
+        # Inject into prompt
+        if "### Question Requirements" in prompt_text:
+             prompt_text = prompt_text.replace(
+                '### Question Requirements',
+                f'### Question Requirements\n\n**Specific requirements for each question:**\n{desc_specs}\n'
+            )
+
+
+    elif question_type == "Descriptive w/ Subquestions":
+        # Descriptive w/ Subquestions specific: inject question-level DOK, Marks, and Taxonomy
+        desc_subq_specs = ""
+        for idx, q in enumerate(state["descriptive_subq_questions"], 1):
+            taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
+            desc_subq_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
+        
+        # Inject into prompt
+        if "### Question Requirements" in prompt_text:
+             prompt_text = prompt_text.replace(
+                '### Question Requirements',
+                f'### Question Requirements\n\n**Specific requirements for each question:**\n{desc_subq_specs}\n'
             )
 
     return prompt_text
@@ -404,8 +565,8 @@ def generate_questions_with_pdf(prompt, pdf_bytes, api_key):
 st.title("Multi-Part Maths Question Generator")
 
 # ---- Question Type Selection (FIRST) ----
-st.radio("Question Type", options=["Multi-Part", "MCQ", "Fill in the Blanks"], key="Question_Type", horizontal=True,
-         help="Multi-Part: Questions with sub-parts (a, b, c). MCQ: Multiple Choice Questions with 4 options. Fill in the Blanks: Questions with blanks to fill in.")
+st.radio("Question Type", options=["Multi-Part", "MCQ", "Fill in the Blanks", "Descriptive", "Descriptive w/ Subquestions"], key="Question_Type", horizontal=True,
+         help="Multi-Part: Questions with sub-parts (a, b, c). MCQ: Multiple Choice Questions. Fill in the Blanks. Descriptive: Open-ended questions. Descriptive w/ Subquestions: Descriptive questions with auto-generated sub-parts (max 3).")
 
 # ---- Input Mode Selection (SECOND) ----
 st.radio("Input Mode", options=["Manual", "PDF Upload"], key="Input_Mode", horizontal=True,
@@ -461,6 +622,14 @@ elif st.session_state.Question_Type == "Fill in the Blanks":
     st.number_input("Number of Questions", min_value=1, max_value=10,
                     value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
                     on_change=update_fib_questions)
+elif st.session_state.Question_Type == "Descriptive":
+    st.number_input("Number of Questions", min_value=1, max_value=10,
+                    value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
+                    on_change=update_descriptive_questions)
+elif st.session_state.Question_Type == "Descriptive w/ Subquestions":
+    st.number_input("Number of Questions", min_value=1, max_value=10,
+                    value=st.session_state.Number_of_questions, step=1, key="Number_of_questions",
+                    on_change=update_descriptive_subq_questions)
 else:
     st.number_input("Number of Questions", min_value=1, max_value=10,
                     value=st.session_state.Number_of_questions, step=1, key="Number_of_questions")
@@ -623,7 +792,7 @@ elif st.session_state.Question_Type == "MCQ":
             "marks": float(q_marks),
             "taxonomy": q_tax
         }
-else:  # Fill in the Blanks
+elif st.session_state.Question_Type == "Fill in the Blanks":
     # FIB mode: show configuration for each question
     st.subheader("Fill in the Blanks Questions Configuration")
     
@@ -695,6 +864,151 @@ else:  # Fill in the Blanks
             "taxonomy": q_tax
         }
 
+elif st.session_state.Question_Type == "Descriptive":
+    # Descriptive mode: show configuration for each question
+    st.subheader("Descriptive Questions Configuration")
+    
+    # Ensure descriptive_questions exists and has correct length
+    if "descriptive_questions" not in st.session_state:
+        st.session_state.descriptive_questions = [default_descriptive_question(i) for i in range(st.session_state.Number_of_questions)]
+    
+    if len(st.session_state.descriptive_questions) < st.session_state.Number_of_questions:
+        old_n = len(st.session_state.descriptive_questions)
+        st.session_state.descriptive_questions += [default_descriptive_question(i) for i in range(old_n, st.session_state.Number_of_questions)]
+    elif len(st.session_state.descriptive_questions) > st.session_state.Number_of_questions:
+        st.session_state.descriptive_questions = st.session_state.descriptive_questions[:st.session_state.Number_of_questions]
+    
+    # Header row
+    cols = st.columns((1, 1, 2, 3))
+    cols[0].markdown("**Question**")
+    cols[1].markdown("**DOK**")
+    cols[2].markdown("**Marks**")
+    cols[3].markdown("**Taxonomy**")
+    
+    # Configuration row for each Descriptive question
+    for i in range(st.session_state.Number_of_questions):
+        q = st.session_state.descriptive_questions[i]
+
+        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+        c0.markdown(f"**Q{i+1}**")
+
+        dok_key = f"desc_{i}_dok"
+        marks_key = f"desc_{i}_marks"
+        tax_key = f"desc_{i}_tax"
+
+        # initialize widget keys if absent
+        if dok_key not in st.session_state:
+            st.session_state[dok_key] = q["DOK"]
+        if marks_key not in st.session_state:
+            st.session_state[marks_key] = float(q["marks"])
+        if tax_key not in st.session_state:
+            st.session_state[tax_key] = q["taxonomy"]
+
+        q_dok = c1.selectbox(f"DOK_desc_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+        q_marks = c2.number_input(f"marks_desc_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+        
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(q_dok)
+        old_tax = st.session_state.get(tax_key, "Understanding")
+        
+        # Ensure old_tax is a valid single taxonomy
+        if isinstance(old_tax, list):
+            # Convert from old multiselect format
+            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Understanding"
+        elif old_tax not in all_taxonomies:
+            old_tax = "Understanding"
+
+        st.session_state[tax_key] = old_tax
+
+        q_tax = c3.selectbox(
+            f"tax_desc_{i}",
+            options=all_taxonomies,
+            index=all_taxonomies.index(old_tax),
+            key=tax_key,
+            help="Select one taxonomy level (independent of DOK level)",
+            label_visibility="collapsed"
+        )
+
+        # write back to session_state.descriptive_questions
+        st.session_state.descriptive_questions[i] = {
+            "DOK": int(q_dok),
+            "marks": float(q_marks),
+            "taxonomy": q_tax
+        }
+
+elif st.session_state.Question_Type == "Descriptive w/ Subquestions":
+    # Descriptive w/ Subquestions mode: show configuration for each question
+    st.subheader("Descriptive w/ Subquestions Configuration")
+    st.info("ℹ️ The system will automatically generate 1-3 sub-parts per question based on complexity and marks. No need to specify the count.")
+    
+    # Ensure descriptive_subq_questions exists and has correct length
+    if "descriptive_subq_questions" not in st.session_state:
+        st.session_state.descriptive_subq_questions = [default_descriptive_subq_question(i) for i in range(st.session_state.Number_of_questions)]
+    
+    if len(st.session_state.descriptive_subq_questions) < st.session_state.Number_of_questions:
+        old_n = len(st.session_state.descriptive_subq_questions)
+        st.session_state.descriptive_subq_questions += [default_descriptive_subq_question(i) for i in range(old_n, st.session_state.Number_of_questions)]
+    elif len(st.session_state.descriptive_subq_questions) > st.session_state.Number_of_questions:
+        st.session_state.descriptive_subq_questions = st.session_state.descriptive_subq_questions[:st.session_state.Number_of_questions]
+    
+    # Header row
+    cols = st.columns((1, 1, 2, 3))
+    cols[0].markdown("**Question**")
+    cols[1].markdown("**DOK**")
+    cols[2].markdown("**Marks**")
+    cols[3].markdown("**Taxonomy**")
+    
+    # Configuration row for each Descriptive w/ Subquestions question
+    for i in range(st.session_state.Number_of_questions):
+        q = st.session_state.descriptive_subq_questions[i]
+
+        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+        c0.markdown(f"**Q{i+1}**")
+
+        dok_key = f"desc_subq_{i}_dok"
+        marks_key = f"desc_subq_{i}_marks"
+        tax_key = f"desc_subq_{i}_tax"
+
+        # initialize widget keys if absent
+        if dok_key not in st.session_state:
+            st.session_state[dok_key] = q["DOK"]
+        if marks_key not in st.session_state:
+            st.session_state[marks_key] = float(q["marks"])
+        if tax_key not in st.session_state:
+            st.session_state[tax_key] = q["taxonomy"]
+
+        q_dok = c1.selectbox(f"DOK_desc_subq_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+        q_marks = c2.number_input(f"marks_desc_subq_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+        
+        # All taxonomies are available for all DOK levels
+        all_taxonomies = get_taxonomies_for_dok(q_dok)
+        old_tax = st.session_state.get(tax_key, "Understanding")
+        
+        # Ensure old_tax is a valid single taxonomy
+        if isinstance(old_tax, list):
+            # Convert from old multiselect format
+            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Understanding"
+        elif old_tax not in all_taxonomies:
+            old_tax = "Understanding"
+
+        st.session_state[tax_key] = old_tax
+
+        q_tax = c3.selectbox(
+            f"tax_desc_subq_{i}",
+            options=all_taxonomies,
+            index=all_taxonomies.index(old_tax),
+            key=tax_key,
+            help="Select one taxonomy level (independent of DOK level)",
+            label_visibility="collapsed"
+        )
+
+        # write back to session_state.descriptive_subq_questions
+        st.session_state.descriptive_subq_questions[i] = {
+            "DOK": int(q_dok),
+            "marks": float(q_marks),
+            "taxonomy": q_tax
+        }
+
 st.markdown("---")
 
 # ---- Gemini API key and Generate button ----
@@ -733,8 +1047,12 @@ if st.button("🚀 Generate questions", use_container_width=True):
         state["subparts"] = st.session_state.subparts.copy()
     elif st.session_state.Question_Type == "MCQ":
         state["mcq_questions"] = st.session_state.mcq_questions.copy()
-    else:  # Fill in the Blanks
+    elif st.session_state.Question_Type == "Fill in the Blanks":
         state["fib_questions"] = st.session_state.fib_questions.copy()
+    elif st.session_state.Question_Type == "Descriptive":
+        state["descriptive_questions"] = st.session_state.descriptive_questions.copy()
+    elif st.session_state.Question_Type == "Descriptive w/ Subquestions":
+        state["descriptive_subq_questions"] = st.session_state.descriptive_subq_questions.copy()
 
     if st.session_state.Input_Mode == "Manual":
         # Manual mode: use text-based prompt

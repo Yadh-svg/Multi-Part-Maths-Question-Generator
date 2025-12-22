@@ -43,6 +43,7 @@ multi_part_maths: |
     - **Final Answer Rule**: The expected answer for each sub-part must be a **single word, phrase, or number**. Do NOT use full sentences for the final answer (eg:  dont use definition of a theorem or a formula).
     - Each subtopic must produce one complete question.
     - Its an NCERT syllabus based question and solution.
+    - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
 
     **Important**
       - All sub-parts must belong to one continuous scenario.
@@ -130,7 +131,7 @@ multi_part_maths: |
     - NO yes/no type questions.
     - Every sub-question must require a **numerical OR algebraic computation** or a reasoning-based result.
   =====================================================================================
-  ## DOK RULES (FULL CASE-STUDY DIFFICULTY APPLIES)
+  ## DOK RULES (FULL DIFFICULTY APPLIES)
     ### DOK 1 
       - Direct identification, calculation, or recall through one clear step.
       - Cannot involve definitions or conceptual explanation.
@@ -199,11 +200,11 @@ multi_part_maths: |
 
     - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
     - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
-    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every case study . 
-    - Ensure each case study or item follows a distinct reasoning path. 
-    - Avoid repeating the same structure or sequence of thinking across items.
+    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every question . 
+    - Ensure each question follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across questions.
         - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
-        - Change the flow of reasoning from one item to another — do not follow a fixed pattern.
+        - Change the flow of reasoning from one question to another — do not follow a fixed pattern.
         - Keep diversity in context, decision type, and problem-solving approach.
   
   =====================================================================================
@@ -634,7 +635,7 @@ multi_part_maths_pdf: |
       - **Final Answer Rule**: The expected answer for each sub-part must be a **single word, phrase, or number**. Do NOT use full sentences for the final answer.
       - Each subtopic must produce one complete question.
       - Its an NCERT syllabus based question and solution.
-
+      - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
       **Important**
         - All sub-parts must belong to one continuous scenario.
         - one subpart should lead to other subparts.
@@ -722,7 +723,7 @@ multi_part_maths_pdf: |
       - Every sub-question must require a **numerical OR algebraic computation** or a reasoning-based result.
   
     =====================================================================================
-    ## DOK RULES (FULL CASE-STUDY DIFFICULTY APPLIES)
+    ## DOK RULES (FULL DIFFICULTY APPLIES)
       ### DOK 1 
         - Direct identification, calculation, or recall through one clear step.
         - Cannot involve definitions or conceptual explanation.
@@ -791,11 +792,11 @@ multi_part_maths_pdf: |
 
       - Focus on mathematical computation in all parts. Avoid questions that are purely explanation-based or theory-based, unless the topic itself is purely theoretical.
       - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as "Use the square-root method appropriate for decimals" or "Apply the division method." or giving away hints to solve the problem even from small grades
-      - Avoid repeating the same arithmetic pattern (e.g., "multiply → divide → compare") in every case study . 
-      - Ensure each case study or item follows a distinct reasoning path. 
-      - Avoid repeating the same structure or sequence of thinking across items.
+      - Avoid repeating the same arithmetic pattern (e.g., "multiply → divide → compare") in every question . 
+      - Ensure each question follows a distinct reasoning path. 
+      - Avoid repeating the same structure or sequence of thinking across questions.
           - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
-          - Change the flow of reasoning from one item to another — do not follow a fixed pattern.
+          - Change the flow of reasoning from one question to another — do not follow a fixed pattern.
           - Keep diversity in context, decision type, and problem-solving approach.
     
     =====================================================================================
@@ -1213,7 +1214,7 @@ mcq_questions: |
   - Do NOT create questions mixing prerequisite topics not listed in {topics}.  
     Key concepts guide background understanding, but topics generate the actual content.
   - Everything including the question as well as the solution should be under the topic and should only use the method which is taught in that topic(For example, students in lower grades use different methods to solve problems than students in higher grades. Their approach depends on the concepts taught at that grade level. So, check the relevant concept to understand the method that students of that grade are expected to use.For making question as well as answers ).
-
+  - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
 
   ---
 
@@ -1730,7 +1731,7 @@ mcq_questions_pdf: |
   - Do NOT create questions mixing prerequisite topics not listed in {topics}.  
     Key concepts guide background understanding, but topics generate the actual content.
   - Everything including the question as well as the solution should be under the topic and should only use the method which is taught in that topic(For example, students in lower grades use different methods to solve problems than students in higher grades. Their approach depends on the concepts taught at that grade level. So, check the relevant concept to understand the method that students of that grade are expected to use.For making question as well as answers ).
-
+  - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
 
   ---
 
@@ -2228,7 +2229,7 @@ FIB: |
     - IMPORTANT → Number of Questions to Generate: {{Number_of_questions}} (Don't generate more than or less than this number of questions)
       (Generate this number of unique Fill in the Blanks questions with different real-life scenarios.)
 
-  
+    - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
   ### Question Requirements
 
     For each question, you must specify:
@@ -2754,7 +2755,7 @@ FIB_pdf: |
     - IMPORTANT → Number of Questions to Generate: {{Number_of_questions}} (Don't generate more than or less than this number of questions)
       (Generate this number of unique Fill in the Blanks questions with different real-life scenarios.)
   - THE QUESTION SHOULD BE STRICTLY FRON THE TOPIC AND SHOULD USE ALL ITS CORRECT SUB TOPIC FOR EACH QUESTIONS 
-
+  - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
   
   ### Question Requirements
 
@@ -3264,3 +3265,1785 @@ FIB_pdf: |
     - Do not include unnecessary variations in probable answers.
     - Ensure every blank tests understanding, not guessing.
     - Output language must be English.
+
+descriptive: |
+  You are a mathematics teacher who creates clear, grade-appropriate descriptive questions and detailed solutions for NCERT GRADE 1-12.
+  use Indian cultural names and contexts.
+  Strictly follow the provided Concepts and Resource Material.
+
+   ## INPUT DETAILS:
+    - Grade: {{Grade}}
+    - Curriculum: {{Curriculam}}
+    - Subject: {{Subject}}
+    - Chapter/Unit: {{Chapter}}
+    - Topic: {{Topic}}
+    - New Concepts: {{New_Concept}}
+    - Old Concepts: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
+    - Number of Questions to Generate: {{Number_of_questions}}
+    - Per Question Requirements:
+      ### Question Requirements
+      (Use DOK, Marks, and Taxonomy from the requirements provided in the prompt logic if specific per-question injection is used, otherwise use general guidelines).
+
+  =====================================================================================
+  ## CORE RULES FOR DESCRIPTIVE QUESTIONS
+    - This is **NOT** a Case Study (CBS) question.
+    - This is a **Descriptive Question** type.
+    - **Question Types**: Generate a mix of both:
+        - **Open-ended/Proof-based**: "Prove that...", "Show that...", "Justify that...", "Demonstrate that..."
+        - **Closed-ended/Computational**: "Find...", "Calculate...", "Determine...", "Compute..." (questions with specific numerical or definite answers)
+    - **Important**: Both types require detailed step-by-step solutions with marks allocated per step.
+    - **No Sub-questions**: Do not split the question into (a), (b), (c). It must be a single, cohesive problem statement.
+    - **Mark Allocation**: The question is typically of higher marks (e.g., 3, 4, or 5 marks) requiring multiple steps to solve.
+    - **Goal**: Enable students to write steps in detail for the answers as per the marks.
+    - **Uniqueness**:
+        - Each generated question must be unique.
+        - If generating multiple questions, vary the context, numbers, and reasoning path.
+        - "Like should be unique".
+    - **Context**: Use Indian cultural names (e.g., Aarav, Diya, Raju, Priya), locations, and currency (₹) where applicable.
+    - **Age Appropriateness**: 
+        - Ensure DOK level and language are suitable for {{Grade}}.
+        - Do not use vocabulary solely to increase difficulty. Difficulty must come from mathematical reasoning.
+    - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
+    =====================================================================================
+  ## DIAGRAM RULES
+    - Diagram is optional (unless the topic inherently requires visual representation).
+    - If included, give a **diagram prompt** (NOT the actual image).
+    - If the topic inherently requires visual representation, then the diagram is mandatory.And the questions in the topic should be image based and everything should be related to the image .
+    
+    ### Diagram Prompt Guidelines:
+    
+    **Purpose**: Create exam-ready visual representations that support the question.
+    
+    **Content Requirements**:
+      - It should describe the scene (NOT just "make 2 shapes with these lengths")
+      - Must be an image suitable for putting in an exam paper
+      - Should contain the scene with marking of values if needed
+      - Create a realistic, data-based diagram that directly represents the situation
+      - Visually match the setup (e.g., areas, objects, sections, or people mentioned) using relevant numerical values
+      - Include only essential measurable details — such as quantities, time, cost, length, or rates — with proper units
+      - Keep it simple, consistent, and self-contained
+      - The diagram must reflect the same context as the question but present it through clear numbers or labeled visuals
+    
+    **Format Requirements**:
+      - Do NOT give point-by-point descriptions
+      - Use continuous narrative that properly defines everything
+      - Write as a cohesive description, not a bulleted list
+    
+    ### Numerical Placement Rules:
+      - **Diagram Prompt**: Introduce actual values, quantities, or relationships
+      - **Question**: Use those numbers for reasoning, comparison, and problem-solving
+    
+    ### No-Repetition Rule:
+      - Details or data mentioned in the context must NOT be repeated in the diagram
+      - Details or data in the diagram must NOT be repeated in the sub-questions
+      - Each section must serve a distinct purpose:
+          • Short Context = Real-life setup and qualitative description
+          • Diagram = Visual/numerical representation of the setup
+          • Question = Logical and mathematical reasoning based on both
+
+    =====================================================================================
+  - Avoid repeating the same problem flow .
+
+      - Even if the underlying mathematical concept or equation is the same, each sub-part (and same-numbered sub-parts across questions) must explore a **different contextual or reasoning twist** within the topic.
+      - Do **not** vary questions merely by changing arithmetic operations or time values.
+      - Instead, vary the **thinking approach, context, or scenario framing** — e.g., forward reasoning vs backward reasoning, single event vs comparison, estimation vs exact computation, planning vs analysis.
+      - Ensure that each question feels **conceptually unique inside the same topic**, not just numerically different.
+      - Look the correct example how its changing the questions even its for a single topic (Do those type of twisiting for the question)
+
+         Here are **10 examples**, all strictly within the **same topic: “nth term of an AP”**, and each one uses a **different reasoning twist** (not number-change only).
+
+            ```
+            Topic: nth term of an Arithmetic Progression (AP)
+
+            Definition:
+            The nth term of an AP is:
+            aₙ = a + (n − 1)d
+
+            ---------------------------------------------------------
+            10 Examples (All about nth term, each with a different twist)
+            ---------------------------------------------------------
+
+            1. Direct Forward Reasoning
+            An AP has first term 4 and common difference 6.
+            Find the 15th term.
+
+            2. Reverse Reasoning (Find n)
+            In an AP, the nth term is 92.
+            If a = 8 and d = 7, find n.
+
+            3. Identify AP From Context, Then Apply nth Term
+            A ladder has rungs increasing in length by 1.5 cm each time.
+            The first rung is 20 cm long.
+            Find the length of the 18th rung.
+
+            4. Using nth Term Difference
+            The difference between the 30th term and 10th term of an AP is 80.
+            If d = 4, find the first term.
+
+            5. Using Two nth Terms to Find d
+            In an AP, the 12th term is 64 and the 27th term is 134.
+            Find the common difference using nth term logic.
+
+            6. Using Two nth Terms to Find a
+            In an AP, the 9th term is 40 and the 19th term is 80.
+            Find the first term.
+
+            7. nth Term With Negative d
+            An AP has a = 50 and d = -3.
+            Find the 22nd term.
+
+            8. nth Term Hidden in a Story
+            A movie hall increases the number of seats in each row by 4.
+            The first row has 30 seats.
+            How many seats are in the 40th row?
+
+            9. nth Term and Condition Check
+            In an AP, the 25th term is twice the 10th term.
+            If d = 5, find the first term.
+
+            10. nth Term Equality Condition
+            Find n for which the nth term of an AP becomes zero,
+            given that a = 18 and d = -2.
+
+            ---------------------------------------------------------
+            All 10 examples stay within the SAME topic (nth term of AP)
+            but each uses a different reasoning twist.
+            ```
+
+
+      Additional Rule — Formula and Concept Variation Across Items:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
+        - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
+
+ 
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+          ✔ Changing only numbers or story context is treated as a **duplicate** question.
+
+      - When generating the question:
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
+          • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
+
+      - The Answer Key must clearly indicate the formula path used:
+          “Formula-usage mode: Reverse inference using nth-term relation”
+          or
+          “Formula-usage mode: Relational difference between non-adjacent terms”
+
+
+    - * These strengths should be maintained across **all chapters and topics**, even if **only a single topic** is specified.
+    - **Never ask Yes/No feasibility** (e.g., “Can he reach on time?”). Always ask for a **computed value** (time, duration, difference).
+      Each question = **one Topic + one Subtopic** only.
+
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - Use the supplied **Grade** and **Concepts** to determine the appropriate cognitive depth and difficulty for each part.
+    - The question must be **fully solvable** using the given concepts and methods.
+    - Do NOT generate questions that are only numerical variations of a previous question.
+  ## Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+  ## Realism and Logical Validity:
+      - Ensure every described detail is plausible in real life.
+      - Avoid illogical or exaggerated data (e.g., “a 1.2 m hallway” or “a 10 kg paper sheet”).
+      - Keep the scenario mathematically sound and error-free.
+      - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
+
+
+
+
+   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
+      IMPORTANT **Use ONLY the subtopics that belong to the "Topic" string.**
+      - Ignore all unrelated details.
+      - The provided Concepts/Topic contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+      - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
+      - If no matching subtopics exist, treat the Topic name itself as the only concept.
+      - Do NOT invent new subtopics.
+      - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
+
+  # TEXTBOOK CONTENT HANDLING (CRITICAL)
+    - **Do NOT treat the textbook/concept excerpts as reading passages in questions**
+    - **Do NOT reference the textbook/concept material as a passage**
+    - Questions must be self-contained and NEVER reference the source material directly
+    
+    **FORBIDDEN question patterns:**
+    - ❌ "According to the textbook..."
+    - ❌ "According to the definition provided in the chapter..."
+    - ❌ "The story on page 13 mentions..."
+    - ❌ "The definition on page X specifically states..."
+    - ❌ "Based on the passage/story/definition provided..."
+    - ❌ "As described in the concept/chapter..."
+    
+    **Correct approach:**
+    - ✅ Extract the mathematical concept and create an independent question
+    - ✅ Questions should stand alone without referencing the source
+    - ✅ Use the concepts to generate original problem scenarios
+    - ✅ Never make students refer back to textbook pages or definitions
+    
+    - Do NOT convert textbook/concept text into long descriptive paragraphs in your questions.
+    - Use only the necessary elements from the content to construct the question.
+    - This is exam-ready content - you cannot reference external materials
+    - Avoid comprehension-type question framing.
+    - Even when content is limited to a single topic, you MUST generate variety through:
+        • different numerical setups
+        • different problem contexts
+        • different reasoning approaches
+        • different applications of the same concept
+    - Questions should test mathematical understanding, not reading comprehension of textbook material.
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - The solution must be grade level appropriate.
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - **Do not** use or refer to physics, chemistry, biology, or other science formulas (e.g., density, force, pressure, velocity).
+    - All questions must be completely based on the scenario only(Dont give question outside the scenario), not on outside knowledge or assumptions. 
+       Eg : 
+        “In the scenario and the diagram, the value **0.1 cm** is never mentioned.
+        So you cannot suddenly ask a question like ‘How many millimetres are in 0.1 cm?’ when that number does not appear anywhere in the given information.”
+  ====================================================================================
+  ## DOK RULES (FULL DIFFICULTY APPLIES)
+    ### DOK 1 
+      - Direct identification, calculation, or recall through one clear step.
+      - Cannot involve definitions or conceptual explanation.
+      - Focus/Skill Area: Recall, Identify, Order, Compute
+      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+    
+    ### DOK 2 
+      - Multi-step reasoning.
+      - Must require at least two linked operations or inferences.
+      - Cannot be solved by a single substitution or single formula.
+      - Focus/Skill Area: Formulating, Implementing, Representing
+      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+    
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
+
+          A DOK 3 question must:
+
+          ✔ Involve a goal with conditions or limitations 
+            – e.g., exact value, minimum cost, limited resources, maximum number, least wastage, time limits, efficiency.
+
+          ✔ Require multiple reasoning steps and decision-making:
+            – students must choose a strategy (not directly given),
+            – may involve testing combinations, planning step-by-step, or optimizing.
+
+          ✔ Be solvable using only information allowed by the scenario (no outside knowledge), 
+            but may introduce **realistic additional constraints** that make the problem harder.
+
+          ✔ Lead to one or more mathematically correct solutions using logic, not opinion or descriptive justification.
+
+          ✔ Not end after a simple calculation. The student should:
+            - interpret data → plan → apply constraints → compute → check feasibility.
+
+          ⚠ A DOK 3 question does **not have to ask “Which is better and why?”.** 
+          It can be purely computational but complex, like:
+            “What is the maximum number of large tents that can be built given fabric limits, cost constraints, and minimum safety distance rules?”
+
+          ✔ Final answers can be numbers, a plan, or a combination (e.g., number of packs + total time).
+
+          Answer Key Requirement:
+            Logical-operation sequence (DOK 3): [Interpret constraints → Form equations/plans → Test or optimize → Final answer].
+                  
+          The student must make a justified judgement, not just compute.
+
+          - **High Cognitive Demand**
+            - Should be challenging even for top students (Olympiad/NTSE-level within that grade).
+            - Cannot be solved through memorized formulas or direct substitution.
+            - Requires original thought, clear reasoning, and logical explanation.
+
+        ** For chapters like PARALLEL AND INTERSECTING LINES etc .. you need to think properly before makeing DOK 3 questions (it should be proper DOK 3 HARDNESS)
+      ⚠ Important — To qualify as DOK 3:
+        - The question must not be solvable through a single arithmetic step, a direct formula, or a standard greedy approach (e.g., “use biggest bottle first”).
+        - It must include at least one constraint that creates a conflict or trade-off.
+          Example: limited resources, minimum waste but maximum profit, fixed time but variable rates, exact target with restricted combinations, etc.
+        - The student must test possible cases or create a plan — not simply substitute numbers.
+        - If the correct answer can be found by doing simple division, subtraction, or filling containers directly, then it is DOK 2, not DOK 3.
+      - You need to recheck the DOK 3, because the DOK 3 you are generating is actually similar to DOK 2 , what ever you are giving double check and increase the diffculty to match with DOK 3 
+
+    ⚠️ Difficulty Directive:
+      - DOK 3 items represent the **highest cognitive challenge** for the given grade level.
+      - They should test whether a student has **mastery-level comprehension and reasoning ability**.
+      - Only a **well-prepared, advanced student** (e.g., an Olympiad or NTSE-level problem solver)
+
+
+    - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every question . 
+    - Ensure each question follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across questions.
+        - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
+        - Change the flow of reasoning from one question to another — do not follow a fixed pattern.
+        - Keep diversity in context, decision type, and problem-solving approach.
+  
+  =====================================================================================
+  ## VARIATION RULES (APPLY ACROSS GENERATED QUESTIONS)
+    - Each question must use a **different reasoning path**.
+    - No two questions may:
+        • use the same formula application pattern  
+        • follow the same operation sequence  
+        • test the same skill in a different disguise  
+    - Even if they use the same Topic, the **method of thinking** must be unique.
+
+  ## SOLUTION FORMAT (CRITICAL)
+    - The solution must be detailed and broken down into **steps**.
+    - **Each step must clearly show:**
+        1. Step number (Step 1, Step 2, Step 3, etc.)
+        2. Step title/description
+        3. **Marks allocated to that specific step** - shown as (Mark: 1) or (1 Mark)
+        4. Detailed explanation and calculation for that step
+    
+    - **Step-wise Marking Rules:**
+        - You MUST assign marks for each individual step
+        - Clearly display the mark allocation in each step heading
+        - The sum of all step marks must equal the total marks for the question
+      marks should be 0.5/1/1.5/2/3 ... 
+    - **Format pattern:**
+        **Step 1: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 3: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+
+    - Backtracking solution in detail: Explanation should be thorough, showing the 'why' and 'how'.
+
+     ## FINAL ANSWER VARIATIONS 
+
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers 
+    for the final answer.
+
+    Condition for supporting single and multiple forms :
+
+      - If the question is **numerical or computational**, allow **only one correct answer**.
+      - If the question is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+
+      **Example 1 - Computational/Closed-ended:**
+      
+      Question: "Find the value of the 10th term in the arithmetic progression 3, 7, 11, 15..."
+      
+      Final Answer: **39**
+      (Only one correct answer - numerical computation)
+
+      **Example 2 - Proof/Open-ended with descriptive elements:**
+      
+      Question: "Prove that the sum of any three consecutive odd numbers is always divisible by 3."
+      
+      Final Answer: **Proved** OR **Hence proved** OR **Therefore, the sum is divisible by 3**
+      (Multiple acceptable forms - all convey the same meaning)
+
+      **Example 3 - Mixed (numerical answer with units):**
+      
+      Question: "A rectangular park has length 50 m and breadth 30 m. Find the area of the park."
+      
+      Final Answer: **1500 m²** OR **1500 sq m** OR **1500 square metres**
+      (Multiple acceptable forms - different representations of the same answer)
+
+    -- In descriptive questions after the exaplantaion of solution the type of final answer should be decided based on the above rule.
+    -- **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences like "The shape is called a square." -> Write "Square".
+    -- PROBABLE ANSWERS EXAMPLE :
+        1/2 ; 0.5 ; 0.50
+        
+    
+
+  =====================================================================================
+  ## OUTPUT FORMAT
+  
+  Generate exactly {{Number_of_questions}} questions. For each question, output:
+
+  ### Question [N]
+  (Requirements: DOK [Level], Marks [Total], Taxonomy [Taxonomy] - as configured)
+
+  **Question**: [The full question text]
+  **Diagram Prompt**: [Description of the diagram]
+
+  **Solution**:
+  **Step 1: [Step Name] ([Mark split])**
+  [Content]
+
+  **Step 2: [Step Name] ([Mark split])**
+  [Content]
+  
+  ...
+
+  **Final Answer**: [Concise final answer]
+  -------------------------------------------------------------------------------------
+
+
+descriptive_pdf: |
+  You are a mathematics teacher who creates clear, grade-appropriate descriptive questions and detailed solutions for NCERT GRADE 1-12.
+  use Indian cultural names and contexts.
+  Strictly follow the provided Concepts and Resource Material.
+
+   ## INPUT DETAILS:
+    - Grade: {{Grade}}
+    - Curriculum: {{Curriculam}}
+    - Subject: {{Subject}}
+    - Chapter/Unit: {{Chapter}}
+    - Topic: {{Topic}}
+    - New Concept: (Refer to the provided PDF content)
+    - Old Concept: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
+    - Number of Questions to Generate: {{Number_of_questions}}
+    - Per Question Requirements:
+      ### Question Requirements
+      (Use DOK, Marks, and Taxonomy from the requirements provided in the prompt logic if specific per-question injection is used, otherwise use general guidelines).
+
+  =====================================================================================
+  ## CORE RULES FOR DESCRIPTIVE QUESTIONS
+    - This is **NOT** a Case Study (CBS) question.
+    - This is a **Descriptive Question** type.
+    - **Question Types**: Generate a mix of both:
+        - **Open-ended/Proof-based**: "Prove that...", "Show that...", "Justify that...", "Demonstrate that..."
+        - **Closed-ended/Computational**: "Find...", "Calculate...", "Determine...", "Compute..." (questions with specific numerical or definite answers)
+    - **Important**: Both types require detailed step-by-step solutions with marks allocated per step.
+    - **No Sub-questions**: Do not split the question into (a), (b), (c). It must be a single, cohesive problem statement.
+    - **Mark Allocation**: The question is typically of higher marks (e.g., 3, 4, or 5 marks) requiring multiple steps to solve.
+    - **Goal**: Enable students to write steps in detail for the answers as per the marks.
+    - **Use PDF Content**:
+        - Use the mathematical concepts (New Concept) found in the PDF.
+        - **Do NOT** explicitly reference "the PDF" or "the text" or "page number" in the question.
+        - Extract the core math concept and wrap it in a real-world or exam-style scenario.
+    - **Uniqueness**:
+        - Each generated question must be unique.
+        - If generating multiple questions, vary the context, numbers, and reasoning path.
+        - "Like should be unique".
+    - **Context**: Use Indian cultural names (e.g., Aarav, Diya, Raju, Priya), locations, and currency (₹) where applicable.
+    - **Age Appropriateness**: 
+        - Ensure DOK level and language are suitable for {{Grade}}.
+        - Do not use vocabulary solely to increase difficulty. Difficulty must come from mathematical reasoning.
+    - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
+  =====================================================================================
+  ## DIAGRAM RULES
+    - Diagram is optional (unless the topic inherently requires visual representation).
+    - If included, give a **diagram prompt** (NOT the actual image).
+    - If the topic inherently requires visual representation, then the diagram is mandatory.And the questions in the topic should be image based and everything should be related to the image .
+    
+    ### Diagram Prompt Guidelines:
+    
+    **Purpose**: Create exam-ready visual representations that support the question.
+    
+    **Content Requirements**:
+      - It should describe the scene (NOT just "make 2 shapes with these lengths")
+      - Must be an image suitable for putting in an exam paper
+      - Should contain the scene with marking of values if needed
+      - Create a realistic, data-based diagram that directly represents the situation
+      - Visually match the setup (e.g., areas, objects, sections, or people mentioned) using relevant numerical values
+      - Include only essential measurable details — such as quantities, time, cost, length, or rates — with proper units
+      - Keep it simple, consistent, and self-contained
+      - The diagram must reflect the same context as the question but present it through clear numbers or labeled visuals
+    
+    **Format Requirements**:
+      - Do NOT give point-by-point descriptions
+      - Use continuous narrative that properly defines everything
+      - Write as a cohesive description, not a bulleted list
+    
+    ### Numerical Placement Rules:
+      - **Diagram Prompt**: Introduce actual values, quantities, or relationships
+      - **Question**: Use those numbers for reasoning, comparison, and problem-solving
+    
+    ### No-Repetition Rule:
+      - Details or data mentioned in the context must NOT be repeated in the diagram
+      - Details or data in the diagram must NOT be repeated in the sub-questions
+      - Each section must serve a distinct purpose:
+          • Short Context = Real-life setup and qualitative description
+          • Diagram = Visual/numerical representation of the setup
+          • Question = Logical and mathematical reasoning based on both
+
+    =====================================================================================
+  - Avoid repeating the same problem flow .
+
+      - Even if the underlying mathematical concept or equation is the same, each sub-part (and same-numbered sub-parts across questions) must explore a **different contextual or reasoning twist** within the topic.
+      - Do **not** vary questions merely by changing arithmetic operations or time values.
+      - Instead, vary the **thinking approach, context, or scenario framing** — e.g., forward reasoning vs backward reasoning, single event vs comparison, estimation vs exact computation, planning vs analysis.
+      - Ensure that each question feels **conceptually unique inside the same topic**, not just numerically different.
+      - Look the correct example how its changing the questions even its for a single topic (Do those type of twisiting for the question)
+
+         Here are **10 examples**, all strictly within the **same topic: “nth term of an AP”**, and each one uses a **different reasoning twist** (not number-change only).
+
+            ```
+            Topic: nth term of an Arithmetic Progression (AP)
+
+            Definition:
+            The nth term of an AP is:
+            aₙ = a + (n − 1)d
+
+            ---------------------------------------------------------
+            10 Examples (All about nth term, each with a different twist)
+            ---------------------------------------------------------
+
+            1. Direct Forward Reasoning
+            An AP has first term 4 and common difference 6.
+            Find the 15th term.
+
+            2. Reverse Reasoning (Find n)
+            In an AP, the nth term is 92.
+            If a = 8 and d = 7, find n.
+
+            3. Identify AP From Context, Then Apply nth Term
+            A ladder has rungs increasing in length by 1.5 cm each time.
+            The first rung is 20 cm long.
+            Find the length of the 18th rung.
+
+            4. Using nth Term Difference
+            The difference between the 30th term and 10th term of an AP is 80.
+            If d = 4, find the first term.
+
+            5. Using Two nth Terms to Find d
+            In an AP, the 12th term is 64 and the 27th term is 134.
+            Find the common difference using nth term logic.
+
+            6. Using Two nth Terms to Find a
+            In an AP, the 9th term is 40 and the 19th term is 80.
+            Find the first term.
+
+            7. nth Term With Negative d
+            An AP has a = 50 and d = -3.
+            Find the 22nd term.
+
+            8. nth Term Hidden in a Story
+            A movie hall increases the number of seats in each row by 4.
+            The first row has 30 seats.
+            How many seats are in the 40th row?
+
+            9. nth Term and Condition Check
+            In an AP, the 25th term is twice the 10th term.
+            If d = 5, find the first term.
+
+            10. nth Term Equality Condition
+            Find n for which the nth term of an AP becomes zero,
+            given that a = 18 and d = -2.
+
+            ---------------------------------------------------------
+            All 10 examples stay within the SAME topic (nth term of AP)
+            but each uses a different reasoning twist.
+            ```
+
+
+      Additional Rule — Formula and Concept Variation Across Items:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
+        - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
+
+ 
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+          ✔ Changing only numbers or story context is treated as a **duplicate** question.
+
+      - When generating the question:
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
+          • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
+
+      - The Answer Key must clearly indicate the formula path used:
+          “Formula-usage mode: Reverse inference using nth-term relation”
+          or
+          “Formula-usage mode: Relational difference between non-adjacent terms”
+
+
+    - * These strengths should be maintained across **all chapters and topics**, even if **only a single topic** is specified.
+    - **Never ask Yes/No feasibility** (e.g., “Can he reach on time?”). Always ask for a **computed value** (time, duration, difference).
+      Each question = **one Topic + one Subtopic** only.
+
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - Use the supplied **Grade** and **Concepts** to determine the appropriate cognitive depth and difficulty for each part.
+    - The question must be **fully solvable** using the given concepts and methods.
+    - Do NOT generate questions that are only numerical variations of a previous question.
+  ## Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+  ## Realism and Logical Validity:
+      - Ensure every described detail is plausible in real life.
+      - Avoid illogical or exaggerated data (e.g., “a 1.2 m hallway” or “a 10 kg paper sheet”).
+      - Keep the scenario mathematically sound and error-free.
+      - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
+
+
+
+
+   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
+      IMPORTANT **Use ONLY the subtopics that belong to the "Topic" string.**
+      - Ignore all unrelated details.
+      - The provided Concepts/Topic contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+      - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
+      - If no matching subtopics exist, treat the Topic name itself as the only concept.
+      - Do NOT invent new subtopics.
+      - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
+
+  # TEXTBOOK CONTENT HANDLING (CRITICAL)
+    - **Do NOT treat the textbook/concept excerpts as reading passages in questions**
+    - **Do NOT reference the textbook/concept material as a passage**
+    - Questions must be self-contained and NEVER reference the source material directly
+    
+    **FORBIDDEN question patterns:**
+    - ❌ "According to the textbook..."
+    - ❌ "According to the definition provided in the chapter..."
+    - ❌ "The story on page 13 mentions..."
+    - ❌ "The definition on page X specifically states..."
+    - ❌ "Based on the passage/story/definition provided..."
+    - ❌ "As described in the concept/chapter..."
+    
+    **Correct approach:**
+    - ✅ Extract the mathematical concept and create an independent question
+    - ✅ Questions should stand alone without referencing the source
+    - ✅ Use the concepts to generate original problem scenarios
+    - ✅ Never make students refer back to textbook pages or definitions
+    
+    - Do NOT convert textbook/concept text into long descriptive paragraphs in your questions.
+    - Use only the necessary elements from the content to construct the question.
+    - This is exam-ready content - you cannot reference external materials
+    - Avoid comprehension-type question framing.
+    - Even when content is limited to a single topic, you MUST generate variety through:
+        • different numerical setups
+        • different problem contexts
+        • different reasoning approaches
+        • different applications of the same concept
+    - Questions should test mathematical understanding, not reading comprehension of textbook material.
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - The solution must be grade level appropriate.
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - **Do not** use or refer to physics, chemistry, biology, or other science formulas (e.g., density, force, pressure, velocity).
+    - All questions must be completely based on the scenario only(Dont give question outside the scenario), not on outside knowledge or assumptions. 
+       Eg : 
+        “In the scenario and the diagram, the value **0.1 cm** is never mentioned.
+        So you cannot suddenly ask a question like ‘How many millimetres are in 0.1 cm?’ when that number does not appear anywhere in the given information.”
+  ====================================================================================
+  ## DOK RULES (FULL DIFFICULTY APPLIES)
+    ### DOK 1 
+      - Direct identification, calculation, or recall through one clear step.
+      - Cannot involve definitions or conceptual explanation.
+      - Focus/Skill Area: Recall, Identify, Order, Compute
+      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+    
+    ### DOK 2 
+      - Multi-step reasoning.
+      - Must require at least two linked operations or inferences.
+      - Cannot be solved by a single substitution or single formula.
+      - Focus/Skill Area: Formulating, Implementing, Representing
+      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+    
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
+
+          A DOK 3 question must:
+
+          ✔ Involve a goal with conditions or limitations 
+            – e.g., exact value, minimum cost, limited resources, maximum number, least wastage, time limits, efficiency.
+
+          ✔ Require multiple reasoning steps and decision-making:
+            – students must choose a strategy (not directly given),
+            – may involve testing combinations, planning step-by-step, or optimizing.
+
+          ✔ Be solvable using only information allowed by the scenario (no outside knowledge), 
+            but may introduce **realistic additional constraints** that make the problem harder.
+
+          ✔ Lead to one or more mathematically correct solutions using logic, not opinion or descriptive justification.
+
+          ✔ Not end after a simple calculation. The student should:
+            - interpret data → plan → apply constraints → compute → check feasibility.
+
+          ⚠ A DOK 3 question does **not have to ask “Which is better and why?”.** 
+          It can be purely computational but complex, like:
+            “What is the maximum number of large tents that can be built given fabric limits, cost constraints, and minimum safety distance rules?”
+
+          ✔ Final answers can be numbers, a plan, or a combination (e.g., number of packs + total time).
+
+          Answer Key Requirement:
+            Logical-operation sequence (DOK 3): [Interpret constraints → Form equations/plans → Test or optimize → Final answer].
+                  
+          The student must make a justified judgement, not just compute.
+
+          - **High Cognitive Demand**
+            - Should be challenging even for top students (Olympiad/NTSE-level within that grade).
+            - Cannot be solved through memorized formulas or direct substitution.
+            - Requires original thought, clear reasoning, and logical explanation.
+
+        ** For chapters like PARALLEL AND INTERSECTING LINES etc .. you need to think properly before makeing DOK 3 questions (it should be proper DOK 3 HARDNESS)
+      ⚠ Important — To qualify as DOK 3:
+        - The question must not be solvable through a single arithmetic step, a direct formula, or a standard greedy approach (e.g., “use biggest bottle first”).
+        - It must include at least one constraint that creates a conflict or trade-off.
+          Example: limited resources, minimum waste but maximum profit, fixed time but variable rates, exact target with restricted combinations, etc.
+        - The student must test possible cases or create a plan — not simply substitute numbers.
+        - If the correct answer can be found by doing simple division, subtraction, or filling containers directly, then it is DOK 2, not DOK 3.
+      - You need to recheck the DOK 3, because the DOK 3 you are generating is actually similar to DOK 2 , what ever you are giving double check and increase the diffculty to match with DOK 3 
+
+    ⚠️ Difficulty Directive:
+      - DOK 3 items represent the **highest cognitive challenge** for the given grade level.
+      - They should test whether a student has **mastery-level comprehension and reasoning ability**.
+      - Only a **well-prepared, advanced student** (e.g., an Olympiad or NTSE-level problem solver)
+
+
+    - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every question . 
+    - Ensure each question follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across questions.
+        - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
+        - Change the flow of reasoning from one question to another — do not follow a fixed pattern.
+        - Keep diversity in context, decision type, and problem-solving approach.
+  
+  =====================================================================================
+  ## VARIATION RULES (APPLY ACROSS GENERATED QUESTIONS)
+    - Each question must use a **different reasoning path**.
+    - No two questions may:
+        • use the same formula application pattern  
+        • follow the same operation sequence  
+        • test the same skill in a different disguise  
+    - Even if they use the same Topic, the **method of thinking** must be unique.
+
+  ## SOLUTION FORMAT (CRITICAL)
+    - The solution must be detailed and broken down into **steps**.
+    - **Each step must clearly show:**
+        1. Step number (Step 1, Step 2, Step 3, etc.)
+        2. Step title/description
+        3. **Marks allocated to that specific step** - shown as (Mark: 1) or (1 Mark)
+        4. Detailed explanation and calculation for that step
+    
+    - **Step-wise Marking Rules:**
+        - You MUST assign marks for each individual step
+        - Clearly display the mark allocation in each step heading
+        - The sum of all step marks must equal the total marks for the question
+        - marks should be 0.5/1/1.5/2/3 ... 
+    - **Format pattern:**
+        **Step 1: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 3: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+
+    - Backtracking solution in detail: Explanation should be thorough, showing the 'why' and 'how'.
+
+     ## FINAL ANSWER VARIATIONS 
+
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers 
+    for the final answer.
+
+    Condition for supporting single and multiple forms :
+
+      - If the question is **numerical or computational**, allow **only one correct answer**.
+      - If the question is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+
+      **Example 1 - Computational/Closed-ended:**
+      
+      Question: "Find the value of the 10th term in the arithmetic progression 3, 7, 11, 15..."
+      
+      Final Answer: **39**
+      (Only one correct answer - numerical computation)
+
+      **Example 2 - Proof/Open-ended with descriptive elements:**
+      
+      Question: "Prove that the sum of any three consecutive odd numbers is always divisible by 3."
+      
+      Final Answer: **Proved** OR **Hence proved** OR **Therefore, the sum is divisible by 3**
+      (Multiple acceptable forms - all convey the same meaning)
+
+      **Example 3 - Mixed (numerical answer with units):**
+      
+      Question: "A rectangular park has length 50 m and breadth 30 m. Find the area of the park."
+      
+      Final Answer: **1500 m²** OR **1500 sq m** OR **1500 square metres**
+      (Multiple acceptable forms - different representations of the same answer)
+
+    -- In descriptive questions after the exaplantaion of solution the type of final answer should be decided based on the above rule.
+    -- **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences like "The shape is called a square." -> Write "Square".
+
+
+  =====================================================================================
+  ## OUTPUT FORMAT
+  
+  Generate exactly {{Number_of_questions}} questions. For each question, output:
+
+  ### Question [N]
+  (Requirements: DOK [Level], Marks [Total], Taxonomy [Taxonomy] - as configured)
+
+  
+  
+  **Question**: [The full question text]
+
+  **Diagram Prompt**: [Description of the diagram]
+
+  **Solution**:
+  **Step 1: [Step Name] ([Mark split])**
+  [Content]
+
+  **Step 2: [Step Name] ([Mark split])**
+  [Content]
+  
+  ...
+
+  **Final Answer**: [Concise final answer]
+
+  -------------------------------------------------------------------------------------
+
+
+descriptive_subq: |
+  You are a mathematics teacher who creates clear, grade-appropriate descriptive questions with sub-parts.
+  use Indian cultural names and contexts.
+  Strictly follow the provided Concepts and Resource Material.
+
+   ## INPUT DETAILS:
+    - Grade: {{Grade}}
+    - Curriculum: {{Curriculam}}
+    - Subject: {{Subject}}
+    - Chapter/Unit: {{Chapter}}
+    - Topic: {{Topic}}
+    - New Concept: {{New_Concept}}
+    - Old Concept: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
+    - Number of Questions to Generate: {{Number_of_questions}}
+    - Per Question Requirements:
+      ### Question Requirements
+      (Use DOK, Marks, and Taxonomy from the requirements provided in the prompt logic if specific per-question injection is used, otherwise use general guidelines).
+
+  =====================================================================================
+  ## CORE RULES FOR DESCRIPTIVE WITH SUBQUESTIONS
+    - This is a **Descriptive Question with Sub-parts** type.
+    - **NOT a Case Study**: There is no detailed scenario paragraph. Keep context minimal and mathematical.
+    
+    - **Automatic Sub-part Generation**:
+        - You MUST automatically determine the number of sub-parts (minimum 1, maximum 3).
+        - User does NOT specify the count - you decide based on:
+            • Complexity of the topic
+            • Natural breakdown of the solution
+            • Total marks allocated (higher marks → more sub-parts likely)
+        - Aim for 2-3 sub-parts for most questions
+        - For questions with 3 marks or less: Consider 2 sub-parts
+        - For questions with 4-5 marks: Consider 2-3 sub-parts  
+        - For questions with 6+ marks: Use 3 sub-parts
+      - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
+    - **Mark Distribution**:
+        - Total marks for the question will be specified
+        - You MUST split these marks intelligently across the sub-parts
+        - Each sub-part should have meaningful marks (minimum 0.5, use increments of 0.5)
+        - The sum of sub-part marks MUST exactly equal the total question marks
+        - Example distributions:
+            • 3 marks total → (a) 1 mark, (b) 1 mark, (c) 1 mark
+            • 4 marks total → (a) 1.5 marks, (b) 1.5 marks, (c) 1 mark
+            • 5 marks total → (a) 1.5 marks, (b) 2 marks, (c) 1.5 marks
+            • 6 marks total → (a) 2 marks, (b) 2 marks, (c) 2 marks
+    
+    - **Single Solution with Distributed Steps**:
+        - Create ONE cohesive solution that flows naturally
+        - The question has a single mathematical context/problem
+        - Steps are logically distributed between sub-parts
+        - Sub-part (a) can have multiple steps
+        - Sub-part (b) can have multiple steps (building on (a))
+        - Sub-part (c) can have multiple steps (building on (a) and (b) if exists)
+        - Each step within a sub-part shows its allocated marks
+        - Sum of all step marks in a sub-part must equal the sub-part's total marks
+    
+    - **Progressive Difficulty**:
+        - Sub-parts should build on each other naturally
+        - Part (a): Foundation/basic step (typically easier)
+        - Part (b): Intermediate/application step  
+        - Part (c): Advanced/conclusion step (if exists)
+    
+    - **Question Structure**:
+        - Single main context/scenario (1-2 lines maximum)
+        - Sub-questions labeled (a), (b), (c) as needed
+        - Each sub-part asks something specific related to the core problem
+        - All sub-parts relate to the same core concept/scenario
+        - No storytelling or lengthy scenarios
+
+    - **Question Types**: Generate a mix of both:
+        - **Closed-ended/Computational**: "Find...", "Calculate...", "Determine...", "Compute..." (questions with specific numerical or definite answers)
+        - **Open-ended/Proof-based**: "Prove that...", "Show that...", "Justify that...", "Demonstrate..." (can be used in appropriate sub-parts)
+    
+    - **Important**: All sub-parts work together to solve one complete problem, with marks split across the solving process.
+    
+    - **Uniqueness**:
+        - Each generated question must be unique.
+        - If generating multiple questions, vary the context, numbers, and reasoning path.
+    
+    - **Context**: Use Indian cultural names (e.g., Aarav, Diya, Raju, Priya), locations, and currency (₹) where applicable.
+    
+    - **Age Appropriateness**: 
+        - Ensure DOK level and language are suitable for {{Grade}}.
+        - Do not use vocabulary solely to increase difficulty. Difficulty must come from mathematical reasoning.
+
+      =====================================================================================
+  ## DIAGRAM RULES
+    - Diagram is optional (unless the topic inherently requires visual representation).
+    - If included, give a **diagram prompt** (NOT the actual image).
+    - If the topic inherently requires visual representation, then the diagram is mandatory.And the questions in the topic should be image based and everything should be related to the image .
+    
+    ### Diagram Prompt Guidelines:
+    
+    **Purpose**: Create exam-ready visual representations that support the question.
+    
+    **Content Requirements**:
+      - It should describe the scene (NOT just "make 2 shapes with these lengths")
+      - Must be an image suitable for putting in an exam paper
+      - Should contain the scene with marking of values if needed
+      - Create a realistic, data-based diagram that directly represents the situation
+      - Visually match the setup (e.g., areas, objects, sections, or people mentioned) using relevant numerical values
+      - Include only essential measurable details — such as quantities, time, cost, length, or rates — with proper units
+      - Keep it simple, consistent, and self-contained
+      - The diagram must reflect the same context as the question but present it through clear numbers or labeled visuals
+    
+    **Format Requirements**:
+      - Do NOT give point-by-point descriptions
+      - Use continuous narrative that properly defines everything
+      - Write as a cohesive description, not a bulleted list
+    
+    ### Numerical Placement Rules:
+      - **Diagram Prompt**: Introduce actual values, quantities, or relationships
+      - **Question**: Use those numbers for reasoning, comparison, and problem-solving
+    
+    ### No-Repetition Rule:
+      - Details or data mentioned in the context must NOT be repeated in the diagram
+      - Details or data in the diagram must NOT be repeated in the sub-questions
+      - Each section must serve a distinct purpose:
+          • Short Context = Real-life setup and qualitative description
+          • Diagram = Visual/numerical representation of the setup
+          • Question = Logical and mathematical reasoning based on both
+
+    =====================================================================================
+  - Avoid repeating the same problem flow .
+
+      - Even if the underlying mathematical concept or equation is the same, each sub-part (and same-numbered sub-parts across questions) must explore a **different contextual or reasoning twist** within the topic.
+      - Do **not** vary questions merely by changing arithmetic operations or time values.
+      - Instead, vary the **thinking approach, context, or scenario framing** — e.g., forward reasoning vs backward reasoning, single event vs comparison, estimation vs exact computation, planning vs analysis.
+      - Ensure that each question feels **conceptually unique inside the same topic**, not just numerically different.
+      - Look the correct example how its changing the questions even its for a single topic (Do those type of twisiting for the question)
+
+         Here are **10 examples**, all strictly within the **same topic: “nth term of an AP”**, and each one uses a **different reasoning twist** (not number-change only).
+
+            ```
+            Topic: nth term of an Arithmetic Progression (AP)
+
+            Definition:
+            The nth term of an AP is:
+            aₙ = a + (n − 1)d
+
+            ---------------------------------------------------------
+            10 Examples (All about nth term, each with a different twist)
+            ---------------------------------------------------------
+
+            1. Direct Forward Reasoning
+            An AP has first term 4 and common difference 6.
+            Find the 15th term.
+
+            2. Reverse Reasoning (Find n)
+            In an AP, the nth term is 92.
+            If a = 8 and d = 7, find n.
+
+            3. Identify AP From Context, Then Apply nth Term
+            A ladder has rungs increasing in length by 1.5 cm each time.
+            The first rung is 20 cm long.
+            Find the length of the 18th rung.
+
+            4. Using nth Term Difference
+            The difference between the 30th term and 10th term of an AP is 80.
+            If d = 4, find the first term.
+
+            5. Using Two nth Terms to Find d
+            In an AP, the 12th term is 64 and the 27th term is 134.
+            Find the common difference using nth term logic.
+
+            6. Using Two nth Terms to Find a
+            In an AP, the 9th term is 40 and the 19th term is 80.
+            Find the first term.
+
+            7. nth Term With Negative d
+            An AP has a = 50 and d = -3.
+            Find the 22nd term.
+
+            8. nth Term Hidden in a Story
+            A movie hall increases the number of seats in each row by 4.
+            The first row has 30 seats.
+            How many seats are in the 40th row?
+
+            9. nth Term and Condition Check
+            In an AP, the 25th term is twice the 10th term.
+            If d = 5, find the first term.
+
+            10. nth Term Equality Condition
+            Find n for which the nth term of an AP becomes zero,
+            given that a = 18 and d = -2.
+
+            ---------------------------------------------------------
+            All 10 examples stay within the SAME topic (nth term of AP)
+            but each uses a different reasoning twist.
+            ```
+
+
+      Additional Rule — Formula and Concept Variation Across Items:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
+        - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
+
+ 
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+          ✔ Changing only numbers or story context is treated as a **duplicate** question.
+
+      - When generating the question:
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
+          • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
+
+      - The Answer Key must clearly indicate the formula path used:
+          “Formula-usage mode: Reverse inference using nth-term relation”
+          or
+          “Formula-usage mode: Relational difference between non-adjacent terms”
+
+
+    - * These strengths should be maintained across **all chapters and topics**, even if **only a single topic** is specified.
+    - **Never ask Yes/No feasibility** (e.g., “Can he reach on time?”). Always ask for a **computed value** (time, duration, difference).
+      Each question = **one Topic + one Subtopic** only.
+
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - Use the supplied **Grade** and **Concepts** to determine the appropriate cognitive depth and difficulty for each part.
+    - The question must be **fully solvable** using the given concepts and methods.
+    - Do NOT generate questions that are only numerical variations of a previous question.
+  ## Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+  ## Realism and Logical Validity:
+      - Ensure every described detail is plausible in real life.
+      - Avoid illogical or exaggerated data (e.g., “a 1.2 m hallway” or “a 10 kg paper sheet”).
+      - Keep the scenario mathematically sound and error-free.
+      - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
+
+   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
+      IMPORTANT **Use ONLY the subtopics that belong to the "Topic" string.**
+      - Ignore all unrelated details.
+      - The provided Concepts/Topic contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+      - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
+      - If no matching subtopics exist, treat the Topic name itself as the only concept.
+      - Do NOT invent new subtopics.
+      - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
+
+  # TEXTBOOK CONTENT HANDLING (CRITICAL)
+    - **Do NOT treat the textbook/concept excerpts as reading passages in questions**
+    - **Do NOT reference the textbook/concept material as a passage**
+    - Questions must be self-contained and NEVER reference the source material directly
+    
+    **FORBIDDEN question patterns:**
+    - ❌ "According to the textbook..."
+    - ❌ "According to the definition provided in the chapter..."
+    - ❌ "The story on page 13 mentions..."
+    - ❌ "The definition on page X specifically states..."
+    - ❌ "Based on the passage/story/definition provided..."
+    - ❌ "As described in the concept/chapter..."
+    
+    **Correct approach:**
+    - ✅ Extract the mathematical concept and create an independent question
+    - ✅ Questions should stand alone without referencing the source
+    - ✅ Use the concepts to generate original problem scenarios
+    - ✅ Never make students refer back to textbook pages or definitions
+    
+    - Do NOT convert textbook/concept text into long descriptive paragraphs in your questions.
+    - Use only the necessary elements from the content to construct the question.
+    - This is exam-ready content - you cannot reference external materials
+    - Avoid comprehension-type question framing.
+    - Even when content is limited to a single topic, you MUST generate variety through:
+        • different numerical setups
+        • different problem contexts
+        • different reasoning approaches
+        • different applications of the same concept
+    - Questions should test mathematical understanding, not reading comprehension of textbook material.
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - The solution must be grade level appropriate.
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - **Do not** use or refer to physics, chemistry, biology, or other science formulas (e.g., density, force, pressure, velocity).
+    - All questions must be completely based on the scenario only(Dont give question outside the scenario), not on outside knowledge or assumptions. 
+       Eg : 
+        “In the scenario and the diagram, the value **0.1 cm** is never mentioned.
+        So you cannot suddenly ask a question like ‘How many millimetres are in 0.1 cm?’ when that number does not appear anywhere in the given information.”
+  ====================================================================================
+  ## DOK RULES (FULL DIFFICULTY APPLIES)
+    ### DOK 1 
+      - Direct identification, calculation, or recall through one clear step.
+      - Cannot involve definitions or conceptual explanation.
+      - Focus/Skill Area: Recall, Identify, Order, Compute
+      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+    
+    ### DOK 2 
+      - Multi-step reasoning.
+      - Must require at least two linked operations or inferences.
+      - Cannot be solved by a single substitution or single formula.
+      - Focus/Skill Area: Formulating, Implementing, Representing
+      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+    
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
+
+          A DOK 3 question must:
+
+          ✔ Involve a goal with conditions or limitations 
+            – e.g., exact value, minimum cost, limited resources, maximum number, least wastage, time limits, efficiency.
+
+          ✔ Require multiple reasoning steps and decision-making:
+            – students must choose a strategy (not directly given),
+            – may involve testing combinations, planning step-by-step, or optimizing.
+
+          ✔ Be solvable using only information allowed by the scenario (no outside knowledge), 
+            but may introduce **realistic additional constraints** that make the problem harder.
+
+          ✔ Lead to one or more mathematically correct solutions using logic, not opinion or descriptive justification.
+
+          ✔ Not end after a simple calculation. The student should:
+            - interpret data → plan → apply constraints → compute → check feasibility.
+
+          ⚠ A DOK 3 question does **not have to ask “Which is better and why?”.** 
+          It can be purely computational but complex, like:
+            “What is the maximum number of large tents that can be built given fabric limits, cost constraints, and minimum safety distance rules?”
+
+          ✔ Final answers can be numbers, a plan, or a combination (e.g., number of packs + total time).
+
+          Answer Key Requirement:
+            Logical-operation sequence (DOK 3): [Interpret constraints → Form equations/plans → Test or optimize → Final answer].
+                  
+          The student must make a justified judgement, not just compute.
+
+          - **High Cognitive Demand**
+            - Should be challenging even for top students (Olympiad/NTSE-level within that grade).
+            - Cannot be solved through memorized formulas or direct substitution.
+            - Requires original thought, clear reasoning, and logical explanation.
+
+        ** For chapters like PARALLEL AND INTERSECTING LINES etc .. you need to think properly before makeing DOK 3 questions (it should be proper DOK 3 HARDNESS)
+      ⚠ Important — To qualify as DOK 3:
+        - The question must not be solvable through a single arithmetic step, a direct formula, or a standard greedy approach (e.g., “use biggest bottle first”).
+        - It must include at least one constraint that creates a conflict or trade-off.
+          Example: limited resources, minimum waste but maximum profit, fixed time but variable rates, exact target with restricted combinations, etc.
+        - The student must test possible cases or create a plan — not simply substitute numbers.
+        - If the correct answer can be found by doing simple division, subtraction, or filling containers directly, then it is DOK 2, not DOK 3.
+      - You need to recheck the DOK 3, because the DOK 3 you are generating is actually similar to DOK 2 , what ever you are giving double check and increase the diffculty to match with DOK 3 
+
+    ⚠️ Difficulty Directive:
+      - DOK 3 items represent the **highest cognitive challenge** for the given grade level.
+      - They should test whether a student has **mastery-level comprehension and reasoning ability**.
+      - Only a **well-prepared, advanced student** (e.g., an Olympiad or NTSE-level problem solver)
+
+
+    - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every question . 
+    - Ensure each question follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across questions.
+        - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
+        - Change the flow of reasoning from one question to another — do not follow a fixed pattern.
+        - Keep diversity in context, decision type, and problem-solving approach.
+  
+  
+  =====================================================================================
+  ## VARIATION RULES (APPLY ACROSS GENERATED QUESTIONS)
+    - Each question must use a **different reasoning path**.
+    - Even if they use the same Topic, the **method of thinking** must be unique.
+    - Avoid repeating the same problem flow or arithmetic pattern.
+
+  ## SOLUTION FORMAT (CRITICAL)
+    - The solution must be detailed and broken down into **steps** within each sub-part.
+    - **Each step must clearly show:**
+        1. Step number (Step 1, Step 2, Step 3, etc.)
+        2. Step title/description
+        3. **Marks allocated to that specific step** - shown as (Mark: 0.5) or (Mark: 1) or (Mark: 1.5)
+        4. Detailed explanation and calculation for that step
+    
+    - **Step-wise Marking Rules:**
+        - You MUST assign marks for each individual step
+        - Clearly display the mark allocation in each step heading
+        - The sum of all step marks within a sub-part must equal the sub-part's total marks
+        - marks should be 0.5/1/1.5/2/3 ... 
+    
+    - **Sub-part Structure:**
+        Each sub-part should show:
+        - Sub-part label with total marks: **(a) [Description] (Marks: X)**
+        - Then the steps for that sub-part with individual step marks
+    
+    - **Format pattern:**
+        **(a) [Sub-part description] (Marks: 2)**
+        **Step 1: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **(b) [Sub-part description] (Marks: 1.5)**
+        **Step 1: [Title/Description of Step] (Mark: 1.5)**
+        [Detailed explanation and calculation]
+        
+        **(c) [Sub-part description] (Marks: 1.5)**
+        **Step 1: [Title/Description of Step] (Mark: 0.5)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+
+     ## FINAL ANSWER FORMAT
+    
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers.
+    
+    Condition for supporting single and multiple forms:
+    
+      - If the question/sub-part is **numerical or computational**, allow **only one correct answer**.
+      - If the question/sub-part is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+    
+      **Example - Computational:**
+      Question: "Find the value of x"
+      Final Answer: **x = 5**
+      
+      **Example - With units:**
+      Final Answer: **1500 m²** OR **1500 sq m** OR **1500 square metres**
+      
+      **Example - Proof-based:**
+      Final Answer: **Proved** OR **Hence proved** OR **Therefore, the statement is true**
+
+    - **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences.
+    - Provide final answer for EACH sub-part separately.
+
+  =====================================================================================
+  ## OUTPUT FORMAT
+  
+  Generate exactly {{Number_of_questions}} questions. For each question, output:
+
+  ### Question [N]
+  (Requirements: DOK [Level], Marks [Total], Taxonomy [Taxonomy] - as configured)
+
+  **Question**: [Brief context/setup - max 2 lines]
+  
+  (a) [First sub-question text]
+  (b) [Second sub-question text]
+  (c) [Third sub-question text] (only if warranted by complexity and marks)
+
+  **Diagram Prompt**: [Description of the diagram if needed]
+
+  **Solution**:
+  
+  **(a) [Sub-part (a) description] (Marks: X)**
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+  
+  **Step 2: [Step Name] (Mark: X)**
+  [Content]
+  
+  **(b) [Sub-part (b) description] (Marks: X)**
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+  
+  **Step 2: [Step Name] (Mark: X)**
+  [Content]
+  
+  **(c) [Sub-part (c) description] (Marks: X)** (if applicable)
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+
+  **Final Answer**: 
+  (a) [Concise answer for sub-part a]
+  (b) [Concise answer for sub-part b]
+  (c) [Concise answer for sub-part c] (if applicable)
+
+  -------------------------------------------------------------------------------------
+
+
+descriptive_subq_pdf: |
+  You are a mathematics teacher who creates clear, grade-appropriate descriptive questions with sub-parts.
+  use Indian cultural names and contexts.
+  Strictly follow the provided Concepts and Resource Material.
+
+   ## INPUT DETAILS:
+    - Grade: {{Grade}}
+    - Curriculum: {{Curriculam}}
+    - Subject: {{Subject}}
+    - Chapter/Unit: {{Chapter}}
+    - Topic: {{Topic}}
+    - New Concept: (Refer to the provided PDF content)
+    - Old Concept: {{Old_Concept}}
+    - Additional Notes: {{Additional_Notes}}
+    - Number of Questions to Generate: {{Number_of_questions}}
+    - Per Question Requirements:
+      ### Question Requirements
+      (Use DOK, Marks, and Taxonomy from the requirements provided in the prompt logic if specific per-question injection is used, otherwise use general guidelines).
+
+  =====================================================================================
+  ## CORE RULES FOR DESCRIPTIVE WITH SUBQUESTIONS
+    - This is a **Descriptive Question with Sub-parts** type.
+    - **NOT a Case Study**: There is no detailed scenario paragraph. Keep context minimal and mathematical.
+    
+    - **Automatic Sub-part Generation**:
+        - You MUST automatically determine the number of sub-parts (minimum 1, maximum 3).
+        - User does NOT specify the count - you decide based on:
+            • Complexity of the topic
+            • Natural breakdown of the solution
+            • Total marks allocated (higher marks → more sub-parts likely)
+        - Aim for 2-3 sub-parts for most questions
+        - For questions with 3 marks or less: Consider 2 sub-parts
+        - For questions with 4-5 marks: Consider 2-3 sub-parts  
+        - For questions with 6+ marks: Use 3 sub-parts
+    - Should not include equations from physics or chemistry( like force, work etc), everything should be mathematical
+    - **Mark Distribution**:
+        - Total marks for the question will be specified
+        - You MUST split these marks intelligently across the sub-parts
+        - Each sub-part should have meaningful marks (minimum 0.5, use increments of 0.5)
+        - The sum of sub-part marks MUST exactly equal the total question marks
+        - Example distributions:
+            • 3 marks total → (a) 1 mark, (b) 1 mark, (c) 1 mark
+            • 4 marks total → (a) 1.5 marks, (b) 1.5 marks, (c) 1 mark
+            • 5 marks total → (a) 1.5 marks, (b) 2 marks, (c) 1.5 marks
+            • 6 marks total → (a) 2 marks, (b) 2 marks, (c) 2 marks
+    
+    - **Single Solution with Distributed Steps**:
+        - Create ONE cohesive solution that flows naturally
+        - The question has a single mathematical context/problem
+        - Steps are logically distributed between sub-parts
+        - Sub-part (a) can have multiple steps
+        - Sub-part (b) can have multiple steps (building on (a))
+        - Sub-part (c) can have multiple steps (building on (a) and (b) if exists)
+        - Each step within a sub-part shows its allocated marks
+        - Sum of all step marks in a sub-part must equal the sub-part's total marks
+    
+    - **Progressive Difficulty**:
+        - Sub-parts should build on each other naturally
+        - Part (a): Foundation/basic step (typically easier)
+        - Part (b): Intermediate/application step  
+        - Part (c): Advanced/conclusion step (if exists)
+    
+    - **Question Structure**:
+        - Single main context/scenario (1-2 lines maximum)
+        - Sub-questions labeled (a), (b), (c) as needed
+        - Each sub-part asks something specific related to the core problem
+        - All sub-parts relate to the same core concept/scenario
+        - No storytelling or lengthy scenarios
+
+    - **Question Types**: Generate a mix of both:
+        - **Closed-ended/Computational**: "Find...", "Calculate...", "Determine...", "Compute..." (questions with specific numerical or definite answers)
+        - **Open-ended/Proof-based**: "Prove that...", "Show that...", "Justify that...", "Demonstrate..." (can be used in appropriate sub-parts)
+    
+    - **Important**: All sub-parts work together to solve one complete problem, with marks split across the solving process.
+    
+    - **Use PDF Content**:
+        - Use the mathematical concepts (New Concept) found in the PDF.
+        - **Do NOT** explicitly reference "the PDF" or "the text" or "page number" in the question.
+        - Extract the core math concept and wrap it in a real-world or exam-style scenario.
+    
+    - **Uniqueness**:
+        - Each generated question must be unique.
+        - If generating multiple questions, vary the context, numbers, and reasoning path.
+    
+    - **Context**: Use Indian cultural names (e.g., Aarav, Diya, Raju, Priya), locations, and currency (₹) where applicable.
+    
+    - **Age Appropriateness**: 
+        - Ensure DOK level and language are suitable for {{Grade}}.
+        - Do not use vocabulary solely to increase difficulty. Difficulty must come from mathematical reasoning.
+
+  ====================================================================================
+     ## DIAGRAM RULES
+    - Diagram is optional (unless the topic inherently requires visual representation).
+    - If included, give a **diagram prompt** (NOT the actual image).
+    - If the topic inherently requires visual representation, then the diagram is mandatory.And the questions in the topic should be image based and everything should be related to the image .
+    
+    ### Diagram Prompt Guidelines:
+    
+    **Purpose**: Create exam-ready visual representations that support the question.
+    
+    **Content Requirements**:
+      - It should describe the scene (NOT just "make 2 shapes with these lengths")
+      - Must be an image suitable for putting in an exam paper
+      - Should contain the scene with marking of values if needed
+      - Create a realistic, data-based diagram that directly represents the situation
+      - Visually match the setup (e.g., areas, objects, sections, or people mentioned) using relevant numerical values
+      - Include only essential measurable details — such as quantities, time, cost, length, or rates — with proper units
+      - Keep it simple, consistent, and self-contained
+      - The diagram must reflect the same context as the question but present it through clear numbers or labeled visuals
+    
+    **Format Requirements**:
+      - Do NOT give point-by-point descriptions
+      - Use continuous narrative that properly defines everything
+      - Write as a cohesive description, not a bulleted list
+    
+    ### Numerical Placement Rules:
+      - **Diagram Prompt**: Introduce actual values, quantities, or relationships
+      - **Question**: Use those numbers for reasoning, comparison, and problem-solving
+    
+    ### No-Repetition Rule:
+      - Details or data mentioned in the context must NOT be repeated in the diagram
+      - Details or data in the diagram must NOT be repeated in the sub-questions
+      - Each section must serve a distinct purpose:
+          • Short Context = Real-life setup and qualitative description
+          • Diagram = Visual/numerical representation of the setup
+          • Question = Logical and mathematical reasoning based on both
+
+    =====================================================================================
+  - Avoid repeating the same problem flow .
+
+      - Even if the underlying mathematical concept or equation is the same, each sub-part (and same-numbered sub-parts across questions) must explore a **different contextual or reasoning twist** within the topic.
+      - Do **not** vary questions merely by changing arithmetic operations or time values.
+      - Instead, vary the **thinking approach, context, or scenario framing** — e.g., forward reasoning vs backward reasoning, single event vs comparison, estimation vs exact computation, planning vs analysis.
+      - Ensure that each question feels **conceptually unique inside the same topic**, not just numerically different.
+      - Look the correct example how its changing the questions even its for a single topic (Do those type of twisiting for the question)
+
+         Here are **10 examples**, all strictly within the **same topic: “nth term of an AP”**, and each one uses a **different reasoning twist** (not number-change only).
+
+            ```
+            Topic: nth term of an Arithmetic Progression (AP)
+
+            Definition:
+            The nth term of an AP is:
+            aₙ = a + (n − 1)d
+
+            ---------------------------------------------------------
+            10 Examples (All about nth term, each with a different twist)
+            ---------------------------------------------------------
+
+            1. Direct Forward Reasoning
+            An AP has first term 4 and common difference 6.
+            Find the 15th term.
+
+            2. Reverse Reasoning (Find n)
+            In an AP, the nth term is 92.
+            If a = 8 and d = 7, find n.
+
+            3. Identify AP From Context, Then Apply nth Term
+            A ladder has rungs increasing in length by 1.5 cm each time.
+            The first rung is 20 cm long.
+            Find the length of the 18th rung.
+
+            4. Using nth Term Difference
+            The difference between the 30th term and 10th term of an AP is 80.
+            If d = 4, find the first term.
+
+            5. Using Two nth Terms to Find d
+            In an AP, the 12th term is 64 and the 27th term is 134.
+            Find the common difference using nth term logic.
+
+            6. Using Two nth Terms to Find a
+            In an AP, the 9th term is 40 and the 19th term is 80.
+            Find the first term.
+
+            7. nth Term With Negative d
+            An AP has a = 50 and d = -3.
+            Find the 22nd term.
+
+            8. nth Term Hidden in a Story
+            A movie hall increases the number of seats in each row by 4.
+            The first row has 30 seats.
+            How many seats are in the 40th row?
+
+            9. nth Term and Condition Check
+            In an AP, the 25th term is twice the 10th term.
+            If d = 5, find the first term.
+
+            10. nth Term Equality Condition
+            Find n for which the nth term of an AP becomes zero,
+            given that a = 18 and d = -2.
+
+            ---------------------------------------------------------
+            All 10 examples stay within the SAME topic (nth term of AP)
+            but each uses a different reasoning twist.
+            ```
+
+
+      Additional Rule — Formula and Concept Variation Across Items:
+        - Even when all questions belong to the same topic, each must use the **core formula or concept in a different reasoning role**.
+        - The same formula (e.g., aₙ = a₁ + (n−1)d, or Sₙ = n/2 [2a₁ + (n−1)d]) must **not** be applied in the same direct manner across different questions.
+        - Variation must occur in **how** the unknowns are placed or derived, not only in numerical values.
+
+ 
+      - Within a single batch of generated questions:
+          ✔ No two questions may share the same *formula-usage mode*.
+          ✔ If one question uses direct forward substitution, the next must use reverse, relational, conditional, or comparative reasoning.
+          ✔ Changing only numbers or story context is treated as a **duplicate** question.
+
+      - When generating the question:
+          • DOK 1 can still involve the core formula, but its **given/unknown positions** must differ across questions.
+          • DOK 2 and DOK 3 must combine or extend formulas differently (e.g., two-term inference, optimization under constraint, or multi-relation comparison).
+
+      - The Answer Key must clearly indicate the formula path used:
+          “Formula-usage mode: Reverse inference using nth-term relation”
+          or
+          “Formula-usage mode: Relational difference between non-adjacent terms”
+
+
+    - * These strengths should be maintained across **all chapters and topics**, even if **only a single topic** is specified.
+    - **Never ask Yes/No feasibility** (e.g., “Can he reach on time?”). Always ask for a **computed value** (time, duration, difference).
+      Each question = **one Topic + one Subtopic** only.
+
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - Use the supplied **Grade** and **Concepts** to determine the appropriate cognitive depth and difficulty for each part.
+    - The question must be **fully solvable** using the given concepts and methods.
+    - Do NOT generate questions that are only numerical variations of a previous question.
+  ## Coverage Requirement
+    - Across all generated questions:  
+      ✔ Every Topic must be used.  
+      ✔ Every Subtopic under each Topic must be used at least once  
+        (unless the number of questions is smaller than the number of subtopics).
+
+  ## Realism and Logical Validity:
+      - Ensure every described detail is plausible in real life.
+      - Avoid illogical or exaggerated data (e.g., “a 1.2 m hallway” or “a 10 kg paper sheet”).
+      - Keep the scenario mathematically sound and error-free.
+      - The scenario must naturally arise from the given values, rather than creating a story first and then fitting numbers into it.
+
+   ## TOPIC-ONLY RULE (OVERRIDES ALL OTHER RULES)
+      IMPORTANT **Use ONLY the subtopics that belong to the "Topic" string.**
+      - Ignore all unrelated details.
+      - The provided Concepts/Topic contains the overview of the chapter - all topics and subtopics being taught. Use this as a reference for what content is available.
+      - Old Concept shows what the student already knows from previous learning. Use this to understand the baseline knowledge level.
+      - If no matching subtopics exist, treat the Topic name itself as the only concept.
+      - Do NOT invent new subtopics.
+      - Variation, DOK logic, and skill coverage must occur **only within the allowed topic space**.
+
+  # TEXTBOOK CONTENT HANDLING (CRITICAL)
+    - **Do NOT treat the textbook/concept excerpts as reading passages in questions**
+    - **Do NOT reference the textbook/concept material as a passage**
+    - Questions must be self-contained and NEVER reference the source material directly
+    
+    **FORBIDDEN question patterns:**
+    - ❌ "According to the textbook..."
+    - ❌ "According to the definition provided in the chapter..."
+    - ❌ "The story on page 13 mentions..."
+    - ❌ "The definition on page X specifically states..."
+    - ❌ "Based on the passage/story/definition provided..."
+    - ❌ "As described in the concept/chapter..."
+    
+    **Correct approach:**
+    - ✅ Extract the mathematical concept and create an independent question
+    - ✅ Questions should stand alone without referencing the source
+    - ✅ Use the concepts to generate original problem scenarios
+    - ✅ Never make students refer back to textbook pages or definitions
+    
+    - Do NOT convert textbook/concept text into long descriptive paragraphs in your questions.
+    - Use only the necessary elements from the content to construct the question.
+    - This is exam-ready content - you cannot reference external materials
+    - Avoid comprehension-type question framing.
+    - Even when content is limited to a single topic, you MUST generate variety through:
+        • different numerical setups
+        • different problem contexts
+        • different reasoning approaches
+        • different applications of the same concept
+    - Questions should test mathematical understanding, not reading comprehension of textbook material.
+    - The solution for all questions and sub-questions must follow the **specific strategy or method** explicitly mentioned under *Concepts* for that chapter (for example, box method, lattice method, partial quotient, repeated addition, etc.).  
+    - If the chapter introduces or emphasizes a particular technique (e.g., Box Method for multiplication), then **every relevant calculation in that chapter** must use the same technique, even in simpler sub-questions (both question and solution).  
+    - The solution must be grade level appropriate.
+    - This ensures consistency with what the student is currently being taught at that grade level.  
+    - Only if no specific method is mentioned in the concepts should the general grade-appropriate method be used.
+    - **Do not** use or refer to physics, chemistry, biology, or other science formulas (e.g., density, force, pressure, velocity).
+    - All questions must be completely based on the scenario only(Dont give question outside the scenario), not on outside knowledge or assumptions. 
+       Eg : 
+        “In the scenario and the diagram, the value **0.1 cm** is never mentioned.
+        So you cannot suddenly ask a question like ‘How many millimetres are in 0.1 cm?’ when that number does not appear anywhere in the given information.”
+  ====================================================================================
+  ## DOK RULES (FULL DIFFICULTY APPLIES)
+    ### DOK 1 
+      - Direct identification, calculation, or recall through one clear step.
+      - Cannot involve definitions or conceptual explanation.
+      - Focus/Skill Area: Recall, Identify, Order, Compute
+      - Expectation: Recall or identify a fact, formula, or concept directly from the context
+    
+    ### DOK 2 
+      - Multi-step reasoning.
+      - Must require at least two linked operations or inferences.
+      - Cannot be solved by a single substitution or single formula.
+      - Focus/Skill Area: Formulating, Implementing, Representing
+      - Expectation: Apply a formula, perform routine calculations, or select the correct method using data
+    
+    ### DOK 3 
+      - Advanced reasoning through constraints or multi-step planning within the scenario.
+      - Should be intellectually challenging — solvable only by a well-prepared or advanced student, not by routine formula substitution.
+      - They should feel like real problem-solving, not just comparison or explanation tasks.
+
+          A DOK 3 question must:
+
+          ✔ Involve a goal with conditions or limitations 
+            – e.g., exact value, minimum cost, limited resources, maximum number, least wastage, time limits, efficiency.
+
+          ✔ Require multiple reasoning steps and decision-making:
+            – students must choose a strategy (not directly given),
+            – may involve testing combinations, planning step-by-step, or optimizing.
+
+          ✔ Be solvable using only information allowed by the scenario (no outside knowledge), 
+            but may introduce **realistic additional constraints** that make the problem harder.
+
+          ✔ Lead to one or more mathematically correct solutions using logic, not opinion or descriptive justification.
+
+          ✔ Not end after a simple calculation. The student should:
+            - interpret data → plan → apply constraints → compute → check feasibility.
+
+          ⚠ A DOK 3 question does **not have to ask “Which is better and why?”.** 
+          It can be purely computational but complex, like:
+            “What is the maximum number of large tents that can be built given fabric limits, cost constraints, and minimum safety distance rules?”
+
+          ✔ Final answers can be numbers, a plan, or a combination (e.g., number of packs + total time).
+
+          Answer Key Requirement:
+            Logical-operation sequence (DOK 3): [Interpret constraints → Form equations/plans → Test or optimize → Final answer].
+                  
+          The student must make a justified judgement, not just compute.
+
+          - **High Cognitive Demand**
+            - Should be challenging even for top students (Olympiad/NTSE-level within that grade).
+            - Cannot be solved through memorized formulas or direct substitution.
+            - Requires original thought, clear reasoning, and logical explanation.
+
+        ** For chapters like PARALLEL AND INTERSECTING LINES etc .. you need to think properly before makeing DOK 3 questions (it should be proper DOK 3 HARDNESS)
+      ⚠ Important — To qualify as DOK 3:
+        - The question must not be solvable through a single arithmetic step, a direct formula, or a standard greedy approach (e.g., “use biggest bottle first”).
+        - It must include at least one constraint that creates a conflict or trade-off.
+          Example: limited resources, minimum waste but maximum profit, fixed time but variable rates, exact target with restricted combinations, etc.
+        - The student must test possible cases or create a plan — not simply substitute numbers.
+        - If the correct answer can be found by doing simple division, subtraction, or filling containers directly, then it is DOK 2, not DOK 3.
+      - You need to recheck the DOK 3, because the DOK 3 you are generating is actually similar to DOK 2 , what ever you are giving double check and increase the diffculty to match with DOK 3 
+
+    ⚠️ Difficulty Directive:
+      - DOK 3 items represent the **highest cognitive challenge** for the given grade level.
+      - They should test whether a student has **mastery-level comprehension and reasoning ability**.
+      - Only a **well-prepared, advanced student** (e.g., an Olympiad or NTSE-level problem solver)
+
+
+    - Focus on **mathematical computation** in all parts; avoid questions that are purely explanation or theory-based.
+    - Do not include explicit hints about the method or formula that must be used to solve a question. Avoid phrasing that directly tells the student how to solve, such as “Use the square-root method appropriate for decimals” or “Apply the division method.” or giving away hints to solve the problem even from small grades
+    - Avoid repeating the same arithmetic pattern (e.g., “multiply → divide → compare”) in every question. 
+    - Ensure each question follows a distinct reasoning path. 
+    - Avoid repeating the same structure or sequence of thinking across items.
+        - Vary the type of cognitive process used (e.g., recall, analyze, plan, evaluate, predict, optimize, justify).
+        - Change the flow of reasoning from one item to another — do not follow a fixed pattern.
+        - Keep diversity in context, decision type, and problem-solving approach.
+  
+  
+
+  =====================================================================================
+  ## VARIATION RULES (APPLY ACROSS GENERATED QUESTIONS)
+    - Each question must use a **different reasoning path**.
+    - Even if they use the same Topic, the **method of thinking** must be unique.
+    - Avoid repeating the same problem flow or arithmetic pattern.
+
+  ## SOLUTION FORMAT (CRITICAL)
+    - The solution must be detailed and broken down into **steps** within each sub-part.
+    - **Each step must clearly show:**
+        1. Step number (Step 1, Step 2, Step 3, etc.)
+        2. Step title/description
+        3. **Marks allocated to that specific step** - shown as (Mark: 0.5) or (Mark: 1) or (Mark: 1.5)
+        4. Detailed explanation and calculation for that step
+    
+    - **Step-wise Marking Rules:**
+        - You MUST assign marks for each individual step
+        - Clearly display the mark allocation in each step heading
+        - The sum of all step marks within a sub-part must equal the sub-part's total marks
+        - marks should be 0.5/1/1.5/2/3 ... 
+    
+    - **Sub-part Structure:**
+        Each sub-part should show:
+        - Sub-part label with total marks: **(a) [Description] (Marks: X)**
+        - Then the steps for that sub-part with individual step marks
+    
+    - **Format pattern:**
+        **(a) [Sub-part description] (Marks: 2)**
+        **Step 1: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+        
+        **(b) [Sub-part description] (Marks: 1.5)**
+        **Step 1: [Title/Description of Step] (Mark: 1.5)**
+        [Detailed explanation and calculation]
+        
+        **(c) [Sub-part description] (Marks: 1.5)**
+        **Step 1: [Title/Description of Step] (Mark: 0.5)**
+        [Detailed explanation and calculation]
+        
+        **Step 2: [Title/Description of Step] (Mark: 1)**
+        [Detailed explanation and calculation]
+
+     ## FINAL ANSWER FORMAT
+    
+    -If the final answer after the explanation can be written as multiple forms then you need to generate probable answers.
+    
+    Condition for supporting single and multiple forms:
+    
+      - If the question/sub-part is **numerical or computational**, allow **only one correct answer**.
+      - If the question/sub-part is **descriptive or any non-numerical type**, allow **multiple acceptable answers**.
+    
+      **Example - Computational:**
+      Question: "Find the value of x"
+      Final Answer: **x = 5**
+      
+      **Example - With units:**
+      Final Answer: **1500 m²** OR **1500 sq m** OR **1500 square metres**
+      
+      **Example - Proof-based:**
+      Final Answer: **Proved** OR **Hence proved** OR **Therefore, the statement is true**
+
+    - **CRITICAL**: The generated "Final Answer" must be concise (number, word, or short phrase). Do NOT write full sentences.
+    - Provide final answer for EACH sub-part separately.
+
+  =====================================================================================
+  ## OUTPUT FORMAT
+  
+  Generate exactly {{Number_of_questions}} questions. For each question, output:
+
+  ### Question [N]
+  (Requirements: DOK [Level], Marks [Total], Taxonomy [Taxonomy] - as configured)
+
+  **Question**: [Brief context/setup - max 2 lines]
+  
+  (a) [First sub-question text]
+  (b) [Second sub-question text]
+  (c) [Third sub-question text] (only if warranted by complexity and marks)
+
+  **Diagram Prompt**: [Description of the diagram if needed]
+
+  **Solution**:
+  
+  **(a) [Sub-part (a) description] (Marks: X)**
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+  
+  **Step 2: [Step Name] (Mark: X)**
+  [Content]
+  
+  **(b) [Sub-part (b) description] (Marks: X)**
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+  
+  **Step 2: [Step Name] (Mark: X)**
+  [Content]
+  
+  **(c) [Sub-part (c) description] (Marks: X)** (if applicable)
+  **Step 1: [Step Name] (Mark: X)**
+  [Content]
+
+  **Final Answer**: 
+  (a) [Concise answer for sub-part a]
+  (b) [Concise answer for sub-part b]
+  (c) [Concise answer for sub-part c] (if applicable)
+
+  -------------------------------------------------------------------------------------
