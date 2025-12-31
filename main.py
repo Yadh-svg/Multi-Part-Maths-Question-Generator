@@ -52,6 +52,42 @@ def default_subpart(index):
             "taxonomy": "Remembering"  # Single taxonomy for subpart
         }
 
+# ------------------ DEFAULT FIB SUBPART ------------------
+def default_fib_subpart(index):
+    """Returns default configuration for a FIB subpart based on index."""
+    # Roman numeral labels: i, ii, iii, iv, v, vi, vii, viii, ix, x
+    roman_numerals = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"]
+    label = roman_numerals[index] if index < len(roman_numerals) else f"subpart_{index+1}"
+    
+    if index == 0:  # Part i
+        return {
+            "label": label,
+            "DOK": 1,
+            "marks": 1,
+            "taxonomy": "Remembering"
+        }
+    elif index == 1:  # Part ii
+        return {
+            "label": label,
+            "DOK": 2,
+            "marks": 1,
+            "taxonomy": "Understanding"
+        }
+    elif index == 2:  # Part iii
+        return {
+            "label": label,
+            "DOK": 2,
+            "marks": 1,
+            "taxonomy": "Applying"
+        }
+    else:  # Additional parts default to DOK 1
+        return {
+            "label": label,
+            "DOK": 1,
+            "marks": 1,
+            "taxonomy": "Remembering"
+        }
+
 # ------------------ DEFAULT MCQ QUESTION ------------------
 def default_mcq_question(index):
     """Returns default configuration for an MCQ question based on index."""
@@ -67,7 +103,9 @@ def default_fib_question(index):
     return {
         "DOK": 1,
         "marks": 1,
-        "taxonomy": "Remembering"  # Single taxonomy for FIB
+        "taxonomy": "Remembering",  # Single taxonomy for FIB
+        "num_subparts": 1,  # Default to 1 subpart (no subparts)
+        "subparts": [default_fib_subpart(0)]  # Default subpart configuration
     }
 
 # ------------------ DEFAULT DESCRIPTIVE QUESTION ------------------
@@ -93,7 +131,9 @@ if "initialized" not in st.session_state:
     st.session_state.initialized = True
 
     st.session_state.Number_of_subparts = 3
+    st.session_state.FIB_Number_of_subparts = 1  # Default to 1 subpart for FIB (no subparts)
     st.session_state.Number_of_questions = 1
+
 
     st.session_state.Grade = "Grade 4"
     st.session_state.Curriculum = "CBSE"
@@ -182,7 +222,45 @@ def update_mcq_questions():
             st.session_state.pop(f"mcq_{i}_marks", None)
             st.session_state.pop(f"mcq_{i}_tax", None)
 
+
+# ------------------ FIB SUBPARTS UPDATE CALLBACK ------------------
+def update_fib_subparts():
+    """
+    Callback that runs when FIB_Number_of_subparts changes.
+    Resizes subparts for all FIB questions and clears stale widget keys.
+    """
+    try:
+        new_n = int(st.session_state.FIB_Number_of_subparts)
+    except Exception:
+        return
+
+    if "fib_questions" not in st.session_state:
+        return
+
+    # Update subparts for each FIB question
+    for q_idx, q in enumerate(st.session_state.fib_questions):
+        old_n = len(q.get("subparts", []))
+        
+        if new_n > old_n:
+            # extend
+            q["subparts"] = q.get("subparts", []) + [default_fib_subpart(i) for i in range(old_n, new_n)]
+        elif new_n < old_n:
+            # truncate
+            q["subparts"] = q["subparts"][:new_n]
+        
+        q["num_subparts"] = new_n
+
+    # Clear dynamic widget keys for removed subparts
+    max_check = 15  # Check up to 15 subparts
+    for q_idx in range(len(st.session_state.fib_questions)):
+        for s_idx in range(max_check):
+            if s_idx >= new_n:
+                st.session_state.pop(f"fib_{q_idx}_sub_{s_idx}_dok", None)
+                st.session_state.pop(f"fib_{q_idx}_sub_{s_idx}_marks", None)
+                st.session_state.pop(f"fib_{q_idx}_sub_{s_idx}_tax", None)
+
 # ------------------ FIB QUESTIONS UPDATE CALLBACK ------------------
+
 def update_fib_questions():
     """
     Callback that runs when st.session_state.Number_of_questions changes in FIB mode.
@@ -213,6 +291,12 @@ def update_fib_questions():
             st.session_state.pop(f"fib_{i}_dok", None)
             st.session_state.pop(f"fib_{i}_marks", None)
             st.session_state.pop(f"fib_{i}_tax", None)
+            # Also clear subpart keys
+            for s_idx in range(15):  # Check up to 15 subparts
+                st.session_state.pop(f"fib_{i}_sub_{s_idx}_dok", None)
+                st.session_state.pop(f"fib_{i}_sub_{s_idx}_marks", None)
+                st.session_state.pop(f"fib_{i}_sub_{s_idx}_tax", None)
+
 
 # ------------------ DESCRIPTIVE QUESTIONS UPDATE CALLBACK ------------------
 def update_descriptive_questions():
@@ -466,29 +550,51 @@ def assemble_prompt(state):
                 f'### Question Requirements\n\n**Specific requirements for each question:**\n{mcq_specs}\n'
             )
     elif question_type == "Fill in the Blanks":
-        # Fill in the Blanks specific: inject question-level DOK, Marks, and Taxonomy
-        # For FIB, we build a specification for each question (similar to MCQ)
-        fib_specs = ""
-        for idx, q in enumerate(state["fib_questions"], 1):
-            # Taxonomy is a single string for FIB
-            taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
-            fib_specs += f"Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
-        
-        # Replace placeholders with the first question's config (for backward compatibility)
-        # and add the full specification list
+        # Fill in the Blanks specific: inject question-level or subpart-level DOK, Marks, and Taxonomy
+        # Check if we're using subparts
         first_q = state["fib_questions"][0] if state["fib_questions"] else default_fib_question(0)
-        taxonomy_value = first_q["taxonomy"] if isinstance(first_q["taxonomy"], str) else ", ".join(first_q["taxonomy"])
+        num_subparts = first_q.get("num_subparts", 1)
         
-        prompt_text = prompt_text.replace('{dok_level}', yq(str(first_q["DOK"])))
-        prompt_text = prompt_text.replace('{marks}', yq(str(first_q["marks"])))
-        prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_value))
-        
-        # Add detailed specifications if multiple questions
-        if len(state["fib_questions"]) > 1:
-            prompt_text = prompt_text.replace(
-                '### Question Requirements',
-                f'### Question Requirements\n\n**Specific requirements for each question:**\n{fib_specs}\n'
-            )
+        if num_subparts > 1:
+            # FIB with subparts - inject subpart specifications
+            fib_specs = "\n    **Specific requirements for each question and its subparts:**\n"
+            for idx, q in enumerate(state["fib_questions"], 1):
+                fib_specs += f"    Question {idx}:\n"
+                for s in q.get("subparts", []):
+                    taxonomy_value = s["taxonomy"] if isinstance(s["taxonomy"], str) else ", ".join(s["taxonomy"])
+                    fib_specs += (
+                        f"      {s['label']}) → DOK {s['DOK']}, "
+                        f"Marks: {s['marks']}, Taxonomy: {taxonomy_value}\n"
+                    )
+                fib_specs += "\n"
+            
+            # Replace the placeholder with subpart specifications
+            prompt_text = prompt_text.replace('{{FIB_SUBPART_SPECS}}', fib_specs)
+        else:
+            # Simple FIB without subparts - remove placeholder and use question-level configuration
+            prompt_text = prompt_text.replace('{{FIB_SUBPART_SPECS}}', '')
+            
+            # Build specifications for multiple questions
+            if len(state["fib_questions"]) > 1:
+                fib_specs = "\n    **Specific requirements for each question:**\n"
+                for idx, q in enumerate(state["fib_questions"], 1):
+                    taxonomy_value = q["taxonomy"] if isinstance(q["taxonomy"], str) else ", ".join(q["taxonomy"])
+                    fib_specs += f"    Question {idx}: DOK {q['DOK']}, Marks: {q['marks']}, Taxonomy: {taxonomy_value}\n"
+                fib_specs += "\n"
+                # Inject after the placeholder was removed
+                prompt_text = prompt_text.replace(
+                    '**IMPORTANT - SUBPART STRUCTURE**:',
+                    f'{fib_specs}    **IMPORTANT - SUBPART STRUCTURE**:'
+                )
+            
+            # Replace placeholders with the first question's config (for backward compatibility)
+            taxonomy_value = first_q["taxonomy"] if isinstance(first_q["taxonomy"], str) else ", ".join(first_q["taxonomy"])
+            
+            prompt_text = prompt_text.replace('{dok_level}', yq(str(first_q["DOK"])))
+            prompt_text = prompt_text.replace('{marks}', yq(str(first_q["marks"])))
+            prompt_text = prompt_text.replace('{taxonomy}', yq(taxonomy_value))
+
+
 
     elif question_type == "Descriptive":
         # Descriptive specific: inject question-level DOK, Marks, and Taxonomy
@@ -649,6 +755,20 @@ if st.session_state.Question_Type == "Multi-Part":
                     step=1,
                     key="Number_of_subparts",
                     on_change=update_subparts)
+elif st.session_state.Question_Type == "Fill in the Blanks":
+    # FIB mode: show Number of Sub-Parts
+    # Defensive initialization in case user switches to FIB
+    if "FIB_Number_of_subparts" not in st.session_state:
+        st.session_state.FIB_Number_of_subparts = 1
+    
+    st.number_input("Number of Sub-Parts per FIB Question",
+                    min_value=1, max_value=10,
+                    value=st.session_state.FIB_Number_of_subparts,
+                    step=1,
+                    key="FIB_Number_of_subparts",
+                    on_change=update_fib_subparts,
+                    help="Set to 1 for simple FIB questions without subparts. Set to 2+ to create FIB questions with roman numeral subparts (i, ii, iii, etc.)")
+
 
 st.markdown("---")
 
@@ -806,63 +926,144 @@ elif st.session_state.Question_Type == "Fill in the Blanks":
     elif len(st.session_state.fib_questions) > st.session_state.Number_of_questions:
         st.session_state.fib_questions = st.session_state.fib_questions[:st.session_state.Number_of_questions]
     
-    # Header row
-    cols = st.columns((1, 1, 2, 3))
-    cols[0].markdown("**Question**")
-    cols[1].markdown("**DOK**")
-    cols[2].markdown("**Marks**")
-    cols[3].markdown("**Taxonomy**")
+    # Check if we're using subparts
+    num_subparts = st.session_state.get("FIB_Number_of_subparts", 1)
     
-    # Configuration row for each FIB question
-    for i in range(st.session_state.Number_of_questions):
-        q = st.session_state.fib_questions[i]
-
-        c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
-        c0.markdown(f"**Q{i+1}**")
-
-        dok_key = f"fib_{i}_dok"
-        marks_key = f"fib_{i}_marks"
-        tax_key = f"fib_{i}_tax"
-
-        # initialize widget keys if absent
-        if dok_key not in st.session_state:
-            st.session_state[dok_key] = q["DOK"]
-        if marks_key not in st.session_state:
-            st.session_state[marks_key] = float(q["marks"])
-        if tax_key not in st.session_state:
-            st.session_state[tax_key] = q["taxonomy"]
-
-        q_dok = c1.selectbox(f"DOK_fib_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
-        q_marks = c2.number_input(f"marks_fib_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+    if num_subparts == 1:
+        # Simple FIB without subparts - show question-level configuration
+        # Header row
+        cols = st.columns((1, 1, 2, 3))
+        cols[0].markdown("**Question**")
+        cols[1].markdown("**DOK**")
+        cols[2].markdown("**Marks**")
+        cols[3].markdown("**Taxonomy**")
         
-        # All taxonomies are available for all DOK levels
-        all_taxonomies = get_taxonomies_for_dok(q_dok)
-        old_tax = st.session_state.get(tax_key, "Remembering")
-        
-        # Ensure old_tax is a valid single taxonomy
-        if isinstance(old_tax, list):
-            # Convert from old multiselect format
-            old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
-        elif old_tax not in all_taxonomies:
-            old_tax = "Remembering"
+        # Configuration row for each FIB question
+        for i in range(st.session_state.Number_of_questions):
+            q = st.session_state.fib_questions[i]
 
-        st.session_state[tax_key] = old_tax
+            c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+            c0.markdown(f"**Q{i+1}**")
 
-        q_tax = c3.selectbox(
-            f"tax_fib_{i}",
-            options=all_taxonomies,
-            index=all_taxonomies.index(old_tax),
-            key=tax_key,
-            help="Select one taxonomy level (independent of DOK level)",
-            label_visibility="collapsed"
-        )
+            dok_key = f"fib_{i}_dok"
+            marks_key = f"fib_{i}_marks"
+            tax_key = f"fib_{i}_tax"
 
-        # write back to session_state.fib_questions
-        st.session_state.fib_questions[i] = {
-            "DOK": int(q_dok),
-            "marks": float(q_marks),
-            "taxonomy": q_tax
-        }
+            # initialize widget keys if absent
+            if dok_key not in st.session_state:
+                st.session_state[dok_key] = q["DOK"]
+            if marks_key not in st.session_state:
+                st.session_state[marks_key] = float(q["marks"])
+            if tax_key not in st.session_state:
+                st.session_state[tax_key] = q["taxonomy"]
+
+            q_dok = c1.selectbox(f"DOK_fib_{i}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+            q_marks = c2.number_input(f"marks_fib_{i}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+            
+            # All taxonomies are available for all DOK levels
+            all_taxonomies = get_taxonomies_for_dok(q_dok)
+            old_tax = st.session_state.get(tax_key, "Remembering")
+            
+            # Ensure old_tax is a valid single taxonomy
+            if isinstance(old_tax, list):
+                # Convert from old multiselect format
+                old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
+            elif old_tax not in all_taxonomies:
+                old_tax = "Remembering"
+
+            st.session_state[tax_key] = old_tax
+
+            q_tax = c3.selectbox(
+                f"tax_fib_{i}",
+                options=all_taxonomies,
+                index=all_taxonomies.index(old_tax),
+                key=tax_key,
+                help="Select one taxonomy level (independent of DOK level)",
+                label_visibility="collapsed"
+            )
+
+            # write back to session_state.fib_questions
+            st.session_state.fib_questions[i] = {
+                "DOK": int(q_dok),
+                "marks": float(q_marks),
+                "taxonomy": q_tax,
+                "num_subparts": 1,
+                "subparts": [default_fib_subpart(0)]
+            }
+    else:
+        # FIB with subparts - show subpart configuration for each question
+        for q_idx in range(st.session_state.Number_of_questions):
+            q = st.session_state.fib_questions[q_idx]
+            
+            # Ensure subparts exist and have correct length
+            if "subparts" not in q or len(q.get("subparts", [])) != num_subparts:
+                q["subparts"] = [default_fib_subpart(i) for i in range(num_subparts)]
+                q["num_subparts"] = num_subparts
+            
+            st.markdown(f"### Question {q_idx + 1}")
+            
+            # Header row for subparts
+            cols = st.columns((1, 1, 2, 3))
+            cols[0].markdown("**Subpart**")
+            cols[1].markdown("**DOK**")
+            cols[2].markdown("**Marks**")
+            cols[3].markdown("**Taxonomy**")
+            
+            # Configuration row for each subpart
+            for s_idx in range(num_subparts):
+                s = q["subparts"][s_idx]
+                
+                c0, c1, c2, c3 = st.columns((1, 1, 2, 3))
+                c0.markdown(f"**({s['label']})**")
+                
+                dok_key = f"fib_{q_idx}_sub_{s_idx}_dok"
+                marks_key = f"fib_{q_idx}_sub_{s_idx}_marks"
+                tax_key = f"fib_{q_idx}_sub_{s_idx}_tax"
+                
+                # initialize widget keys if absent
+                if dok_key not in st.session_state:
+                    st.session_state[dok_key] = s["DOK"]
+                if marks_key not in st.session_state:
+                    st.session_state[marks_key] = float(s["marks"])
+                if tax_key not in st.session_state:
+                    st.session_state[tax_key] = s["taxonomy"]
+                
+                s_dok = c1.selectbox(f"DOK_fib_{q_idx}_sub_{s_idx}", options=[1, 2, 3], index=[1,2,3].index(st.session_state[dok_key]), key=dok_key, label_visibility="collapsed")
+                s_marks = c2.number_input(f"marks_fib_{q_idx}_sub_{s_idx}", min_value=1.0, max_value=20.0, value=float(st.session_state[marks_key]), step=1.0, key=marks_key, label_visibility="collapsed")
+                
+                # All taxonomies are available for all DOK levels
+                all_taxonomies = get_taxonomies_for_dok(s_dok)
+                old_tax = st.session_state.get(tax_key, "Remembering")
+                
+                # Ensure old_tax is a valid single taxonomy
+                if isinstance(old_tax, list):
+                    old_tax = old_tax[0] if old_tax and old_tax[0] in all_taxonomies else "Remembering"
+                elif old_tax not in all_taxonomies:
+                    old_tax = "Remembering"
+                
+                st.session_state[tax_key] = old_tax
+                
+                s_tax = c3.selectbox(
+                    f"tax_fib_{q_idx}_sub_{s_idx}",
+                    options=all_taxonomies,
+                    index=all_taxonomies.index(old_tax),
+                    key=tax_key,
+                    help="Select one taxonomy level (independent of DOK level)",
+                    label_visibility="collapsed"
+                )
+                
+                # write back to subpart
+                q["subparts"][s_idx] = {
+                    "label": s["label"],
+                    "DOK": int(s_dok),
+                    "marks": float(s_marks),
+                    "taxonomy": s_tax
+                }
+            
+            # Update question with subpart info
+            st.session_state.fib_questions[q_idx]["num_subparts"] = num_subparts
+            st.session_state.fib_questions[q_idx]["subparts"] = q["subparts"]
+
 
 elif st.session_state.Question_Type == "Descriptive":
     # Descriptive mode: show configuration for each question
