@@ -2236,6 +2236,27 @@ FIB: |
       - **Mark of question**: {marks}
       - **DOK level of question**: {dok_level}
       - **Taxonomy of question**: {taxonomy}
+    
+    {{FIB_SUBPART_SPECS}}
+
+    **IMPORTANT - SUBPART STRUCTURE**:
+    - If the question requirements above specify subparts (e.g., "Question 1: i) → DOK 1, Marks: 1, Taxonomy: Remembering"), then you MUST structure the question with roman numeral subparts.
+    - Each subpart should be labeled with roman numerals: i), ii), iii), etc.
+    - Each subpart must have its own blank(s) with the specified DOK, Marks, and Taxonomy.
+    - Markers should be numbered sequentially across ALL subparts within a question.
+      Example: If subpart i) uses |TEXT 1|, then subpart ii) should start with |TEXT 2|, |TEXT 3|, etc.
+    - All subparts must belong to one continuous scenario/context.
+    - Each subpart should test a different aspect or step of the same concept.
+    
+    **Example of FIB with Subparts**:
+    ```
+    The manufacturing details of moisturizer which Anandi uses is as given in the image.
+    i) If it expired 2 months ago, then the current month is |TEXT 1|.
+    ii) She restocked with another moisturizer of the same brand 4 months before the expiry of the first moisturizer.
+    It was manufactured on the same month of purchasing.
+    The restocked moisturizer will expire on |TEXT 2| / |TEXT 3|.
+    ```
+    
     Instructions for generating questions:
   - THE QUESTION SHOULD BE STRICTLY FRON THE TOPIC AND SHOULD USE ALL ITS CORRECT SUB TOPIC FOR EACH QUESTIONS 
     1. UNIQUE FIB QUESTION DESIGN — CORE UNIQUENESS RULES
@@ -2763,6 +2784,27 @@ FIB_pdf: |
       - **Mark of question**: {marks}
       - **DOK level of question**: {dok_level}
       - **Taxonomy of question**: {taxonomy}
+    
+    {{FIB_SUBPART_SPECS}}
+    
+    **IMPORTANT - SUBPART STRUCTURE**:
+    - If the question requirements above specify subparts (e.g., "Question 1: i) → DOK 1, Marks: 1, Taxonomy: Remembering"), then you MUST structure the question with roman numeral subparts.
+    - Each subpart should be labeled with roman numerals: i), ii), iii), etc.
+    - Each subpart must have its own blank(s) with the specified DOK, Marks, and Taxonomy.
+    - Markers should be numbered sequentially across ALL subparts within a question.
+      Example: If subpart i) uses |TEXT 1|, then subpart ii) should start with |TEXT 2|, |TEXT 3|, etc.
+    - All subparts must belong to one continuous scenario/context.
+    - Each subpart should test a different aspect or step of the same concept.
+    
+    **Example of FIB with Subparts**:
+    ```
+    The manufacturing details of moisturizer which Anandi uses is as given in the image.
+    i) If it expired 2 months ago, then the current month is |TEXT 1|.
+    ii) She restocked with another moisturizer of the same brand 4 months before the expiry of the first moisturizer.
+    It was manufactured on the same month of purchasing.
+    The restocked moisturizer will expire on |TEXT 2| / |TEXT 3|.
+    ```
+    
     Instructions for generating questions:
   - THE QUESTION SHOULD BE STRICTLY FRON THE TOPIC AND SHOULD USE ALL ITS CORRECT SUB TOPIC FOR EACH QUESTIONS 
     1. UNIQUE FIB QUESTION DESIGN — CORE UNIQUENESS RULES
